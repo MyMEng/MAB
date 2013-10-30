@@ -1,0 +1,94 @@
+%  
+%  in CH1 give an real life example at the begining as a BACKGROOUND
+%  describe bacis concepts
+%  and go into more details? obvious
+%  
+%  
+%  
+%  in CH2 active learning or web optimization
+%  
+%  
+%  
+\documentclass[11pt, a4paper]{report}
+%  notitlepage - abstract on the same page
+\usepackage{indentfirst} % indent frst paragraph of section
+\usepackage{fullpage} % full A4 page
+\usepackage{amsmath}
+\usepackage[pdftex]{graphicx}
+\usepackage{cite} % BiTeX
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+% Upper part of the page. The '~' is needed because \\
+% only works if a paragraph has started.
+\includegraphics[width=0.5\textwidth]{graphics/UOB-logo.png}~\\[4cm] % was 1cm
+
+% \textsc{\LARGE University of Bristol}\\[1.5cm]
+
+%\textsc{\Large Final year project}\\[0.5cm]
+
+% Title
+\HRule \\[0.4cm]
+{ \huge \bfseries \emph{Multi-armed bandits} problem.\\
+	Practical introduction to the problem for everyone.\\
+ 	Real life application. \\[0.4cm] }
+\HRule \\[1.5cm]
+
+% Author and supervisor
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Kacper \textsc{Sokol}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+Dr.~David \textsc{Leslie}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+\end{center}
+\end{titlepage}
+
+% \title{\emph{Multi-armed bandits} problem.\\
+% 	Practical introduction to the problem for everyone.\\
+% 	Real life application.}
+% \author{Kacper Sokol\\University of Bristol, UK}
+% \date{\today}
+% \maketitle
+% \begin{flushright}
+% Supervised by:\\
+% \textbf{David Leslie}
+% \end{flushright}
+% \begin{center}
+% \line(1,0){250}
+% \end{center}
+
+\begin{abstract}
+Abstract goes here
+\begin{center}
+Keywords: \textbf{key, words}
+\end{center}
+\end{abstract}
+\newpage
+\tableofcontents
+\newpage
+
+\chapter{Theory behind multi-armed bandits}
+Blach ~\cite{berry+fristedt}
+
+\chapter{Practical application of multi-armed bandits algorithms}
+
+\bibliography{/Users/kacper/My Ex/WORK/gists/1b6498f6781b022f8b28/ref.bib}{}
+\bibliographystyle{plain}
+
+\end{document}
