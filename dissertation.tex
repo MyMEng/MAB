@@ -16,6 +16,7 @@
 \usepackage{amsmath}
 \usepackage[pdftex]{graphicx}
 \usepackage{cite} % BiTeX
+\usepackage{lipsum}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
@@ -42,13 +43,13 @@
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft} \large
 \emph{Author:}\\
-Kacper \textsc{Sokol}
+Kacper \textsc{\textbf{Sokol}}
 \end{flushleft}
 \end{minipage}
 \begin{minipage}{0.4\textwidth}
 \begin{flushright} \large
 \emph{Supervisor:} \\
-Dr.~David \textsc{Leslie}
+Dr.~David \textsc{\textbf{Leslie}}
 \end{flushright}
 \end{minipage}
 
@@ -74,9 +75,9 @@ Dr.~David \textsc{Leslie}
 % \end{center}
 
 \begin{abstract}
-Abstract goes here
+This dissertation consists of two chapters. First one is a general introduction to theory underlying multi-armed bandits problem. Reader is assumed not to need any prior knowledge in the field, only basics of statistics and probability theory are required. Second chapter is a ...
 \begin{center}
-Keywords: \textbf{key, words}
+Keywords: \textbf{multi-armed, bandit, reinforcement, learning, ...}
 \end{center}
 \end{abstract}
 \newpage
@@ -84,7 +85,26 @@ Keywords: \textbf{key, words}
 \newpage
 
 \chapter{Theory behind multi-armed bandits}
-Blach ~\cite{berry+firstedt}
+
+\section{Background}
+
+\section{Terminology}
+Agent--- a person that decide what arm to pull based on $\tau$ function.
+Multi-armed bandit($N$)--- a ``device'' with $N$ possible choices of action.~\cite{berry+firstedt}
+Strategy ($\tau$)--- tells the player which arm to pull at given stage of game.
+Game--- a sequence of arms pulled based on chosen strategy $\tau$.
+Play--- a single arm pull at stage $m$ of the game.
+
+\section{Assumptions}
+\lipsum[1]
+
+\section{Discount Sequence}
+To specify the rules governing the ``significance'' of outcome from a single play at stage $m$ the \emph{discount sequence} is introduced. It is a vector of specified length, which can also be infinite to .
+
+
+
+
+
 
 \chapter{Practical application of multi-armed bandits algorithms}
 
