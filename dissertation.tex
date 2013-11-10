@@ -17,8 +17,27 @@
 \usepackage[pdftex]{graphicx}
 \usepackage{cite} % BiTeX
 \usepackage{lipsum}
+\newcommand{\ts}{\textsuperscript}
+\usepackage[usenames,dvipsnames]{color}
+
+% \usepackage{polski}
+% \usepackage[polish,english]{babel}
+% \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % polsih
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\newenvironment{dedication}
+  {\clearpage           % we want a new page
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top 
+   \itshape             % the text is in italics
+   \raggedleft          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{3}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
 
 \begin{document}
 
@@ -35,8 +54,7 @@
 % Title
 \HRule \\[0.4cm]
 { \huge \bfseries \emph{Multi-armed bandits} problem.\\
-	Practical introduction to the problem for everyone.\\
- 	Real life application. \\[0.4cm] }
+	Comprehensive introduction to the \colorbox{magenta}{problem} for everyone with real life application. \\[0.4cm] }
 \HRule \\[1.5cm]
 
 % Author and supervisor
@@ -80,25 +98,44 @@ This dissertation consists of two chapters. First one is a general introduction 
 Keywords: \textbf{multi-armed, bandit, reinforcement, learning, ...}
 \end{center}
 \end{abstract}
+
+\begin{dedication}
+I would like to thank my parents who support me both financially and mentally. For the guidance and advice they are providing so I can make right choices through life and fulfill my dream of studying abroad.\\
+It would also be a painful journey without my supervisor Dr.\ David Leslie who always served me with an advice how to ``read'' all the mathematical book to not get overwhelmed with heavy maths.\\
+And finally, big thanks to I.\ and J.\ who always take care of my leisure time even though it always lacks.\\[2cm]
+% \foreignlanguage{polish}{}
+Dzi\k{e}kuj\k{e} mamo,\\
+dzi\k{e}kuj\k{e} Tomek.
+\end{dedication}
+
 \newpage
 \tableofcontents
 \newpage
 
 \chapter{Theory behind multi-armed bandits}
-\lipsum[1]
+The \emph{multi-armed bandit} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of \colorbox{magenta}{problems} that could be framed as a multi-armed bandit scenario the has field become interest of many scientists and companies looking for savings and efficiency. All the solutions addressing this \colorbox{magenta}{problems} can be expressed as simple as finding a balance between \emph{exploration} and \emph{exploitation}.
 
 \section{Background}
-\lipsum[1]
+To encourage reader this section presents every-day life examples with underlying bandits theory. To begin with, \emph{fruit machine} is considered as it is a first thing that crosses reader's mind after reading title.\\
+Imagine a row of slot machines in front of you. Pulling arm of each of this automaton will have different result that for now on can be interpreted as various reels combinations. For space efficiency imagine there is only one machine but with multiples arms or buttons each corresponding to single automaton in a row. If you do not want to loose all your money really quick it would probably be a good idea to have some kind of strategy that maximizes chances of winning. As you do not have any prior information regarding expected return from each of the arm you initially choose it at random. On contrary during second round you are facing serious dilemma that you might not yet realized. You can either choose the arm with known expected return because you have just pulled it (this action is  usually called \emph{exploitation}) or you can take a risk and choose unknown one to gather some information about the system (this step has a name of \emph{exploration}).
+% zmien opis tak zeby to byly binarne maszyny win|loose z roznym pradopodobienstwem.
 
 \section{Applications}
-\lipsum[1]
+As mentioned before, there are multiple real-life applications ranging from drug testing and web advertisement income optimization through semi-supervised machine learning in modern computer science and time and budget management.
+
+The second mentioned approach was implemented by Microsoft research group(DAJ REFERENCJE).
+
+Blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah.
 
 \section{Terminology}
-Agent--- a person that decide what arm to pull based on $\tau$ function.
-Multi-armed bandit($N$)--- a ``device'' with $N$ possible choices of action.~\cite{berry+firstedt}
-Strategy ($\tau$)--- tells the player which arm to pull at given stage of game.
-Game--- a sequence of arms pulled based on chosen strategy $\tau$.
-Play--- a single arm pull at stage $m$ of the game.
+It is very useful to be familiar with all the terminology used in multi-armed bandit papers and books. The basics concepts are listed below.
+\begin{itemize}
+\item Agent--- a person that decide what arm to pull based on $\tau$ function.\\
+\item Multi-armed bandit($N$)--- a ``device'' with $N$ possible choices of action.~\cite{berry+firstedt}\\
+\item Strategy ($\tau$)--- tells the player which arm to pull at given stage of game.\\
+\item Game--- a sequence of arms pulled based on chosen strategy $\tau$.\\
+\item Play--- a single arm pull at stage $m$ of the game.
+\end{itemize}
 
 \section{General assumptions}
 \lipsum[1]
@@ -145,6 +182,9 @@ where $\alpha_1 = a^0$ is always equal to $1$.
 
 
 \chapter{Practical application of multi-armed bandits algorithms}
+
+\newpage
+\begin{center} \textbf{\huge \vspace{15pt} FIN} \end{center}
 
 \bibliography{ref}{}
 \bibliographystyle{plain}
