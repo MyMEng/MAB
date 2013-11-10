@@ -9,7 +9,7 @@
 %  
 %  
 %  
-\documentclass[11pt, a4paper]{report}
+\documentclass[12pt, a4paper, pdflatex]{report}
 %  notitlepage - abstract on the same page
 \usepackage{indentfirst} % indent frst paragraph of section
 \usepackage{fullpage} % full A4 page
@@ -85,8 +85,13 @@ Keywords: \textbf{multi-armed, bandit, reinforcement, learning, ...}
 \newpage
 
 \chapter{Theory behind multi-armed bandits}
+\lipsum[1]
 
 \section{Background}
+\lipsum[1]
+
+\section{Applications}
+\lipsum[1]
 
 \section{Terminology}
 Agent--- a person that decide what arm to pull based on $\tau$ function.
@@ -95,11 +100,44 @@ Strategy ($\tau$)--- tells the player which arm to pull at given stage of game.
 Game--- a sequence of arms pulled based on chosen strategy $\tau$.
 Play--- a single arm pull at stage $m$ of the game.
 
-\section{Assumptions}
+\section{General assumptions}
 \lipsum[1]
 
 \section{Discount Sequence}
-To specify the rules governing the ``significance'' of outcome from a single play at stage $m$ the \emph{discount sequence} is introduced. It is a vector of specified length, which can also be infinite to .
+To specify the rules governing the ``significance'' of outcome from a single play at stage $m$ the \emph{discount sequence} is introduced. It is a vector $\mathbf{A}$ of specified length, which can also be infinite.
+$$
+\mathbf{A} = \left( \alpha_1, \alpha_2, \alpha_3, ... \right)
+$$
+
+\subsection{Observable and non-observable sequences}
+\lipsum[1]
+
+\subsection{Most common sequences}
+There are many different discount sequences used with multi-armed bandits each with numerous assumptions. In the literature only two of them are described in great detail and both are presented below.
+\subsubsection{Uniform sequence}
+The $n$-horizon uniform discount sequence is defined as:
+\[
+ \alpha_i =
+  \begin{cases}
+   1 & \text{for } i \leq n \\
+   0 & \text{for } i > n
+  \end{cases}
+\]
+leading to:
+\[
+  \mathbf{A} = ( \underbrace{ 1, 1, 1, ..., 1}_{n\text{ elements}}, 0, 0, 0, ... ) \text{ .}
+\]
+\subsubsection{Geometric sequence}
+The geometric discount sequence is expressed with components $\alpha_i = a^{i-1}$ for some $a \in ( 0, 1 )$ resulting in:
+$$
+\mathbf{A} = \left( a^0, a^1, a^2, ... \right)
+$$
+where $\alpha_1 = a^0$ is always equal to $1$.
+
+\subsection{Non-monotone sequences}
+
+
+
 
 
 
