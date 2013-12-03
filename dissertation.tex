@@ -105,7 +105,7 @@ Keywords: \textbf{multi-armed bandit, reinforcement learning, exploration vs. ex
 \begin{dedication}
 I would like to thank my parents who support me both financially and mentally. For the guidance and advice they are providing so I can make right choices throughout life and fulfill my dream of studying abroad.\newline
 
-It would also be a painful journey without my supervisor Dr.\ David Leslie who always served me with an advice how to ``read'' all the mathematical books not to get overwhelmed with heavy maths.\newline
+It would also be a painful journey without my supervisor Dr.~David~Leslie who always served me with an advice how to ``read'' all the mathematical books not to get overwhelmed with heavy maths.\newline
 
 Finally, big thanks to I.\ and J.\ who always take care of my leisure time even though it always lacks.\\[2cm]
 % \foreignlanguage{polish}{}
@@ -129,7 +129,9 @@ Many people know statistics and probability as analyzing processes or data in va
 
 To begin with, lets consider \emph{fruit machine} as it is a first thing that crosses reader's mind after hearing about multi-armed bandits. Imagine a row of slot machines in front of you. Pulling an arm of each of these automaton will result in different outcome (win or loose) each with corresponding probability according to some unknown distribution. Result for now on can be interpreted as various reels combinations. For the sake of simplicity it can be assumed that each automaton gives binary result: \emph{win} with probability $p$ and \emph{loose} with probability $p-1$. Without lost of any information row of such machines can be transformed into only one automation but with multiples arms or buttons each corresponding to single machine in a mentioned row.\\
 
-If a gambler does not want to loose all possessed money really quick it would probably be a good idea to have some kind of strategy that maximizes chances of winning. It is assumed that the gambler is for the first time in a given casino so any prior information regarding expected return from each of the arm is assumed to be unknown. Initially random arm is chosen as all of them "look the same". On contrary, during the second turn selecting \emph{optimal} arm to play on becomes a serious dilemma that you might have not yet realized. The gambler faces a choice between already pulled arm with  sample of expected return that is known and any other arm which for now on seem "the same" as there is no information about potential reward.\\
+The natural example that follows binary bandits is a row of coins, where some of them may be unfair. In presented scenario each coin corresponds to an \emph{Arm} of a bandit and tossing one of them for several times can be considered as realization of a Bernoulli process with unknown parameters.\\ If a player is rewarded when the outcome of a trial is \textbf{H}ead then the goal is to find the coin which has bias with maximum probability of \textbf{H} and play it forever.\\
+
+If a gambler does not want to loose all possessed money really quick it would be probably a good idea to have some kind of strategy that maximizes chances of winning. It is assumed that the gambler is for the first time in a given casino so any prior information regarding expected return from each of the arm is assumed to be unknown. Initially random arm is chosen as all of them "look the same". On contrary, during the second turn selecting \emph{optimal} arm to play on becomes a serious dilemma that you might have not yet realized. The gambler faces a choice between already pulled arm with sample of expected return that is known and any other arm which for now on seem "the same" as there is no information about potential reward.\\
 If gambler decides to take advantage of already known arm and pull it again we call this action \emph{exploitation}--- taking advantage of already checked possibilities. On the other hand, taking a risk and choosing one of unknown arms will result in gathering some more information about the system what is usually said to be \emph{exploration} step.
 
 
@@ -142,29 +144,35 @@ The second mentioned approach is nowadays widely incorporated by companies such 
 
 The bandit theory also plays a key role in experiment allocation with restricted time and budget~\cite{gittins+glazebrook+weber}. While considering research projects pending to be conducted with limited amount of resources such as scientist time and grant funding as \emph{Arms} of a bandit. The goal is to maximize the number of accomplished projects (\emph{Payoff}) before running out of money.\\
 
-With all the above scenarios barely scratching the tip of the iceberg we are now focusing on multi-armed bandit theory that one needs to precisely describe the processes happening "behind the scene".
+With all the above scenarios barely scratching the tip of the iceberg we are now focusing on foundations of multi-armed bandits theory that one needs to precisely describe the processes happening "behind the scene".
 
-\section{Structure of the dissertation}
-We begin with introducing the reader with necessary notation and nomenclature. Then we are moving to basic process description. Next proved optimal solutions of multi-armed bandits problem are described. Finally we form conclusions and highlight ongoing research with possible results.
+\section{Structure of this chapter}
+We begin with introducing the reader with necessary notation and nomenclature. Then we are moving to basic process description. Next proved optimal solutions of multi-armed bandits problem are described. Finally we form conclusions and highlight ongoing research with possible results and influence on applications.
 
 
 \section{Terminology}
-More scientific approach to "simple" multi-armed bandit in a statistical decision theory defines it as: sequential selection from $k \geq 2$ stochastic processes--- generally called \emph{arms}, where both time and processes may be discrete or continuous. The goal is typically to recover unknown parameters which characterize stochastic processes behind each of the arm.
+More scientific definition of "simple" multi-armed bandit in a statistical decision theory defines it as: sequential selection from $N \geq 2$ stochastic processes--- generally called \emph{Arms}, where both time and processes may be discrete or continuous. The goal is typically to recover unknown parameters which characterize stochastic processes behind each of the \emph{Arm} to maximize expected \emph{Payoff}.
 
-It is very useful to be familiar with all the terminology used in multi-armed bandit papers and books. The basics concepts are listed below.
+It is very useful to be familiar with most common terms used to describe multi-armed bandit in papers and books. The basic concepts are listed below.
 \begin{itemize}
-\item Multi-armed bandit ($N$)--- a ``device'' with $N$ possible choices of action.~\cite{berry+firstedt}
-\item Strategy ($\tau$)--- tells the player which arm to pull at given stage of game.
-\item Agent--- a person that decide what arm to pull based on $\tau$ function.
-\item Game--- a sequence of arms pulled based on chosen strategy $\tau$.
-\item Play--- a single arm pull at stage $m$ of the game (one turn).
-\item Payoff--- a single
+\item Multi-armed bandit ($N$)--- a ``device'' with $N \geq 2$ possible choices of action (\emph{Arms}).
+\item Strategy ($\tau$)--- tells the \emph{Agent} which \emph{Arm} to pull at given stage of \emph{Game}. A strategy is \emph{optimal} if it yields maximal expected \emph{Payoff}.
+\item Arm--- one of $N$ actions that may be taken by \emph{Agent}. An \emph{Arm} is \emph{optimal} if it the best selection when following some \emph{optimal} strategy.
+\item Play--- an \emph{Arm} pulled at stage $m$ of the \emph{Game} (i.e.\ one turn).
+\item Agent--- a person that decides which \emph{Arm} to pull based on \emph{Strategy} $\tau$.
+\item Game--- a sequence of \emph{Arms} pulled based on chosen \emph{Strategy} $\tau$.
+\item Payoff--- a return of a game such as \emph{win--loose} or \emph{amount} of money gained.
+\item Discount series--- factors that define how valuable is each of \emph{Payoffs}. For example only first $m$ outcomes may count and all the rest is neglected or the longer the \emph{Game} is ran the less particular outcome counts toward overall expected \emph{Payoff}.
 \end{itemize}
 
 
 \section{General assumptions}
-We get the results of experiment straight away
-\lipsum[1]
+Two fundamental assumptions to vast majority of bandit problems regard benefits from selecting an arm, namely:
+\begin{itemize}
+\item immediate \emph{Payoff} i.e.\ \emph{Agent} knows result of taken action straight away,
+\item information gathered after a \emph{Play} can be used to modify chosen \emph{Strategy}.
+\end{itemize}
+Moreover in some cases we may restrict the memory of an \emph{Agent} to last $s$ outcomes. Therefore, selected \emph{Strategy} $\tau$ can relay on up to $s$ previous \emph{Plays}. These bandits approaches are called \emph{finite memory}.
 
 
 \section{Discount Sequence}
@@ -172,15 +180,23 @@ To specify the rules governing the ``significance'' of outcome from a single pla
 $$
 \mathbf{A} = \left( \alpha_1, \alpha_2, \alpha_3, ... \right)
 $$
+When an \emph{Arm} is selected the discount sequence is modified as follows:
+$$
+\left( \alpha_1, \alpha_2, \alpha_3, ... \right)
+\rightarrow
+\left( \alpha_2, \alpha_3, \alpha_4, ... \right)
+$$
 
 \subsection{Observable and non-observable sequences}
 \lipsum[1]
 
+
 \subsection{Most common sequences}
 There are many different discount sequences used with multi-armed bandits each with numerous assumptions. In the literature only two of them are described in great detail and both are presented below.
+{
 \subsubsection{Uniform sequence}
-This discount sequence is most commonly used when a player wants to maximize the payoff of first $n$ outcomes.
-The $n$-horizon uniform discount sequence is defined as:
+This discount sequence is most commonly used when a player wants to maximize the payoff of first $h$ outcomes.
+The $h$-horizon uniform discount sequence is defined as:
 \[
  \alpha_i =
   \begin{cases}
@@ -190,29 +206,68 @@ The $n$-horizon uniform discount sequence is defined as:
 \]
 leading to:
 \[
-  \mathbf{A} = ( \underbrace{ 1, 1, 1, ..., 1}_{n\text{ elements}}, 0, 0, 0, ... ) \text{ .}
-\]
+  \mathbf{A} = ( \underbrace{ 1, 1, 1, ..., 1}_{h\text{ elements}}, 0, 0, 0, ... ) \text{ .}
+\]\\
+\\
+Here after \emph{Arm} selection the horizon of discount sequence is decreased by $1$.
+
+
 \subsubsection{Geometric sequence}
 The geometric discount sequence is expressed with components $\alpha_i = a^{i-1}$ for some $a \in ( 0, 1 )$ resulting in:
 $$
 \mathbf{A} = \left( a^0, a^1, a^2, ... \right)
 $$
-where $\alpha_1 = a^0$ is always equal to $1$.
+where $\alpha_1 = a^0$ is always equal to $1$.\\
+\\
+On the other hand, here after \emph{Arm} selection the discount sequence is proportional to original sequence.\\
+\\
+
+}
+In case of both sequences the decision problem and optimal strategy is unchanged if a discount series is multiplied by some constant. Furthermore, in case of geometric sequence is effectively the same the same throughout the \emph{Game}.
+
+\subsection{Random discounting}
+
 
 \subsection{Non-monotone sequences}
 
 
 
 
-
+\section{Information gathering}
 
 \section{Seeking optimal solution}
 In this section I will present number of approaches to find and optimal solution.\\
 Blah blah blah blah.
+Strategy id balancing exploration and exploitation to find optimal solution. Sometime it demand sanctifying early payoff to gain some more information about the system and maximize future payoff.
+Information vs.\ immediate payoff. -- in hospital example case it means that sacrificing good of early coming patients by means of experimenting means improvement over time and better results of treatment on future patients.
+To democratize it we can use geometric sequence so health of current patients is the same in comparison to future patients.
 
 \subsection{Index approach (Gittins Index)}
 
+\subsection{Bayesian approach}
+Bayes' theorem allows for "straight forward" application to adaptive learning so it's a good approach tool in sequential decision making 
+
+\subsection{Strategy comparison}
+
+\subsection{Minimax approach}
+
+\subsection{Finite memory strategy}
+\subsubsection{'Stay on a winner'}
+
+\subsection{Myopic strategies}
+Not good in general.
+
+\subsection{Thompson Sampling approach}
+As it is cutting edge approach with a lot of research going on the focus will be put on it and a separate section is devoted to Thompson Sampling approach to finding an optimal strategy.
+
 \subsection{etc.\ based on Google paper}
+
+
+
+\section{Thompson Sampling}
+\lipsum[1-50]
+
+
 
 
 
@@ -222,7 +277,7 @@ Blah blah blah blah.
 
 
 \newpage
-\begin{center} \textbf{\huge \vspace{15pt} FIN} \end{center}
+\begin{center} \textbf{\huge \vspace{15pt} FIN~\cite{berry+firstedt}} \end{center}
 
 \bibliography{ref}{}
 \bibliographystyle{plain}
