@@ -154,16 +154,16 @@ We begin with introducing the reader with necessary notation and nomenclature. T
 More scientific definition of "simple" multi-armed bandit in a statistical decision theory defines it as: sequential selection from $N \geq 2$ stochastic processes--- generally called \emph{Arms}, where both time and processes may be discrete or continuous. The goal is typically to recover unknown parameters which characterize stochastic processes behind each of the \emph{Arm} to maximize expected \emph{Payoff}.
 
 It is very useful to be familiar with most common terms used to describe multi-armed bandit in papers and books. The basic concepts are listed below.
-\begin{itemize}
-\item Multi-armed bandit ($N$)--- a ``device'' with $N \geq 2$ possible choices of action (\emph{Arms}).
-\item Strategy ($\tau$)--- tells the \emph{Agent} which \emph{Arm} to pull at given stage of \emph{Game}. A strategy is \emph{optimal} if it yields maximal expected \emph{Payoff}.
-\item Arm--- one of $N$ actions that may be taken by \emph{Agent}. An \emph{Arm} is \emph{optimal} if it the best selection when following some \emph{optimal} strategy.
-\item Play--- an \emph{Arm} pulled at stage $m$ of the \emph{Game} (i.e.\ one turn).
-\item Agent--- a person that decides which \emph{Arm} to pull based on \emph{Strategy} $\tau$.
-\item Game--- a sequence of \emph{Arms} pulled based on chosen \emph{Strategy} $\tau$.
-\item Payoff--- a return of a game such as \emph{win--loose} or \emph{amount} of money gained.
-\item Discount series--- factors that define how valuable is each of \emph{Payoffs}. For example only first $m$ outcomes may count and all the rest is neglected or the longer the \emph{Game} is ran the less particular outcome counts toward overall expected \emph{Payoff}.
-\end{itemize}
+\begin{description}
+\item[Multi-armed bandit ($N$)]--- a ``device'' with $N \geq 2$ possible choices of action (\emph{Arms}).
+\item[Strategy ($\tau$)]--- tells the \emph{Agent} which \emph{Arm} to pull at given stage of \emph{Game}. A strategy is \emph{optimal} if it yields maximal expected \emph{Payoff}.
+\item[Arm]--- one of $N$ actions that may be taken by \emph{Agent}. An \emph{Arm} is \emph{optimal} if it the best selection when following some \emph{optimal} strategy.
+\item[Play]--- an \emph{Arm} pulled at stage $m$ of the \emph{Game} (i.e.\ one turn).
+\item[Agent]--- a person that decides which \emph{Arm} to pull based on \emph{Strategy} $\tau$.
+\item[Game]--- a sequence of \emph{Arms} pulled based on chosen \emph{Strategy} $\tau$.
+\item[Payoff]--- a return of a game such as \emph{win--loose} or \emph{amount} of money gained.
+\item[Discount series]--- factors that define how valuable is each of \emph{Payoffs}. For example only first $m$ outcomes may count and all the rest is neglected or the longer the \emph{Game} is ran the less particular outcome counts toward overall expected \emph{Payoff}.
+\end{description}
 
 
 \section{General assumptions}
@@ -172,7 +172,8 @@ Two fundamental assumptions to vast majority of bandit problems regard benefits 
 \item immediate \emph{Payoff} i.e.\ \emph{Agent} knows result of taken action straight away,
 \item information gathered after a \emph{Play} can be used to modify chosen \emph{Strategy}.
 \end{itemize}
-Moreover in some cases we may restrict the memory of an \emph{Agent} to last $s$ outcomes. Therefore, selected \emph{Strategy} $\tau$ can relay on up to $s$ previous \emph{Plays}. These bandits approaches are called \emph{finite memory}.
+Moreover in some cases we may restrict the memory of an \emph{Agent} to last $s$ outcomes. Therefore, selected \emph{Strategy} $\tau$ can relay on up to $s$ previous \emph{Plays}. These bandits approaches are called \emph{finite memory}.\\
+Majority of this dissertation assumes that \emph{Arms} are independent. If this setting changes it will be clearly stated.
 
 
 \section{Discount Sequence}
@@ -226,23 +227,33 @@ On the other hand, here after \emph{Arm} selection the discount sequence is prop
 In case of both sequences the decision problem and optimal strategy is unchanged if a discount series is multiplied by some constant. Furthermore, in case of geometric sequence is effectively the same the same throughout the \emph{Game}.
 
 \subsection{Random discounting}
-
+\subsection{Infinite horizon }
 
 \subsection{Non-monotone sequences}
 
 
 
+\section{Bandits settings}
+\subsection{Real time, random bandits}
+\subsection{Information gathering}
+\subsection{Dependant \emph{Arms}}
 
-\section{Information gathering}
+
 
 \section{Seeking optimal solution}
 In this section I will present number of approaches to find and optimal solution.\\
 Blah blah blah blah.
 Strategy id balancing exploration and exploitation to find optimal solution. Sometime it demand sanctifying early payoff to gain some more information about the system and maximize future payoff.
 Information vs.\ immediate payoff. -- in hospital example case it means that sacrificing good of early coming patients by means of experimenting means improvement over time and better results of treatment on future patients.
-To democratize it we can use geometric sequence so health of current patients is the same in comparison to future patients.
+To democratize it we can use geometric sequence so health of current patients is the same in comparison to future patients.\\
+\\
+\\
+\\
+This result shows that when the discounting is geometric, a bandit problem involving k independent arms can be solved by solving k different two-armed bandits, each involving one known and one unknown arm.\\
 
 \subsection{Index approach (Gittins Index)}
+
+
 
 \subsection{Bayesian approach}
 Bayes' theorem allows for "straight forward" application to adaptive learning so it's a good approach tool in sequential decision making 
