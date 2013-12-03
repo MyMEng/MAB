@@ -32,7 +32,9 @@
    \thispagestyle{empty}% no header and footer
    \vspace*{\stretch{1}}% some space at the top 
    \itshape             % the text is in italics
-   \raggedleft          % flush to the right margin
+   % \raggedleft          % flush to the right margin
+   \raggedright          % flush to the right margin
+   \par\setlength{\leftskip}{0.3\textwidth}\noindent\ignorespaces
   }
   {\par % end the paragraph
    \vspace{\stretch{3}} % space at bottom is three times that at the top
@@ -93,52 +95,77 @@ Dr.~David \textsc{\textbf{Leslie}}
 % \end{center}
 
 \begin{abstract}
-This dissertation consists of two chapters. First one is a general introduction to theory underlying multi-armed bandits problem. Reader is assumed not to need any prior knowledge in the field, only basics of statistics and probability theory are required. Second chapter is a ...
+\thispagestyle{empty}% no header and footer
+This dissertation consists of two chapters. First one is a comprehensive introduction to theory underlying multi-armed bandits problem. Reader is assumed not to need any prior knowledge in this field, only basics of statistics and probability theory are required. Second chapter is experimental part focused on ...
 \begin{center}
-Keywords: \textbf{multi-armed, bandit, reinforcement, learning, ...}
+Keywords: \textbf{multi-armed bandit, reinforcement learning, exploration vs. exploitation ...}
 \end{center}
 \end{abstract}
 
 \begin{dedication}
-I would like to thank my parents who support me both financially and mentally. For the guidance and advice they are providing so I can make right choices through life and fulfill my dream of studying abroad.\\
-It would also be a painful journey without my supervisor Dr.\ David Leslie who always served me with an advice how to ``read'' all the mathematical book to not get overwhelmed with heavy maths.\\
-And finally, big thanks to I.\ and J.\ who always take care of my leisure time even though it always lacks.\\[2cm]
+I would like to thank my parents who support me both financially and mentally. For the guidance and advice they are providing so I can make right choices throughout life and fulfill my dream of studying abroad.\newline
+
+It would also be a painful journey without my supervisor Dr.\ David Leslie who always served me with an advice how to ``read'' all the mathematical books not to get overwhelmed with heavy maths.\newline
+
+Finally, big thanks to I.\ and J.\ who always take care of my leisure time even though it always lacks.\\[2cm]
 % \foreignlanguage{polish}{}
+\begin{flushright}
 Dzi\k{e}kuj\k{e} mamo,\\
 dzi\k{e}kuj\k{e} Tomek.
+\end{flushright}
 \end{dedication}
+
 
 \newpage
 \tableofcontents
 \newpage
 
-\chapter{Theory behind multi-armed bandits--- \texttt{Topic Exploration}}
-The \emph{multi-armed bandit} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of \colorbox{magenta}{problems} that could be framed as a multi-armed bandit scenario the has field become interest of many scientists and companies looking for savings and efficiency. All the solutions addressing this \colorbox{magenta}{problems} can be expressed as simple as finding a balance between \emph{exploration} and \emph{exploitation}.
+\chapter{\texttt{\textbf{Exploration}} of multi-armed bandits theory.}
+The \emph{multi-armed bandit} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of \colorbox{magenta}{problems} that could be framed as a multi-armed bandit scenarios the field has become interest of many scientists, researchers, economists not to mention companies looking for work efficiency improvement and savings. All the solutions addressing these \colorbox{magenta}{problems} can be expressed as simple as finding a balance between \emph{exploration} and \emph{exploitation}.
+
 
 \section{Background}
-To encourage reader this section presents every-day life examples with underlying bandits theory. To begin with, \emph{fruit machine} is considered as it is a first thing that crosses reader's mind after reading title.\\
-Imagine a row of slot machines in front of you. Pulling arm of each of this automaton will have different result that for now on can be interpreted as various reels combinations. For space efficiency imagine there is only one machine but with multiples arms or buttons each corresponding to single automaton in a row. If you do not want to loose all your money really quick it would probably be a good idea to have some kind of strategy that maximizes chances of winning. As you do not have any prior information regarding expected return from each of the arm you initially choose it at random. On contrary during second round you are facing serious dilemma that you might not yet realized. You can either choose the arm with known expected return because you have just pulled it (this action is  usually called \emph{exploitation}) or you can take a risk and choose unknown one to gather some information about the system (this step has a name of \emph{exploration}).
-% zmien opis tak zeby to byly binarne maszyny win|loose z roznym pradopodobienstwem.
+Many people know statistics and probability as analyzing processes or data in various aspects. They consider it as a rather \emph{static} science. But what if the process of our interest is continuously developing while we want to discover it or it demands our interaction. Simple statistics or probability might not be able to handle such cases as good as bandit theory.\\
 
-\section{Applications}
-As mentioned before, there are multiple real-life applications ranging from drug testing and web advertisement income optimization through semi-supervised machine learning in modern computer science and time and budget management.
+To begin with, lets consider \emph{fruit machine} as it is a first thing that crosses reader's mind after hearing about multi-armed bandits. Imagine a row of slot machines in front of you. Pulling an arm of each of these automaton will result in different outcome (win or loose) each with corresponding probability according to some unknown distribution. Result for now on can be interpreted as various reels combinations. For the sake of simplicity it can be assumed that each automaton gives binary result: \emph{win} with probability $p$ and \emph{loose} with probability $p-1$. Without lost of any information row of such machines can be transformed into only one automation but with multiples arms or buttons each corresponding to single machine in a mentioned row.\\
 
-The second mentioned approach was implemented by Microsoft research group(DAJ REFERENCJE).
+If a gambler does not want to loose all possessed money really quick it would probably be a good idea to have some kind of strategy that maximizes chances of winning. It is assumed that the gambler is for the first time in a given casino so any prior information regarding expected return from each of the arm is assumed to be unknown. Initially random arm is chosen as all of them "look the same". On contrary, during the second turn selecting \emph{optimal} arm to play on becomes a serious dilemma that you might have not yet realized. The gambler faces a choice between already pulled arm with  sample of expected return that is known and any other arm which for now on seem "the same" as there is no information about potential reward.\\
+If gambler decides to take advantage of already known arm and pull it again we call this action \emph{exploitation}--- taking advantage of already checked possibilities. On the other hand, taking a risk and choosing one of unknown arms will result in gathering some more information about the system what is usually said to be \emph{exploration} step.
 
-Blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah.
+
+\section{Applications} % emphasized underlying
+Multi-armed bandits is not just theory that one reads from a book and try to memorize, but it extends to many real life applications. This section is devoted to simple case study in which it seems natural to use "bandit approach". Applications are versatile ranging from drug testing and maximizing income from web advertisement through semi-supervised machine learning in modern computer science as well as time and budget management of research projects.\\
+
+To begin with, imagine a clinic testing two new drugs for a certain disease. Patients are queuing up to receive a treatment. Assuming that doctor cannot refuse to treat anyone, for each person suffering from a disease (each \emph{Play}) there are two possible cures (two \emph{Arms}). The key assumption here is that the effect of chosen action occur immediately, in other words treated person either stays sick or the disease goes away (immediate \emph{Payoff}). The goal of a doctor is to maximize the number of cured people. This model defines two-armed bandit.\\
+
+The second mentioned approach is nowadays widely incorporated by companies such as Google~\cite{AYPSze12}\cite{ASMB:ASMB874}, LinkedIn~\cite{Tang:2013:AAF:2505515.2514700}, Microsoft~\cite{graepel2010web}, Yahoo~\cite{Li:2010:CAP:1772690.1772758} to their services. Research groups of these companies are using bandits algorithms to choose best website layout and advertisements locations to increase "click-rate", improve recommendation systems or enhance performance of semi-supervised and active learning algorithms in a field of machine learning.\\
+
+The bandit theory also plays a key role in experiment allocation with restricted time and budget~\cite{gittins+glazebrook+weber}. While considering research projects pending to be conducted with limited amount of resources such as scientist time and grant funding as \emph{Arms} of a bandit. The goal is to maximize the number of accomplished projects (\emph{Payoff}) before running out of money.\\
+
+With all the above scenarios barely scratching the tip of the iceberg we are now focusing on multi-armed bandit theory that one needs to precisely describe the processes happening "behind the scene".
+
+\section{Structure of the dissertation}
+We begin with introducing the reader with necessary notation and nomenclature. Then we are moving to basic process description. Next proved optimal solutions of multi-armed bandits problem are described. Finally we form conclusions and highlight ongoing research with possible results.
+
 
 \section{Terminology}
+More scientific approach to "simple" multi-armed bandit in a statistical decision theory defines it as: sequential selection from $k \geq 2$ stochastic processes--- generally called \emph{arms}, where both time and processes may be discrete or continuous. The goal is typically to recover unknown parameters which characterize stochastic processes behind each of the arm.
+
 It is very useful to be familiar with all the terminology used in multi-armed bandit papers and books. The basics concepts are listed below.
 \begin{itemize}
-\item Agent--- a person that decide what arm to pull based on $\tau$ function.\\
-\item Multi-armed bandit($N$)--- a ``device'' with $N$ possible choices of action.~\cite{berry+firstedt}\\
-\item Strategy ($\tau$)--- tells the player which arm to pull at given stage of game.\\
-\item Game--- a sequence of arms pulled based on chosen strategy $\tau$.\\
-\item Play--- a single arm pull at stage $m$ of the game.
+\item Multi-armed bandit ($N$)--- a ``device'' with $N$ possible choices of action.~\cite{berry+firstedt}
+\item Strategy ($\tau$)--- tells the player which arm to pull at given stage of game.
+\item Agent--- a person that decide what arm to pull based on $\tau$ function.
+\item Game--- a sequence of arms pulled based on chosen strategy $\tau$.
+\item Play--- a single arm pull at stage $m$ of the game (one turn).
+\item Payoff--- a single
 \end{itemize}
 
+
 \section{General assumptions}
+We get the results of experiment straight away
 \lipsum[1]
+
 
 \section{Discount Sequence}
 To specify the rules governing the ``significance'' of outcome from a single play at stage $m$ the \emph{discount sequence} is introduced. It is a vector $\mathbf{A}$ of specified length, which can also be infinite.
@@ -152,6 +179,7 @@ $$
 \subsection{Most common sequences}
 There are many different discount sequences used with multi-armed bandits each with numerous assumptions. In the literature only two of them are described in great detail and both are presented below.
 \subsubsection{Uniform sequence}
+This discount sequence is most commonly used when a player wants to maximize the payoff of first $n$ outcomes.
 The $n$-horizon uniform discount sequence is defined as:
 \[
  \alpha_i =
@@ -188,7 +216,10 @@ Blah blah blah blah.
 
 
 
-\chapter{Practical application of multi-armed bandits algorithms--- \texttt{Topic Exploitation}}
+\chapter{Practical application--- \texttt{\textbf{Exploitation}} of multi-armed bandits optimal solution algorithms.}
+
+
+
 
 \newpage
 \begin{center} \textbf{\huge \vspace{15pt} FIN} \end{center}
