@@ -269,13 +269,21 @@ Bayes' theorem allows for "straight forward" application to adaptive learning so
 Not good in general.
 
 \subsection{Thompson Sampling approach}
-As it is cutting edge approach with a lot of research going on the focus will be put on it and a separate section is devoted to Thompson Sampling approach to finding an optimal strategy.
+As all the rest of methods is well described in literature and they were main subject of interest it is relatively easy to find good texts about them. On contrary, Thompson Sampling is cutting edge approach with a lot of research going on the focus will be put on it and it will be described in deep details in  \textbf{Section~\ref{sec:thompsonsampling}} which is devoted to Thompson Sampling approach to finding an optimal strategy.
 
 \subsection{etc.\ based on Google paper}
 
 
 
-\section{Thompson Sampling}
+\section{Thompson Sampling\label{sec:thompsonsampling}}
+To fully develop \emph{Thompson Sampling} approach to multi-armed bandit theory, two concepts need to be introduced:
+\begin{itemize}
+\item sampling theory,
+\item Baesian's statistics.
+\end{itemize}
+It is possible to use any prior and likelihood distribution with \emph{Thompson Sampling} but for the sake of simplicity we will focus here on \emph{normally distributed} \textit{prior} and \textit{likelihood}. This restriction does not mean that it is not possible to do it with other distributions but it would demand from reader to be familiar with analytic approach to Baesian's \emph{posteriors} with regard to chosen \emph{prior} and \emph{likelihood}.
+
+
 \lipsum[1-50]
 
 
