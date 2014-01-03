@@ -63,7 +63,7 @@
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft} \large
 \emph{Author:}\\
-Kacper \textsc{\textbf{Sokol}}
+Kacper B. \textsc{\textbf{Sokol}}
 \end{flushleft}
 \end{minipage}
 \begin{minipage}{0.4\textwidth}
@@ -284,13 +284,13 @@ To fully develop \emph{Thompson Sampling} approach to multi-armed bandit theory,
 It is possible to use any prior and likelihood distribution with \emph{Thompson Sampling} but for the sake of simplicity we will focus here on \emph{normally distributed} \textit{prior} and \textit{likelihood}. This restriction does not mean that it is not possible to do it with other distributions but it would demand from reader to be familiar with analytic approach to Baesian's \emph{posteriors} with regard to chosen \emph{prior} and \emph{likelihood}.
 
 
- x   <- seq(5,15,length=1000)
- y   <- dnorm(x,mean=10, sd=30)
-plot(x,y, type="l", lwd=1)
-sam <- sample(x, 10)
-points(sam,dnorm(sam, 10, 1), col="green")
+%  x   <- seq(5,15,length=1000)
+%  y   <- dnorm(x,mean=10, sd=30)
+% plot(x,y, type="l", lwd=1)
+% sam <- sample(x, 10)
+% points(sam,dnorm(sam, 10, 1), col="green")
 
-for a few distributions
+% for a few distributions
 
 
 
@@ -298,7 +298,10 @@ for a few distributions
 \subsection{\emph{prior}, \emph{posterior} and \emph{likelihood} distributions}
 To fully understand Thompson Sampling approach we need to introduce concepts of dependency between prior, posterior and likelihood distributions. To introduce it the \emph{normal} distribution will be used as an example as there exists straight forward generalization to others.\\
 
-Basic results that yields from Bayesian statistics for normal distribution~\cite{gelman2003bayesian}\cite{lynch2007introduction} 
+Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.
+
+\subsubsection{Known variance} 
+\subsubsection{Unknown variance}
 
 
 % \lipsum[1-50]
