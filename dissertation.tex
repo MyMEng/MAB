@@ -315,23 +315,26 @@ It is possible to use any probability distribution with \emph{Thompson Sampling}
 In this section we will shortly introduce normal distribution. Then we will discuss its aspects with regard to Bayesian statistics.
 
 \subsubsection{The normal distribution}
-The most common distribution in statistics with well known bell-shaped plot is the normal distribution also called \emph{Gaussian} distribution. If a random variable $X$ follow such distribution parametrized by \emph{mean} $\mu$ and \emph{standard deviation} $\sigma$ we commonly write $X \sim \mathcal{N}\left( \mu, \sigma \right)$.
-
-Probability density function
-with area under curve from $-\infty$ to $+\infty$ integrating to $1$.
+The most common distribution in statistics with well known bell-shaped (see \emph{Figure~\ref{fig:normaldist}}) plot is the normal distribution also called \emph{Gaussian} distribution. If a random variable $\mathrm{X}$ follow such distribution parametrized by \emph{mean} $\mu$ and \emph{standard deviation} $\sigma$ we commonly write $\mathrm{X} \sim \mathcal{N}\left( \mu, \sigma \right)$. Probability density function of $\mathrm{X})$ is:
 $$
 f \left(x | \mu, \sigma \right) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ {\left (  x - \mu \right )}^2 }{2 \sigma^2} }
 $$
+$$
+\int_{-\infty}^{+\infty} \! f \left(x | \mu, \sigma \right) \, \mathrm{d}x = 1
+$$
+with area under curve from $-\infty$ to $+\infty$ integrating to $1$~\cite{rice1995mathematical}.
 
-\begin{lstlisting}
- x   <- seq(5,15,length=1000)
- y   <- dnorm(x,mean=10, sd=30)
-plot(x,y, type="l", lwd=1)
-sam <- sample(x, 10)
-points(sam,dnorm(sam, 10, 1), col="green")
 
-# for a few distributions
-\end{lstlisting}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{graphics/normalpdf.pdf}
+\begin{tiny}
+\caption{Probability density function of normal distribution $\mathcal{N}\left( 0, 5 \right)$ in characteristic bell shape created in \texttt{R} (Snippet in \emph{Appendix~\ref{snip:normaldist}}).\label{fig:normaldist}}
+\end{tiny}
+\vspace{1cm}
+\end{figure}
+
+
 
 \subsubsection{\emph{prior}, \emph{posterior} and \emph{likelihood} distributions}
 To fully understand Thompson Sampling approach we need to introduce concepts of dependency between prior, posterior and likelihood distributions. To introduce it the \emph{normal} distribution will be used as an example as there exists straight forward generalization to others.\\
@@ -355,6 +358,28 @@ Basic results that yields from Bayesian statistics for normal distribution are a
 
 \chapter{Practical application--- \texttt{\textbf{Exploitation}} of multi-armed bandits optimal solution algorithms.}
 
+
+
+\appendix
+\chapter{Code snippets}
+
+\label{snip:normaldist}PDF of normal distribution with mean $0$ and standard deviation $5$.
+\begin{lstlisting}
+x   <- seq(-30,30,length=10000)
+y   <- dnorm(x,mean=0, sd=5)
+plot(x,y, type="l", lwd=1)
+\end{lstlisting}
+
+
+\begin{lstlisting}
+ x   <- seq(5,15,length=1000)
+ y   <- dnorm(x,mean=10, sd=30)
+plot(x,y, type="l", lwd=1)
+sam <- sample(x, 10)
+points(sam,dnorm(sam, 10, 1), col="green")
+
+# for a few distributions
+\end{lstlisting}
 
 
 
