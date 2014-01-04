@@ -319,6 +319,7 @@ The most common distribution in statistics with well known bell-shaped (see \emp
 $$
 f \left(x | \mu, \sigma \right) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ {\left (  x - \mu \right )}^2 }{2 \sigma^2} }
 $$
+where the first part ${\left( \sigma \sqrt{2 \pi } \right)}^{-1}$ is a normalizing factor and the later part is a distribution ``kernel''.
 $$
 \int_{-\infty}^{+\infty} \! f \left(x | \mu, \sigma \right) \, \mathrm{d}x = 1
 $$
@@ -337,16 +338,43 @@ with area under curve from $-\infty$ to $+\infty$ integrating to $1$~\cite{rice1
 
 
 \subsubsection{\emph{prior}, \emph{posterior} and \emph{likelihood} distributions}
-To fully understand Thompson Sampling approach we need to introduce concepts of dependency between prior, posterior and likelihood distributions. To introduce it the \emph{normal} distribution will be used as an example as there exists straight forward generalization to others.\\
+The next concept that we introduce is the dependency between prior, posterior and likelihood of a particular distribution. To illustrate it the \emph{normal} distribution will be used for the reasons mentioned above. The generalization to other distributions is straight forward~\cite{gelman2003bayesian}.\\
 
-Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.
+The basic theorem underlying all this section is called Bayes' theorem for point probabilities and states:
+$$
+p \left( \mathrm{B} | \mathrm{A} \right) = \frac{  p \left( \mathrm{A} | \mathrm{B} \right) p \left( \mathrm{B} \right) }{ p \left( \mathrm{A} \right) }
+$$
+\begin{center}
+or
+\end{center}
+$$
+p \left( \mathrm{B} | \mathrm{A} \right) \propto p \left( \mathrm{A} | \mathrm{B} \right) p \left( \mathrm{B} \right)
+$$
+where:
+\begin{description}
+\item[$p \left( \mathrm{B} | \mathrm{A} \right)$] is \textbf{posterior}
+\item[$p \left( \mathrm{A} | \mathrm{B} \right)$] is \textbf{likelihood}
+\item[$p \left( \mathrm{B} \right)$] is \textbf{prior}
+\item[$p \left( \mathrm{A} \right)$] is \textbf{normalizing factor}
+\end{description}
+
+The theorem in plain English states that .
+
+
+
+Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details regarding normal and other distributions please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.
 
 \subsubsection{Known variance} 
 \subsubsection{Unknown variance}
-
 \subsubsection{Informative prior}
 \subsubsection{Non-informative prior}
 
+
+\subsection{Sampling}
+Something about sampling
+
+\subsection{Introduction to Thompson Sampling}
+start writing about thompton sampling
 
 % \textit{prior} and \textit{likelihood}
 
