@@ -25,6 +25,32 @@
 % \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} % polsih
 
+% Code snippets
+\usepackage{listings}
+% \usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=R,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+% END Code snippets
+
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
 \newenvironment{dedication}
@@ -281,22 +307,22 @@ To fully develop \emph{Thompson Sampling} approach to multi-armed bandit theory,
 \item Bayesian statistics \emph{and}
 \item sampling theory.
 \end{itemize}
-It is possible to use any probability distribution with \emph{Thompson Sampling} but for the sake of simplicity we will focus in this paper only on \emph{normally} distributed data. This restriction does not mean that it is not possible to apply this technique with any other distribution but due to space constrains the theory will be presented with \emph{normal likelihood}.
- it would demand from reader to be familiar with analytic approach to Baesian's \emph{posteriors} with regard to chosen \emph{prior} and \emph{likelihood}.
+It is possible to use any probability distribution with \emph{Thompson Sampling} but for the sake of simplicity we will focus in this paper only on \emph{normally} distributed data. This restriction does not mean that it is not possible to apply this technique with any other distribution but due to space constrains the theory will be presented with \emph{normal likelihood}. Furthermore, discussing other scenarios of Thompson Sampling would demand from reader to be familiar with analytic approach to Bayesian \emph{posteriors}, \emph{priors} and \emph{likelihoods}.
 
+\subsection{Bayesian statistics}
+In this section we will shortly introduce normal distribution. Then we will discuss its aspects with regard to Bayesian statistics.
 
-%  x   <- seq(5,15,length=1000)
-%  y   <- dnorm(x,mean=10, sd=30)
-% plot(x,y, type="l", lwd=1)
-% sam <- sample(x, 10)
-% points(sam,dnorm(sam, 10, 1), col="green")
+\subsubsection{Normal distribution}
 
-% for a few distributions
-% \textit{prior} and \textit{likelihood}
+Probability density function
+$$
+f(x) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ {\left (  x - \mu \right )}^2 }{2 \sigma^2} }
+$$
 
+\begin{lstlisting}
+\end{lstlisting}
 
-
-\subsection{\emph{prior}, \emph{posterior} and \emph{likelihood} distributions}
+\subsubsection{\emph{prior}, \emph{posterior} and \emph{likelihood} distributions}
 To fully understand Thompson Sampling approach we need to introduce concepts of dependency between prior, posterior and likelihood distributions. To introduce it the \emph{normal} distribution will be used as an example as there exists straight forward generalization to others.\\
 
 Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.
@@ -307,6 +333,15 @@ Basic results that yields from Bayesian statistics for normal distribution are a
 \subsubsection{Informative prior}
 \subsubsection{Non-informative prior}
 
+
+%  x   <- seq(5,15,length=1000)
+%  y   <- dnorm(x,mean=10, sd=30)
+% plot(x,y, type="l", lwd=1)
+% sam <- sample(x, 10)
+% points(sam,dnorm(sam, 10, 1), col="green")
+
+% for a few distributions
+% \textit{prior} and \textit{likelihood}
 
 % \lipsum[1-50]
 
