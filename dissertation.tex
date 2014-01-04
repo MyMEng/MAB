@@ -51,6 +51,8 @@
 }
 % END Code snippets
 
+% $\backsim\ \sim\ \thicksim$
+
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
 \newenvironment{dedication}
@@ -312,14 +314,23 @@ It is possible to use any probability distribution with \emph{Thompson Sampling}
 \subsection{Bayesian statistics}
 In this section we will shortly introduce normal distribution. Then we will discuss its aspects with regard to Bayesian statistics.
 
-\subsubsection{Normal distribution}
+\subsubsection{The normal distribution}
+The most common distribution in statistics with well known bell-shaped plot is the normal distribution also called \emph{Gaussian} distribution. If a random variable $X$ follow such distribution parametrized by \emph{mean} $\mu$ and \emph{standard deviation} $\sigma$ we commonly write $X \sim \mathcal{N}\left( \mu, \sigma \right)$.
 
 Probability density function
+with area under curve from $-\infty$ to $+\infty$ integrating to $1$.
 $$
-f(x) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ {\left (  x - \mu \right )}^2 }{2 \sigma^2} }
+f \left(x | \mu, \sigma \right) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ {\left (  x - \mu \right )}^2 }{2 \sigma^2} }
 $$
 
 \begin{lstlisting}
+ x   <- seq(5,15,length=1000)
+ y   <- dnorm(x,mean=10, sd=30)
+plot(x,y, type="l", lwd=1)
+sam <- sample(x, 10)
+points(sam,dnorm(sam, 10, 1), col="green")
+
+# for a few distributions
 \end{lstlisting}
 
 \subsubsection{\emph{prior}, \emph{posterior} and \emph{likelihood} distributions}
@@ -334,13 +345,6 @@ Basic results that yields from Bayesian statistics for normal distribution are a
 \subsubsection{Non-informative prior}
 
 
-%  x   <- seq(5,15,length=1000)
-%  y   <- dnorm(x,mean=10, sd=30)
-% plot(x,y, type="l", lwd=1)
-% sam <- sample(x, 10)
-% points(sam,dnorm(sam, 10, 1), col="green")
-
-% for a few distributions
 % \textit{prior} and \textit{likelihood}
 
 % \lipsum[1-50]
