@@ -278,10 +278,11 @@ As all the rest of methods is well described in literature and they were main su
 \section{Thompson Sampling\label{sec:thompsonsampling}}
 To fully develop \emph{Thompson Sampling} approach to multi-armed bandit theory, two concepts need to be introduced:
 \begin{itemize}
-\item sampling theory,
-\item Baesian's statistics.
+\item Bayesian statistics \emph{and}
+\item sampling theory.
 \end{itemize}
-It is possible to use any prior and likelihood distribution with \emph{Thompson Sampling} but for the sake of simplicity we will focus here on \emph{normally distributed} \textit{prior} and \textit{likelihood}. This restriction does not mean that it is not possible to do it with other distributions but it would demand from reader to be familiar with analytic approach to Baesian's \emph{posteriors} with regard to chosen \emph{prior} and \emph{likelihood}.
+It is possible to use any probability distribution with \emph{Thompson Sampling} but for the sake of simplicity we will focus in this paper only on \emph{normally} distributed data. This restriction does not mean that it is not possible to apply this technique with any other distribution but due to space constrains the theory will be presented with \emph{normal likelihood}.
+ it would demand from reader to be familiar with analytic approach to Baesian's \emph{posteriors} with regard to chosen \emph{prior} and \emph{likelihood}.
 
 
 %  x   <- seq(5,15,length=1000)
@@ -291,7 +292,7 @@ It is possible to use any prior and likelihood distribution with \emph{Thompson 
 % points(sam,dnorm(sam, 10, 1), col="green")
 
 % for a few distributions
-
+% \textit{prior} and \textit{likelihood}
 
 
 
@@ -302,6 +303,9 @@ Basic results that yields from Bayesian statistics for normal distribution are a
 
 \subsubsection{Known variance} 
 \subsubsection{Unknown variance}
+
+\subsubsection{Informative prior}
+\subsubsection{Non-informative prior}
 
 
 % \lipsum[1-50]
