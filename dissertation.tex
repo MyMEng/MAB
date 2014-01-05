@@ -146,7 +146,12 @@ dzi\k{e}kuj\k{e} Tomek.
 
 \newpage
 \tableofcontents
-\newpage
+% \newpage
+\thispagestyle{empty}
+\cleardoublepage
+\pagestyle{plain}
+\setcounter{page}{1}
+
 
 \chapter{\texttt{\textbf{Exploration}} of multi-armed bandits theory.}
 The \emph{multi-armed bandit} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of \colorbox{magenta}{problems} that could be framed as a multi-armed bandit scenarios the field has become interest of many scientists, researchers, economists not to mention companies looking for work efficiency improvement and savings. All the solutions addressing these \colorbox{magenta}{problems} can be expressed as simple as finding a balance between \emph{exploration} and \emph{exploitation}.
@@ -315,7 +320,7 @@ It is possible to use any probability distribution with \emph{Thompson Sampling}
 In this section we will shortly introduce normal distribution. Then we will discuss its aspects with regard to Bayesian statistics.
 
 \subsubsection{The normal distribution}
-The most common distribution in statistics with well known bell-shaped (see \emph{Figure~\ref{fig:normaldist}}) plot is the normal distribution also called \emph{Gaussian} distribution. If a random variable $\mathrm{X}$ follow such distribution parametrized by \emph{mean} $\mu$ and \emph{standard deviation} $\sigma$ we commonly write $\mathrm{X} \sim \mathcal{N}\left( \mu, \sigma \right)$. Probability density function of $\mathrm{X})$ is:
+The most common distribution in statistics with well known bell-shaped (see \emph{Figure~\ref{fig:normaldist}}) plot is the normal distribution also called \emph{Gaussian} distribution. If a random variable $\mathrm{X}$ follow such distribution parametrized by \emph{mean} $\mu$ and \emph{standard deviation} $\sigma$ we commonly write $\mathrm{X} \sim \mathcal{N}\left( \mu, \sigma^2 \right)$. Probability density function of $\mathrm{X})$ is:
 $$
 f \left(x | \mu, \sigma \right) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ {\left (  x - \mu \right )}^2 }{2 \sigma^2} }
 $$
@@ -366,26 +371,71 @@ Now we will focus on general results of Bayesian statistics when our likelihood 
 
 \textbf{\textrm{Informative prior. }}It is the opposite scenario to one described above. With known distribution of the prior the application of Bayesian statistics is straight forward. From this point onward we will assume that our prior is informative with normal distribution.\\
 
-\textbf{\textrm{Known variance. }}Firstly we will consider \emph{normal prior--normal likelihood with $\sigma^2$ known}.
+\textbf{\textrm{Known variance. }}Firstly we will consider \emph{normal prior--normal likelihood} with $\sigma^2$ known and $\mu$ unknown (our variable).
 $$
 f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
 $$
-The $\sigma^2$ in the notation is omitted for clarity purposes.\\
+The $\sigma^2$ in the notation is omitted for clarity purposes. In this case out prior is defined as follows:
+$$
+f \left( \mu \right)    \sim   \mathcal{N}\left( \mu, \tau^2 \right)
+%                        ~
+$$
+giving:
+$$
+f \left( \mu \right)    =     \frac{1}{\sqrt{2\pi} \tau} e^{- \frac{{\left( \mu - M \right)}^2}{2 \tau^2} }
+$$
+where $M$ is prior mean and $\tau^2$ is variance of $\mu$ round $M$; likelihood is given by:
+$$
+f \left( \mathrm{X} | \mu \right)     \sim    \mathcal{N}\left( \mu, \sigma^2 \right)
+$$
+resulting in:
+$$
+f \left( \mathrm{X} | \mu \right)    =     \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi} \sigma} e^{- \frac{{\left( \mu - x_i \right)}^2}{2 \sigma^2} }
+$$
+where $x_i \in X$ are data points.\\
+After plugging both of them into Bayes rule we get:
+$$
+f \left( \mu | \mathrm{X} \right)     \propto     \frac{1}{\sigma \tau} e^{ -\frac{ {\left( \mu - M \right)}^2 }{2 \tau^2} -\frac{ \sum_{i=1}^{n} {\left( \mu - x_i \right)}^2 }{2 \sigma^2} }
+$$
+what clearly contains a kernel of normal distribution. After some algebraic transformation we finally get that posterior is \textbf{normally} distributed with mean $\epsilon$ and variance $\delta^2$ ( $f \left( \mu | \mathrm{X} \right) \sim \mathcal{N} \left( \epsilon, \delta^2 \right) $ ):
+\begin{eqnarray*}
+\epsilon &=& \frac{\sigma^2 M + n \tau^2 \bar{x}}{n \tau^2 + \sigma^2} = \frac{ \frac{1}{\tau^2} }{ \frac{1}{\tau^2} + \frac{n}{\sigma^2} }M + \frac{ \frac{n}{\sigma^2} }{ \frac{1}{\tau^2} + \frac{n}{\sigma^2} } \bar{x} \\
+\delta^2 &=& \frac{\sigma^2 \tau^2}{n \tau^2 + \sigma^2} = \frac{ \frac{\sigma^2}{n} \tau^2 }{ \tau^2 + \frac{\sigma^2}{n} } \text{ .}
+\end{eqnarray*}
+\\
 
+\textbf{\textrm{Unknown variance. }}This is more realistic case when the posterior is:
+$$
+p \left(  \mu, \sigma^2 | \mathrm{X} \right) \propto p \left( \mathrm{X} | \mu, \sigma^2 \right)    p \left( \mu, \sigma^2 \right) \text{ .}
+$$
+We now need to specify the details of prior distribution. One way is to assume independent distributions of both $\mu$ and $\sigma^2$ and establish separate priors for each.\\
 
-\textbf{\textrm{Unknown variance. }}In both later cases the posterior is normally distributed.\\
+in non-informative case we assume uniform prior .\\
+prior over the real line for $\mu$ and the same uniform prior for log($\sigma^2$). We assign a uniform prior on log($\sigma^2$) because $\sigma^2$ is a non-negative quantity, and the transformation to log($\sigma^2$) stretches this new parameter across the real line. If we transform the uniform prior on log($\sigma^2$) into a density for $\sigma^2$, we obtain p($\sigma^2$) $\propto$ $\frac{1}{\sigma^2}$. Thus, the joint prior is p($\mu$, $\sigma^2$) $\propto$ $\frac{1}{\sigma^2}$.\\
+
+Using Bayes' rule, we can compute the posterior distributions for $\mu | \mathrm{X} , \sigma^2$ and for $\sigma^2 | \mathrm{X} , \mu$. For the sake of brevity, we won’t go through all the details here. Suffice it to say that $\mu | \mathrm{X} , \sigma^2$ is Normally distributed with mean $\bar{x}$ and variance $\sigma^2/n$, and $\sigma^2 | \mathrm{X} , \mu$ has an inverse gamma distribution with parameters $a = n/2$ and $b = \sum (x_i - \mu)^2 / 2$.\\
+
+. In both later cases the posterior is normally distributed.\\
+
 Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details regarding normal and other distributions please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.\\
 
 
 
 \subsection{Sampling}
 In general sampling is a technique used in statistics to select at random a subset of individuals or data points from a population of interest. To goal of such procedure is to gather representative group which holds the properties of original population. The main advantage of such approach is lowering the amount of data to process.\\
-In our approach we use sampling to draw at random .
+In our approach we use sampling to draw at random from particular pool (\emph{arm}) with unknown distribution.
 
 \subsection{Introduction to Thompson Sampling}
 start writing about Thompson sampling
 
-
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{graphics/sampling.png}
+\begin{tiny}
+\caption{Sampling and updating posterior probability density function of normal distribution $\mathcal{N}\left( \mu , \sigma^2 \right)$ (Figure taken from~\cite{Jacobs2008normalnormal}).\label{fig:sampling}}
+\end{tiny}
+\vspace{1cm}
+\end{figure}
 
 
 
