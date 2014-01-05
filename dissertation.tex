@@ -352,22 +352,27 @@ p \left( \mathrm{B} | \mathrm{A} \right) \propto p \left( \mathrm{A} | \mathrm{B
 $$
 where:
 \begin{description}
-\item[$p \left( \mathrm{B} | \mathrm{A} \right)$] is \textbf{posterior}
-\item[$p \left( \mathrm{A} | \mathrm{B} \right)$] is \textbf{likelihood}
-\item[$p \left( \mathrm{B} \right)$] is \textbf{prior}
-\item[$p \left( \mathrm{A} \right)$] is \textbf{normalizing factor}
+\item[$p \left( \mathrm{B} | \mathrm{A} \right)$] is \textbf{posterior}--- being conditional probability of event \textrm{B} given event \textrm{A},
+\item[$p \left( \mathrm{A} | \mathrm{B} \right)$] is \textbf{sampling density (``likelihood'')}--- being conditional probability of event \textrm{A} given event \textrm{B},
+\item[$p \left( \mathrm{B} \right)$] is \textbf{prior}--- being marginal probability of event \textrm{B} and
+\item[$p \left( \mathrm{A} \right)$] is \textbf{marginal} probability of event \textrm{A} (data) being normalizing factor.
 \end{description}
 
-The theorem in plain English states that .
+Now we will focus on general results of Bayesian statistics when our likelihood function is normally distributed. From this point onwards we can develop a couple of different scenarios described below.\\
 
+\textbf{\textrm{Non-informative prior. }}If we are lacking information about prior distribution the best that can be done is to minimize its influence on the inference. According to \emph{principle of insufficient reason} proposed Bayes and Laplace we should assume that prior is uniformly distributed so all outcomes are equally likely. This approach is not perfect and its criticism is widely known but for our application it suffices~\cite{Syversveen98noninformativebayesian}.\\
 
+% give equatin for normal likelihood --- uniform prior
+
+\textbf{\textrm{Informative prior. }}It is the opposite scenario to one described above. With known distribution of the prior the application of Bayesian statistics is straight forward. From this point onward we will assume that our prior is informative with normal distribution.\\
+
+\textbf{\textrm{Known variance. }}Firstly we will consider \emph{normal prior--normal likelihood with $\sigma^2$ known}.
+\textbf{\textrm{Unknown variance}}
+
+In both later cases the posterior is normally distributed.
 
 Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details regarding normal and other distributions please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.
 
-\subsubsection{Known variance} 
-\subsubsection{Unknown variance}
-\subsubsection{Informative prior}
-\subsubsection{Non-informative prior}
 
 
 \subsection{Sampling}
