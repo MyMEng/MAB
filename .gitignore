@@ -32,3 +32,6 @@
 *.tdo
 *.pdf
 *.tif
+
+# Mac OS X
+*.DS_Store
