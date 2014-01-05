@@ -362,36 +362,39 @@ Now we will focus on general results of Bayesian statistics when our likelihood 
 
 \textbf{\textrm{Non-informative prior. }}If we are lacking information about prior distribution the best that can be done is to minimize its influence on the inference. According to \emph{principle of insufficient reason} proposed Bayes and Laplace we should assume that prior is uniformly distributed so all outcomes are equally likely. This approach is not perfect and its criticism is widely known but for our application it suffices~\cite{Syversveen98noninformativebayesian}.\\
 
-% give equatin for normal likelihood --- uniform prior
+% give equation for normal likelihood --- uniform prior
 
 \textbf{\textrm{Informative prior. }}It is the opposite scenario to one described above. With known distribution of the prior the application of Bayesian statistics is straight forward. From this point onward we will assume that our prior is informative with normal distribution.\\
 
 \textbf{\textrm{Known variance. }}Firstly we will consider \emph{normal prior--normal likelihood with $\sigma^2$ known}.
-\textbf{\textrm{Unknown variance}}
+$$
+f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
+$$
+The $\sigma^2$ in the notation is omitted for clarity purposes.\\
 
-In both later cases the posterior is normally distributed.
 
-Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details regarding normal and other distributions please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.
+\textbf{\textrm{Unknown variance. }}In both later cases the posterior is normally distributed.\\
+Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details regarding normal and other distributions please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.\\
 
 
 
 \subsection{Sampling}
-Something about sampling
+In general sampling is a technique used in statistics to select at random a subset of individuals or data points from a population of interest. To goal of such procedure is to gather representative group which holds the properties of original population. The main advantage of such approach is lowering the amount of data to process.\\
+In our approach we use sampling to draw at random .
 
 \subsection{Introduction to Thompson Sampling}
-start writing about thompton sampling
+start writing about Thompson sampling
 
-% \textit{prior} and \textit{likelihood}
 
-% \lipsum[1-50]
+
+
+
 
 
 
 
 
 \chapter{Practical application--- \texttt{\textbf{Exploitation}} of multi-armed bandits optimal solution algorithms.}
-
-
 
 \appendix
 \chapter{Code snippets}
@@ -403,7 +406,7 @@ y   <- dnorm(x,mean=0, sd=5)
 plot(x,y, type="l", lwd=1)
 \end{lstlisting}
 
-
+\label{snip:thompsonsampling}Creating multiple normal distributions to visualize Thompson sampling.
 \begin{lstlisting}
  x   <- seq(5,15,length=1000)
  y   <- dnorm(x,mean=10, sd=30)
@@ -413,7 +416,6 @@ points(sam,dnorm(sam, 10, 1), col="green")
 
 # for a few distributions
 \end{lstlisting}
-
 
 
 \newpage
