@@ -404,16 +404,14 @@ what clearly contains a kernel of normal distribution. After some algebraic tran
 \end{eqnarray*}
 \\
 
-\textbf{\textrm{Unknown variance. }}This is more realistic case when the posterior is:
+\textbf{\textrm{Unknown variance. }}This is more realistic case with the posterior model:
 $$
 p \left(  \mu, \sigma^2 | \mathrm{X} \right) \propto p \left( \mathrm{X} | \mu, \sigma^2 \right)    p \left( \mu, \sigma^2 \right) \text{ .}
 $$
-We now need to specify the details of prior distribution. One way is to assume independent distributions of both $\mu$ and $\sigma^2$ and establish separate priors for each.\\
+We now need to specify the details of prior distribution. One way is to assume independent distributions of both $\mu$ and $\sigma^2$ and establish separate priors for each with $p(\mu, \sigma^2) = p(\mu) p(\sigma^2)$ what is widely documented as a good technique~\cite{gelman2003bayesian}.\\
+With unknown variance one approach is to follow \emph{non-informative} prior scenario described above. The other one is to continue assumption that $\mu \sim \mathcal{N} \left( M, \tau^2 \right)$ with choice of parameters resulting in a flat distribution e.g. $M=0$, $\tau^2 = 10^4$. Furthermore, it is easy to spot that $\sigma^2$ follows \textrm{Inverse}-\textrm{Gamma} distribution with ... . Both these results leads to posterior distribution being ... .\\
 
-
-
-In both later cases the posterior is normally distributed.\\
-Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details regarding normal and other distributions please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.\\
+Basic results that yields from Bayesian statistics for normal likelihood are available in wide variety of books. For more details regarding normal and other distributions please refer to~\cite{lynch2007introduction}\cite{gelman2003bayesian}.\\
 
 \subsection{Sampling}
 In general sampling is a technique used in statistics to select at random a subset of individuals or data points from a population of interest. To goal of such procedure is to gather representative group which holds the properties of original population. The main advantage of such approach is lowering the amount of data to process.\\
