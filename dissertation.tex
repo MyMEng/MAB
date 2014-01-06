@@ -365,7 +365,7 @@ where:
 
 Now we will focus on general results of Bayesian statistics when our likelihood function is normally distributed. From this point onwards we can develop a couple of different scenarios described below.\\
 
-\textbf{\textrm{Non-informative prior. }}If we are lacking information about prior distribution the best that can be done is to minimize its influence on the inference. According to \emph{principle of insufficient reason} proposed Bayes and Laplace we should assume that prior is uniformly distributed so all outcomes are equally likely. This approach is not perfect and its criticism is widely known but for our application it suffices~\cite{Syversveen98noninformativebayesian}.\\
+\textbf{\textrm{Non-informative prior. }}If we are lacking information about prior distribution the best that can be done is to minimize its influence on the inference. According to \emph{principle of insufficient reason} proposed by Bayes and Laplace we should assume that prior is \emph{uniformly} distributed so all outcomes are equally likely. We also assume that it is distributed over the real line for both $\mu$ and $\log \sigma^2$ (transformation to $\log$ scale is performed because $\sigma^2$ is non-negative quantity and it results in stretch along real line). These operations result in joint probability $p \left( \mu, \sigma^2 \right) \propto \frac{1}{\sigma^2} $ leading to posterior distributions given by $p \left( \mu | \mathrm{X}, \sigma^2 \right) \sim \mathcal{N} \left( \bar{x}, \frac{\sigma^2}{n} \right) $ and $p \left( \sigma^2 | \mathrm{X}, \mu \right) \sim \mathrm{Inv}\text{-}\mathrm{Gamma} \left( \frac{n}{2} , \sum_{i} \frac{\left( x_i - \mu \right)^2}{2}  \right) $ (inverse gamma distribution). This approach is not perfect and its criticism is widely known but for our application it suffices~\cite{Syversveen98noninformativebayesian}.\\
 
 % give equation for normal likelihood --- uniform prior
 
@@ -410,16 +410,10 @@ p \left(  \mu, \sigma^2 | \mathrm{X} \right) \propto p \left( \mathrm{X} | \mu, 
 $$
 We now need to specify the details of prior distribution. One way is to assume independent distributions of both $\mu$ and $\sigma^2$ and establish separate priors for each.\\
 
-in non-informative case we assume uniform prior .\\
-prior over the real line for $\mu$ and the same uniform prior for log($\sigma^2$). We assign a uniform prior on log($\sigma^2$) because $\sigma^2$ is a non-negative quantity, and the transformation to log($\sigma^2$) stretches this new parameter across the real line. If we transform the uniform prior on log($\sigma^2$) into a density for $\sigma^2$, we obtain p($\sigma^2$) $\propto$ $\frac{1}{\sigma^2}$. Thus, the joint prior is p($\mu$, $\sigma^2$) $\propto$ $\frac{1}{\sigma^2}$.\\
 
-Using Bayes' rule, we can compute the posterior distributions for $\mu | \mathrm{X} , \sigma^2$ and for $\sigma^2 | \mathrm{X} , \mu$. For the sake of brevity, we won’t go through all the details here. Suffice it to say that $\mu | \mathrm{X} , \sigma^2$ is Normally distributed with mean $\bar{x}$ and variance $\sigma^2/n$, and $\sigma^2 | \mathrm{X} , \mu$ has an inverse gamma distribution with parameters $a = n/2$ and $b = \sum (x_i - \mu)^2 / 2$.\\
 
-. In both later cases the posterior is normally distributed.\\
-
+In both later cases the posterior is normally distributed.\\
 Basic results that yields from Bayesian statistics for normal distribution are available in wide variety of books so only useful results are presented. For more details regarding normal and other distributions please refer to~\cite{gelman2003bayesian}\cite{lynch2007introduction}.\\
-
-
 
 \subsection{Sampling}
 In general sampling is a technique used in statistics to select at random a subset of individuals or data points from a population of interest. To goal of such procedure is to gather representative group which holds the properties of original population. The main advantage of such approach is lowering the amount of data to process.\\
