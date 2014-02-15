@@ -165,7 +165,10 @@ To begin with, lets consider \emph{fruit machine} as it is a first thing that cr
 The natural example that follows binary bandits is a row of coins, where some of them may be unfair. In presented scenario each coin corresponds to an \emph{Arm} of a bandit and tossing one of them for several times can be considered as realization of a Bernoulli process with unknown parameters.\\ If a player is rewarded when the outcome of a trial is \textbf{H}ead then the goal is to find the coin which has bias with maximum probability of \textbf{H} and play it forever.\\
 
 If a gambler does not want to loose all possessed money really quick it would be probably a good idea to have some kind of strategy that maximizes chances of winning. It is assumed that the gambler is for the first time in a given casino so any prior information regarding expected return from each of the arm is assumed to be unknown. Initially random arm is chosen as all of them "look the same". On contrary, during the second turn selecting \emph{optimal} arm to play on becomes a serious dilemma that you might have not yet realized. The gambler faces a choice between already pulled arm with sample of expected return that is known and any other arm which for now on seem "the same" as there is no information about potential reward.\\
-If gambler decides to take advantage of already known arm and pull it again we call this action \emph{exploitation}--- taking advantage of already checked possibilities. On the other hand, taking a risk and choosing one of unknown arms will result in gathering some more information about the system what is usually said to be \emph{exploration} step.
+If gambler decides to take advantage of already known arm and pull it again we call this action \emph{exploitation}--- taking advantage of already checked possibilities. On the other hand, taking a risk and choosing one of unknown arms will result in gathering some more information about the system what is usually said to be \emph{exploration} step.\\
+
+ADD-ON
+Multi-armed bandit are class of problems originated from a sequential allocation dilemmas. They were formulated during Second World War and quickly became recognized as so difficult to solve that they were put aside. First general solution was formalized by John Gttins\ref{sec:gitind} in late 60's nevertheless, it was not widely known until the early 80's.~\cite{gittinsbook}
 
 
 \section{Applications} % emphasized underlying
@@ -281,10 +284,21 @@ Information vs.\ immediate payoff. -- in hospital example case it means that sac
 To democratize it we can use geometric sequence so health of current patients is the same in comparison to future patients.\\
 \\
 \\
+OPTIMALITY IS GUARANTEED BY LIMIT ... ETC.
+\\
 \\
 This result shows that when the discounting is geometric, a bandit problem involving k independent arms can be solved by solving k different two-armed bandits, each involving one known and one unknown arm.\\
 
 \subsection{Index approach (Gittins Index)}
+It is one of the oldest approaches providing solution to long before formulated and pioneering work of indeed Gittins of the index moved forward not only mult-armed bandits concept but whole wide class of sequential allocation problems.\\
+
+The basic intuition behind this approach is to assign \emph{priority indices} to each action, where index of particular action should only depend on the history of outcomes for this action and no other. The decision process then comes down to choosing action with highest current index.\\
+
+Basic theory of allocating indeces is based on calibrating actions at given state against some standardized actions with simple properties. The main advantage of such approach is restricting state function of an action to depend only on one's own history therefore deducing the complexity.\\
+
+So there exists a real valued function defined by a set of all available alternatives, and the selected one is chosen to maximize this function. This function is(are) dynamic allocation index(ices). indeces are described as functions on the set of available alternatives \\
+
+
 
 
 
