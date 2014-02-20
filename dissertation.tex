@@ -507,14 +507,29 @@ Proceeding, main section of this chapter focuses on described in \cite{DBLP:jour
 ML~\cite{flach2012machine}.\\
 Machine Learning is a field of Computer Science which is mainly concerned with building a model for a given data. Supplied information are of form $2$
 
+-------
+The perfomance throug error data
+
 
 There are a few main settings of machine learning which can be divided by two criteria. Namely the form of supplied training data: whether it is labeled --- \emph{supervised} learning or unlabeled --- \emph{unsupervised} learning and the goal of classification: whether process aims at predicting a target variable(label) --- \emph{predictive} model or discover the structure of the data(describe) --- \emph{descriptive} model.\\
 
+------
+
+
+\subsection{Semi-supervised Learning}
 There is a missing link in the chain which, connects supervised and unsupervised scenarios called \emph{semi-supervised} learning. The goal of such classification is to train classifier on relatively small sample of labeled data in a way that its performance on unseen data is close to one that we could achieve with supervised algorithm and huge sample of labeled data. The general strategy is to use the most informative points which describe underlying distribution behind each class.\\
 
-The main application area of semi-supervised learning is natural language, video or audio processing and other fields where data are relatively easy to acquire --- for instance by placing a camera .
+The main application area of semi-supervised learning is natural language, video or audio processing and other fields where data are relatively easy to acquire --- for instance by placing camera in a public place, hours of material can be recorded --- but the process of labeling gathered data to find good fitting supervised model is expensive, time consuming or demand hours of manual labour.\\
+The hidden concept is to describe small fraction of data by hand to train semi-supervised model which performs similarly to supervised algorithm in terms of error rate on data.
 
-Naturla language proessing
+\subsection{Active Learning}
+
+\section{Active Learning in a view of Multi-Armed Bandits}
+
+\section{MAB-AL Algorithm}
+
+\section{Tweaks, Alternatives and Improvements}
+% feasible
 
 
 
