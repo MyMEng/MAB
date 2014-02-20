@@ -290,6 +290,7 @@ OPTIMALITY IS GUARANTEED BY LIMIT ... ETC.
 This result shows that when the discounting is geometric, a bandit problem involving k independent arms can be solved by solving k different two-armed bandits, each involving one known and one unknown arm.\\
 
 \subsection{Index approach (Gittins Index)}
+% chap 1
 It is one of the oldest approaches providing solution to long before formulated and pioneering work of indeed Gittins of the index moved forward not only mult-armed bandits concept but whole wide class of sequential allocation problems.\\
 
 The basic intuition behind this approach is to assign \emph{priority indices} to each action, where index of particular action should only depend on the history of outcomes for this action and no other. The decision process then comes down to choosing action with highest current index.\\
@@ -297,13 +298,27 @@ The basic intuition behind this approach is to assign \emph{priority indices} to
 Basic theory of allocating indeces is based on calibrating actions at given state against some standardized actions with simple properties. The main advantage of such approach is restricting state function of an action to depend only on one's own history therefore deducing the complexity.\\
 
 So there exists a real valued function defined by a set of all available alternatives, and the selected one is chosen to maximize this function. This function is(are) dynamic allocation index(ices). indeces are described as functions on the set of available alternatives.\\
-With such indeces we can specify optimal policy for particular problem which has any set of possinle alternatiefs of a given type.\\
+With such indeces we can specify optimal policy for particular problem which has any set of possible alternatives of a given type.\\
 
-Defining optimal policy- the one that chooses optimal arm infinitely many times- is obscure(not straight forward) in \emph{preemptive} case --- what means that arbitrary switching between actions is allowed which take neglegible time, 
+Defining optimal policy- the one that chooses optimal arm infinitely many times- is obscure(not straight forward) in \emph{preemptive} case --- what means that arbitrary switching between actions is allowed which take negligible time, 
 
-all is with regard to so called \emph{standard bndit problem}
+all is with regard to so called \emph{standard bandit problem}
+
+% beg chap 2
+in the simplest case we consider multi-armed bandit as a number of semi-Markov decision processes. The \emph{index theorem} states that there exists \emph{index policy} which is optimal. Wht means that there exists a real-valued index, say $\nu ( B_i , \xi_i(t) )$, where $B_i$ is i-th bandit process and $\xi_i$ is a state of i-th process. Furthermore index for particular bandit process depends only on current state of this process and no other processes. The optimal strategy is thus to continue the process with greatest index.\\
+
+The index theorem says that a policy for bandits process is optimal if it is an index policy ith respect to $\nu(B_1, .), \nu(N_2, .), ... , \nu(B_n, .)$.\\
 
 
+%intro chap 3
+ASSUMPTIONS\\
+The general assumptions that need to hold so we are able to apply gittin index:
+* rewards are accumulated up to an infinite time horizon\\
+* there is constant exponential discounting\\
+* there is only one processor/server\\
+******\\
+* discounting is strict?\\
+* unless bandit is processed (cont control is recived) no rewards accrue from it and its state does not change\\
 
 \subsection{Bayesian approach}
 Bayes' theorem allows for "straight forward" application to adaptive learning so it's a good approach tool in sequential decision making 
@@ -318,14 +333,14 @@ Bayes' theorem allows for "straight forward" application to adaptive learning so
 \subsection{Myopic strategies}
 Not good in general.\\
 
-#from gittins book\\
+% from gittins book\\
 it corresponds to maximizing the expected reward during the next infinitesimal time interval
 
 it is called myoptic because it neglects things that may happen later or disregard a long-range(long-time) vision to continue the optic metphore.
 
 for some class of problems it can be shown that short term optimum is simultaneously long term one so for this kindaof problems this solution works as it does not perform complex computation or doesn;t do lookahead.
 
-#my
+% my
 local not global solution with respect to time.
 it can be applied to many other strategies but is most often used with index methods.
 
@@ -334,7 +349,7 @@ As all the rest of methods is well described in literature and they were main su
 
 \subsection{etc.\ based on Google paper}
 
-#dynamic programming recurence equation
+% dynamic programming recurence equation
 describing by recursiveequations--- demand significant amount of computation and memory storage<- index book.
 
 
