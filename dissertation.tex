@@ -81,10 +81,14 @@
 
 %\textsc{\Large Final year project}\\[0.5cm]
 
+% \colorbox{magenta}{problem}
+
 % Title
 \HRule \\[0.4cm]
-{ \huge \bfseries \emph{Multi-armed bandits} problem.\\
-	Comprehensive introduction to the \colorbox{magenta}{problem} for everyone with real life application. \\[0.4cm] }
+{ \huge \bfseries \emph{Multi-armed bandits.}\\
+	Comprehensive introduction to the topic with \emph{Thompson's Sampling} approach\\
+  \&\\
+  Active Learning in the bandits scenario.\\[0.4cm] }
 \HRule \\[1.5cm]
 
 % Author and supervisor
@@ -126,7 +130,7 @@ Dr.~David \textsc{\textbf{Leslie}}
 \thispagestyle{empty}% no header and footer
 This dissertation consists of two chapters. First one is a comprehensive introduction to theory underlying multi-armed bandits problem. Reader is assumed not to need any prior knowledge in this field, only basics of statistics and probability theory are required. Second chapter is experimental part focused on ...
 \begin{center}
-Keywords: \textbf{multi-armed bandit, reinforcement learning, exploration vs. exploitation ...}
+Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, exploration, exploitation, Thompson's sampling}
 \end{center}
 \end{abstract}
 
@@ -168,7 +172,7 @@ If a gambler does not want to loose all possessed money really quick it would be
 If gambler decides to take advantage of already known arm and pull it again we call this action \emph{exploitation}--- taking advantage of already checked possibilities. On the other hand, taking a risk and choosing one of unknown arms will result in gathering some more information about the system what is usually said to be \emph{exploration} step.\\
 
 ADD-ON
-Multi-armed bandit are class of problems originated from a sequential allocation dilemmas. They were formulated during Second World War and quickly became recognized as so difficult to solve that they were put aside. First general solution was formalized by John Gttins\ref{sec:gitind} in late 60's nevertheless, it was not widely known until the early 80's.~\cite{gittinsbook}
+Multi-armed bandit are class of problems originated from a sequential allocation dilemmas. They were formulated during Second World War and quickly became recognized as so difficult to solve that they were put aside. First general solution was formalized by John Gttins\ref{sec:gitind} in late 60's nevertheless, it was not widely known until the early 80's.~\cite{gittins+glazebrook+weber}
 
 
 \section{Applications} % emphasized underlying
@@ -289,7 +293,7 @@ OPTIMALITY IS GUARANTEED BY LIMIT ... ETC.
 \\
 This result shows that when the discounting is geometric, a bandit problem involving k independent arms can be solved by solving k different two-armed bandits, each involving one known and one unknown arm.\\
 
-\subsection{Index approach (Gittins Index)}
+\subsection{Index approach (Gittins Index)\label{sec:gitind}}
 % chap 1
 It is one of the oldest approaches providing solution to long before formulated and pioneering work of indeed Gittins of the index moved forward not only mult-armed bandits concept but whole wide class of sequential allocation problems.\\
 
@@ -487,6 +491,32 @@ start writing about Thompson sampling~\cite{May:2012:OBS:2503308.2343711}.
 
 
 \chapter{Practical application--- \texttt{\textbf{Exploitation}} of multi-armed bandits optimal solution algorithms.}
+
+There is a number of historical applications of multi-armed bandits(MAB) concerned mainly with research time management 
+Nowadays main use is found in contextual bandits which are foundations of optimizing online advertising income by different variations of ads layout at given webpage widely used by IT giants like Google, Yahoo, Facebook, LinkedIn or Microsoft. For majority of this companies this theory is of high interest as lion's share of their revenue flows from click-through rate in online advertising.~\cite{graepel2010web} and google paper\\
+
+Other, most resent application of MAB theory fitted into computer science world is concerned with classification issue in environment of insufficient information. This application in machine learning field seems to be under-explored are which so far was addressed in one scientific publication~\cite{DBLP:journals/corr/GantiG13}.\\
+Our decision was to pursue this topic mainly by presenting here deep analysis of chosen in \cite{DBLP:journals/corr/GantiG13} approach. After full exploration we seek for potential improvements and alternatives.
+
+\section{Structure of chapter}
+We first introduce foundations of machine learning needed to develop concepts of semi-supervised and active learning. Next, we introduce whole family of active learning(AL) scenarios and give detailed description of chosen one. Then we present possible connection between processes of MAB and AL. This interface, will allow to frame active learning scenario as bandit process.\\
+Proceeding, main section of this chapter focuses on described in \cite{DBLP:journals/corr/GantiG13} ``briddge'' connecting both worlds. Finally, we explore potential changes that can be introduced and improvements that can be beneficial for described earlier algorithm.
+%explore in great detail
+
+\section{Machine Learning 101}
+ML~\cite{flach2012machine}.\\
+Machine Learning is a field of Computer Science which is mainly concerned with building a model for a given data. Supplied information are of form $2$
+
+
+There are a few main settings of machine learning which can be divided by two criteria. Namely the form of supplied training data: whether it is labeled --- \emph{supervised} learning or unlabeled --- \emph{unsupervised} learning and the goal of classification: whether process aims at predicting a target variable(label) --- \emph{predictive} model or discover the structure of the data(describe) --- \emph{descriptive} model.\\
+
+There is a missing link in the chain which, connects supervised and unsupervised scenarios called \emph{semi-supervised} learning. The goal of such classification is to train classifier on relatively small sample of labeled data in a way that its performance on unseen data is close to one that we could achieve with supervised algorithm and huge sample of labeled data. The general strategy is to use the most informative points which describe underlying distribution behind each class.\\
+
+The main application area of semi-supervised learning is natural language, video or audio processing and other fields where data are relatively easy to acquire --- for instance by placing a camera .
+
+Naturla language proessing
+
+
 
 \appendix
 \chapter{Code snippets}
