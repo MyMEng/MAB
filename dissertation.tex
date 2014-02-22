@@ -14,6 +14,9 @@
 \usepackage{indentfirst} % indent frst paragraph of section
 \usepackage{fullpage} % full A4 page
 \usepackage{amsmath}
+\usepackage{amsfonts} % fancy maths font
+\usepackage{mathrsfs} % fancy maths font
+
 \usepackage[pdftex]{graphicx}
 \usepackage{cite} % BiTeX
 \usepackage{lipsum}
@@ -490,30 +493,49 @@ start writing about Thompson sampling~\cite{May:2012:OBS:2503308.2343711}.
 
 
 
-\chapter{Practical application--- \texttt{\textbf{Exploitation}} of multi-armed bandits optimal solution algorithms.}
+\chapter{\texttt{\textbf{Exploitation}} --- Practical application}
 
-There is a number of historical applications of multi-armed bandits(MAB) concerned mainly with research time management 
-Nowadays main use is found in contextual bandits which are foundations of optimizing online advertising income by different variations of ads layout at given webpage widely used by IT giants like Google, Yahoo, Facebook, LinkedIn or Microsoft. For majority of this companies this theory is of high interest as lion's share of their revenue flows from click-through rate in online advertising.~\cite{graepel2010web} and google paper\\
+There is a number of historical applications of multi-armed bandits(MAB) concerned mainly with research time management, general job-scheduling, economics and military~\cite{gittins+glazebrook+weber}.
+Nowadays one of main utilisations is found in contextual bandits which are foundations for optimizing online advertising income. The general idea behind this concept is to present different variations of ads layout at given webpage which are suited to user by inspecting one's history and are widely used by IT giants like Google, Yahoo, Facebook, LinkedIn or Microsoft. For majority of these companies this theory is of high interest as lion's share of their revenue flows from click-through rate in online advertising.~\cite{graepel2010web, Scott:2010:MBL:1944422.1944432}\\
 
-Other, most resent application of MAB theory fitted into computer science world is concerned with classification issue in environment of insufficient information. This application in machine learning field seems to be under-explored are which so far was addressed in one scientific publication~\cite{DBLP:journals/corr/GantiG13}.\\
-Our decision was to pursue this topic mainly by presenting here deep analysis of chosen in \cite{DBLP:journals/corr/GantiG13} approach. After full exploration we seek for potential improvements and alternatives.
+Other, most resent application of MAB theory fitted into computer science world is concerned with classification issue in environment of insufficient information. This approach to machine learning field seems to be under-explored and needs more attention from a research world as to the best of my knowledge it was addressed so far in only one scientific publication, namely~\cite{DBLP:journals/corr/GantiG13}.\\
+Our decision was to pursue this topic mainly by presenting here deep analysis of chosen in~\cite{DBLP:journals/corr/GantiG13} approach. After broad explanation we seek for potential improvements and alternatives of presented algorithm.
 
-\section{Structure of chapter}
-We first introduce foundations of machine learning needed to develop concepts of semi-supervised and active learning. Next, we introduce whole family of active learning(AL) scenarios and give detailed description of chosen one. Then we present possible connection between processes of MAB and AL. This interface, will allow to frame active learning scenario as bandit process.\\
-Proceeding, main section of this chapter focuses on described in \cite{DBLP:journals/corr/GantiG13} ``briddge'' connecting both worlds. Finally, we explore potential changes that can be introduced and improvements that can be beneficial for described earlier algorithm.
+\section{Structure of this chapter}
+We first introduce foundations of machine learning needed to develop concepts of semi-supervised(SSL) and active(AL) learning. Next, we introduce whole family of active learning scenarios and give detailed description of the chosen one. Then, we present possible connection between processes of MAB and AL. This interface, will allow to frame active learning scenario as bandit process.\\
+Proceeding, main section of this chapter focuses on described in \cite{DBLP:journals/corr/GantiG13} ``bridge'' connecting both worlds. Finally, we explore potential changes that can be introduced and improvements that can be beneficial for described earlier algorithm.
 %explore in great detail
 
 \section{Machine Learning 101}
-ML~\cite{flach2012machine}.\\
-Machine Learning is a field of Computer Science which is mainly concerned with building a model for a given data. Supplied information are of form $2$
+Machine Learning is a field of Computer Science which is mainly concerned with building a model for a given data. Classification problem is of the form $\mathit{l} : \mathscr{X} \rightarrow \mathscr{Y}$, where $\mathscr{X}$ is called \emph{instance space} and $\mathscr{Y}$ is \emph{output space} --- in supervised scenario often replaced with $\mathscr{L}$ and called \emph{label space}.\\
+Such function $\mathit{l}$ is called \emph{model}, which we try to approximate. The instances which are supplied to the model are preprocessed to extract \emph{features}, which represent each instance in a form of vector describing chosen attributes. Based on feature vector given model outputs the element of output space.\\
 
--------
-The perfomance throug error data
+In classical scenario called \emph{supervised learning} the approximation of model(~$\mathit{\hat{l}}$~) is generated by supplying pairs $(\mathit{\mathbf{x}}, \mathit{y})$ which belong to dataset called \emph{training set} where $\mathit{\mathbf{x}}$ is feature vector and $\mathit{y}$ is target label.\\
+In general supervised learning is one of the most common scenarios and is concerned with finding a \emph{class} for a given exemplar. The most common example is to build a model which predicts whether a particular e-mail is spam or non-spam based on extracted features i.e.\ words from the content of the message.\\
 
+Another important building block of machine learning theory is the concept of evaluating accuracy or performance of a trained model. The most popular measure in presented above supervised scenario is so called error rate. It is calculated using \emph{test set} which is disjoint with training set i.e.\ unseen by trained model. Typically the value is calculated as $\mathtt{Err} = \frac{\text{lol}}{\text{lol}}$.\\
 
-There are a few main settings of machine learning which can be divided by two criteria. Namely the form of supplied training data: whether it is labeled --- \emph{supervised} learning or unlabeled --- \emph{unsupervised} learning and the goal of classification: whether process aims at predicting a target variable(label) --- \emph{predictive} model or discover the structure of the data(describe) --- \emph{descriptive} model.\\
+One way of categorizing classification in predictive scenarios is based on task:
+\begin{description}
+\item[Classification] finding a label to describe instance(e.g.\ spam / non-spam),
+\item[Scoring and ranking] for each instance outputs score vector over all classes,
+\item[Probability estimation] for each instance outputs probability vector over all classes,
+\item[Regression] learn approximation to the true labeling function.\\
+\end{description}
 
-------
+As mentioned earlier there are a few scenarios used in ML. Main settings of machine learning can be divided by two criteria. Namely the form of supplied training data: whether it is labeled --- \emph{supervised} learning or unlabeled --- \emph{unsupervised} learning and the goal of classification: whether process aims at predicting a target variable(most often label) --- \emph{predictive} model or discover the structure of the data(describe the underlying format) --- \emph{descriptive} model.\\
+
+\begin{table}[htbp]
+  \begin{tabular}{ r | c p{5cm} }
+                         & Predictive models          & Descriptive models \\
+    \hline
+    Supervised learning   & classification, regression & subgroup discovery \\
+    Unsupervised learning & predictive clustering      & descriptive clustering, association rule discovery \\
+  \end{tabular}~\\[0.1cm]
+  \caption{Main learning models in ML.\label{fig:learning_models}}
+\end{table}~\\
+
+The main reference for further reading is~\cite{flach2012machine} containing comprehensive introduction to machine learning.
 
 
 \subsection{Semi-supervised Learning}
