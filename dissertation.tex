@@ -516,7 +516,26 @@ In general supervised learning is one of the most common scenarios and is concer
 Another important building block of machine learning theory is the concept of evaluating accuracy or performance of a trained model. The most popular measure in presented above supervised scenario is so called error rate. It is calculated using \emph{test set} which is disjoint with training set i.e.\ unseen by trained model. Typically the value is calculated as $\mathtt{Err} = \frac{\text{correctly classified instances}}{\text{all instances}}$.\\
 
 The main goal of machine learning is to choose some \emph{hypothesis} from \emph{hypothesis space} which best ``fits'' given data sample. In general hypothesis space is a set of all possible assignments of classes to data points. For instance if in order three data points $(x_1, x_2, x_3)$ and our target is binary classification i.e.\ we either predict $+$ or $-$, our hypothesis space is then $H = {(+, +, +), (+, +, -), (+, -, +), (-, +, +), (+, -, -), (-, +, -), (-, -, +), (-, -, -)}$.\\
-If we discuss performance of given hypothesis more sophisticated measure of uncertainty is \emph{loss function} $L : \mathbb{R} \rightarrow [0, \infty)$ which maps \emph{margin} $z(\mathbf{x})$ of particular exemplar to an associated loss $L(z(\mathbf{x}))$. \\
+If we discuss performance of given hypothesis more sophisticated measure of uncertainty is \emph{loss function} $L : \mathbb{R} \rightarrow [0, \infty)$ which maps \emph{margin} $z(\mathbf{x})$ of particular exemplar to an associated loss $L(z(\mathbf{x}))$. It is primarily used in scoring and ranking classifiers.\\
+By utilising ranking value and true class information we construct a margin which can be understood as the higher positive value the better the model fits for the exemplar; the lower negative value the worse the model fits for the exemplar.\\
+The loss function rewards large positive margins and penalise large negative values. Often we assume $L(0) = 1$ what gives a loss of an exemplar on decision boundary, $L(z) \geq 1$ for $z < 0$ and $0 \leq L(z) < 1$ for $z > 0$. Sometimes the quantity of interest is average loss over test set \texttt{Te} calculate as $\mathtt{Te} = \frac{1}{|\mathtt{Te}|} \sum_{x \in \mathtt{Te}} L(z(\mathbf{x}))$.\\
+The simplest loss function called \emph{0-1 loss} defined as:
+\[
+ L_{\text{0-1}} (z) =
+  \begin{cases}
+   1 & \text{for } z \leq 0 \\
+   0 & \text{for } z > 0 \text{.}
+  \end{cases}
+\]~\\
+We have already seen average 0-1 loss as an error rate \texttt{Err}:
+\\
+Some other popular loss functions are:
+\begin{description}
+\item[hinge loss] $L_{\text{h}} (z) = 1 - z$ for $z \leq 1$ and $L_{\text{h}} (z) = 0$ for $z > 1$,
+\item[logistic loss] $L_{\text{log}} (z) = \log_2 (1 + \exp(-z))$,
+\item[exponential loss] $L_{\text{exp}} (z) = \exp(-z)$,
+\item[squared loss] $L_{\text{sq}} (z) = (1 - z)^2$; which sometimes is equated to $0$ for $z>1$.\\
+\end{description}
 
 One way of categorizing classification in predictive scenarios is based on task:
 \begin{description}
