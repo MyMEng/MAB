@@ -591,7 +591,7 @@ Within active learning we can name different scenarios of querying $\mathscr{O}$
 \begin{description}
 \item[Membership Query] the learner can query $\mathscr{O}$ for any point in input space $\mathscr{X}$ where $x$ does not necessarily belong to support of marginal distribution i.e.\ it is not in our training set,
 \item[Stream Query] the learner sample points from marginal distribution one after another and decide on-the-fly whether to acquire its label or not,
-\item[Pool Query] the learner has access to a \emph{pool} of unlabeled exemplars $\mathscr{P} = \left\{ \mathbf{x}_1, \mathbf{x}_2, \dots \mathbf{x}_{n-1}, \mathbf{x}_n \right\}$ sampled from some marginal distribution. The learner is allowed to query $\mathscr{O}$ for a label of chosen point i.e.\ acquire $y \sim P_{Y|\mathscr{X} = \mathbf{x}}$.\\
+\item[Pool Query] the learner has access to unlabeled \emph{pool} $\mathscr{P} = \left\{ \mathbf{x}_1, \mathbf{x}_2, \dots \mathbf{x}_{n-1}, \mathbf{x}_n \right\}$ of exemplars sampled from some marginal distribution. The learner is allowed to query $\mathscr{O}$ for a label of chosen point i.e.\ acquire $y \sim P_{Y|\mathscr{X} = \mathbf{x}}$.\\
 \end{description}
 
 We also need to make a decision about the strategy of finding best hypothesis. There are two main approaches: exploiting (cluster) structure in data and efficient search through hypothesis space. The first one boils down to clustering exemplars based on some distance measure between them and sampling number of points from each cluster to arrive at label (see Figure~\ref{fig:cluster}). The later one is organised in systematic manner search algorithm that outputs hypothesis fitted to given data (see Figure~\ref{fig:hypsearch}).\\
