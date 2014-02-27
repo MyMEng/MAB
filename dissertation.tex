@@ -24,6 +24,11 @@
 \newcommand{\ts}{\textsuperscript}
 \usepackage[usenames,dvipsnames]{color}
 
+% for multi figures
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
 % \usepackage{polski}
 % \usepackage[polish,english]{babel}
 % \usepackage[utf8]{inputenc}
@@ -589,18 +594,74 @@ Within active learning we can name different scenarios of querying $\mathscr{O}$
 \item[Pool Query] the learner has access to a \emph{pool} of unlabeled exemplars $\mathscr{P} = \left\{ \mathbf{x}_1, \mathbf{x}_2, \dots \mathbf{x}_{n-1}, \mathbf{x}_n \right\}$ sampled from some marginal distribution. The learner is allowed to query $\mathscr{O}$ for a label of chosen point i.e.\ acquire $y \sim P_{Y|\mathscr{X} = \mathbf{x}}$.\\
 \end{description}
 
-We also need to make a decision about the strategy of finding best hypothesis. There are two main approaches: exploiting (cluster) structure in data and efficient search through hypothesis space. The first one boils down to clustering exemplars based on some distance measure between them and sampling number of points from each cluster to arrive at label (See Figure~\ref{fig:cluster}). The later one is organised in systematic manner search algorithm that outputs hypothesis fitted to given data.\\
+We also need to make a decision about the strategy of finding best hypothesis. There are two main approaches: exploiting (cluster) structure in data and efficient search through hypothesis space. The first one boils down to clustering exemplars based on some distance measure between them and sampling number of points from each cluster to arrive at label (see Figure~\ref{fig:cluster}). The later one is organised in systematic manner search algorithm that outputs hypothesis fitted to given data (see Figure~\ref{fig:hypsearch}).\\
 
-From this point onward we are narrowing our focus to \textbf{hypothesis space searched, active learning algorithms based on pool queries}.
+From this point onward we are narrowing our focus to \textbf{hypothesis space searched, active learning algorithms based on pool queries}.\\
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{graphics/cluster.png}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/cluster1.png}
+    \caption{\label{fig:cluster_a}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/cluster2.png}
+    \caption{\label{fig:cluster_b}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/cluster3.png}
+    \caption{\label{fig:cluster_c}}
+  \end{subfigure}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster1.png}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster2.png}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster3.png}
 \begin{tiny}
-\caption{Sampling and updating posterior probability density function of normal distribution $\mathcal{N}\left( \mu , \sigma^2 \right)$ (Figure taken from~\cite{Jacobs2008normalnormal}).\label{fig:cluster}}
+\caption{The process of exploiting cluster structure in data within active learning algorithm. In \ref{fig:cluster_a} we are supplied with some unlabeled data with obvious structure --- 2 clusters. In \ref{fig:cluster_b} we query for labels of some points from each cluster --- clusters are not pure, collected sample is noisy. In \ref{fig:cluster_c} we assign majority class to each cluster and arrive at presented model.\label{fig:cluster}}
 \end{tiny}
 \vspace{1cm}
 \end{figure}
+
+
+\begin{figure}[htbp]
+\centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch1.png}
+    \caption{\label{fig:hypsearch_a}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch2.png}
+    \caption{\label{fig:hypsearch_b}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch3.png}
+    \caption{\label{fig:hypsearch_c}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch4.png}
+    \caption{\label{fig:hypsearch_d}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch5.png}
+    \caption{\label{fig:hypsearch_e}}
+  \end{subfigure}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster1.png}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster2.png}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster3.png}
+\begin{tiny}
+\caption{The process of search through hypothesis space within active learning algorithm. In \ref{fig:hypsearch_a} we select some hypothesis (~$h_i$~) that are potentially the best. To eliminate first we ask for a labels of points on both sides of $h_1$ and disregard it as on both side we spot the same class (Figure \ref{fig:hypsearch_b}). In \ref{fig:hypsearch_c} and \ref{fig:hypsearch_c} we do the same for $h_2$ and $h_3$. We reject both of them with similar to previous observation. Finally, we arrive at hypothesis $h_5$ which agrees on all queried points and become output of our learning algorithm --- we assign to the rest of points majority class on given side of $h_5$.\label{fig:hypsearch}}
+\end{tiny}
+\vspace{1cm}
+\end{figure}
+
+
 
 \section{Active Learning in a view of Multi-Armed Bandits}
 There are two types of .\\
