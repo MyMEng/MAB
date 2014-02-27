@@ -570,14 +570,28 @@ The main reference for further reading is~\cite{flach2012machine} containing com
 
 \subsection{Semi-supervised Learning}
 There is a missing link in the chain which, connects supervised and unsupervised scenarios called \emph{semi-supervised} learning (Table~\ref{fig:learning_models}). The goal of such classification is to train classifier on relatively small sample of labeled data in a way that its performance on unseen data is close to one that we could achieve with supervised algorithm using huge sample of labeled data. The general strategy is to use the most informative points which best describe distribution underlying classes in the data.\\
+The issue with such approach is difficulty of acquiring such points. Provided data can be noisy --- contain outliers due to measurement errors therefore we need to have enough of them to estimate these values from sample.\\
 
-The main application area of semi-supervised learning is natural language, video or audio processing and other fields where data are relatively easy to acquire --- for instance by placing camera in a public place, hours of material can be recorded --- but the process of labeling gathered data to find good fitting supervised model is expensive, time consuming or demand hours of manual labour.\\
+There are many algorithms which build models based on small sample of labeled data provided but only a few of them measure and utilize information about ... maximally informative points.\\
+
+The main application area of semi-supervised learning is natural language, video or audio processing same as other fields where data are relatively easy to acquire --- for instance by placing camera in a public place, hours of material can be recorded --- but the process of labeling gathered data to find good fitting supervised model is expensive, time consuming or demand hours of manual labour.\\
 The hidden concept is to describe small fraction of data by hand to train semi-supervised model which performs similarly to supervised algorithm in terms of error rate on data.
 
 \subsection{Active Learning}
-Is a special case of SSL where the agent has access to \emph{label oracle} $\mathscr{O}$.
+Is a special case of SSL where the agent has access to \emph{label oracle} $\mathscr{O}$.\\
+No upfront labeled daa set\\
+advantage: we can choose which points to query\\
+Different scenarios of AL\\
+
 
 \section{Active Learning in a view of Multi-Armed Bandits}
+In general how to connect\\
+what is needed for mab to function\\
+we set budget $\mathscr{B}$ for umber of queries\\
+if $\mathscr{B} \rightarrow \infty$ then this becomes supervised algorithm with streaming data.\\
+choose loose function\\
+choose maximaly informative point to querry by reducing variance of loss.\\
+
 
 \section{MAB-AL Algorithm}
 
