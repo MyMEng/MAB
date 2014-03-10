@@ -664,7 +664,12 @@ From this point onward we are narrowing our focus to \textbf{hypothesis space se
 
 
 \section{Active Learning in a view of Multi-Armed Bandits}
-There are two types of .\\
+To build a bridge between MAB and AL we first need to describe setting of such scenario. For the sake of simplicity we focus on pool based binary active learning which is based on search through \emph{hypothesis space} $\mathscr{H}$ with query budget $B$. The key point is to view learning problem as exploration-exploitation trade-off. We will firs focus on finding connections between characteristic features of MAB and try to find correspondence in AL.\\
+
+To begin with, we will frame learning problem as $B$ round game --- finite horizon with discount sequence $\mathbf{A} = ( \underbrace{ 1, 1, 1, ..., 1}_{B}, 0, 0, 0, ... )$ --- where in each round agent is faced with pulling on of given arms and suffer some loss $L_t$ on chosen action. For simplicity, in this scenario we change reward for a loss what leads to optimal strategy being the one that minimizes loss instead of maximizing reward over $B$ rounds.\\
+To be more precise, we define equivalence between arms of a bandit and hypothesis $\mathit{h} \in \mathscr{H}$. We also need to find a proxy of MAB loss signal in our active learning scenario. To define the later lets first clearly state goals of our strategy.\\
+The main aim is to estimate optimal hypothesis i.e.\ the one with lowest risk with use of as little labeled points as possible. If we knew best $\mathit{h}$, so the one with minimal cumulative loss then the optimal strategy would be to pull this arm in each round of our experiment. This leads to the goal of finding optimal strategy as quickly as possible. Now we are left with defining a strategy telling us which arm to pull in each round and how to transform feedback (label) of querying a point $x$ from our pull into a loss signal.\\
+To address the first mentioned issue 
 
 
 In general how to connect\\
@@ -676,9 +681,30 @@ choose maximaly informative point to querry by reducing variance of loss.\\
 
 
 \section{MAB-AL Algorithm}
-Some clue but still not a lot.
+
+Define $\mathscr{Q}_t$ a set of labels $y_i$ acquired by queering $\mathscr{O}$ for label of $x_i$ up to time $t$.\\
+Just to recall we handle a binary classification so set $y_i$ to $+1$ for positive class and $-1$ for negative class.\\
+
+To decide which point to query we utilize introduced earlier loss and margin function. Based on~\cite{DBLP:journals/corr/GantiG13} we define margin $z(x_i) = \hat{c}(x_i)h_t(x_i)$ where 
+$\hat{c}(x_i) =   \begin{cases}
+                  c(x_i) & \text{if } x_i \in \mathscr{Q}_{t-1} \\
+                  h_t(x_i) & \text{otherwise}
+                \end{cases}$.
+Moreover, set $h(x_i) =   \begin{cases}
+                  +1 & \text{if $h_t$ predicts $x_i$ to belong to positive class} \\
+                  -1 & \text{otherwise}
+                \end{cases}$.\\
+
+Calculating $\hat{c}$ for each $x_i$ during arbitrary round $t$ allows us to utilize this information to calculate corresponding loss. Calculating $z(x_i)$ in given above way also 
+
 
 \section{Tweaks, Alternatives and Improvements}
+
+
+How I would improve choice of point to query?\\
+
+
+
 feasible --- just a word not a section
 
 
