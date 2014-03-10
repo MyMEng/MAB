@@ -149,11 +149,21 @@ I would like to thank my parents who support me both financially and mentally. F
 It would also be a painful journey without my supervisor Dr.~David~Leslie who always served me with an advice how to ``read'' all the mathematical books not to get overwhelmed with heavy maths.\newline
 
 Finally, big thanks to I.\ and J.\ who always take care of my leisure time even though it always lacks.\\[2cm]
+
+
 % \foreignlanguage{polish}{}
 \begin{flushright}
 Dzi\k{e}kuj\k{e} mamo,\\
 dzi\k{e}kuj\k{e} Tomek.
 \end{flushright}
+
+
+
+% I was lost now I'm found
+\textcolor{white}{found me!}
+
+
+
 \end{dedication}
 
 
@@ -695,14 +705,22 @@ Moreover, set $h(x_i) =   \begin{cases}
                   -1 & \text{otherwise}
                 \end{cases}$.\\
 
-Calculating $\hat{c}$ for each $x_i$ during arbitrary round $t$ allows us to utilize this information to calculate corresponding loss. Calculating $z(x_i)$ in given above way also 
+Calculating $\hat{c}$ for each $x_i$ during arbitrary round $t$ allows us to utilize this information to calculate corresponding loss. The next stage is to create a vector $\mathbf{p}_t$ containing at i\ts{th} position $L(z(x_i))$. After normalization, where values of such vector add-up to $1$ we use it for sampling distribution to choose a point to query. Such approach has an advantage of of being more prone to query points with small margin (large loss) w.r.t\ $h_t$ or points which have already been queried for label but on which $h_t$ suffers a large loss.\\
+In our opinion there is still some room for improvement here which is described in Section:~\ref{sec:qimprove}.\\
+
+After sampling $x_i$ we check whether it was already queried in the past and if so we reuse given label. On contrary, if $x_i$ has not bean already queried we do so and increase our budget counter.
 
 
 \section{Tweaks, Alternatives and Improvements}
 
 
+\label{sec:qimprove}
 How I would improve choice of point to query?\\
-
+One way would be to change formula for margin to $z(x_i) = \hat{c}(x_i)  h_t(x_i) p_{\text{right}}(x_i, c_k)$.\\
+Where $p_{\text{right}}(x_i, c_k)$ is the probability of hypothesis being correct with prediction.\\
+BUT HOW TO CALCULATE IT???
+We might use distribution of our hypothesis and take $p_{\text{right}}(x_i, c_k)$ as \emph{probability density function}!
+END OF DISCOVERY FOR TODAY!
 
 
 feasible --- just a word not a section
