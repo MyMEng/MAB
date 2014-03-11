@@ -720,8 +720,52 @@ One way would be to change formula for margin to $z(x_i) = \hat{c}(x_i)  h_t(x_i
 Where $p_{\text{right}}(x_i, c_k)$ is the probability of hypothesis being correct with prediction.\\
 BUT HOW TO CALCULATE IT???
 We might use distribution of our hypothesis and take $p_{\text{right}}(x_i, c_k)$ as \emph{probability density function}!
-END OF DISCOVERY FOR TODAY!
+END OF DISCOVERY FOR TODAY!\\
 
+
+To restrict hypothesis space so to work with finite set we use self-concordant vulgarizers $\mathscr{R}(h)$ defined in~\cite{Abernethy08competingin} as:
+$$
+\mathscr{H} = \{ h : ||h|| \leq R \}
+$$
+$$
+\text{where } L_2 \text{ norm}
+$$
+$$
+||h||_x = \sqrt{ \frac{1}{ <h, h>_x } }
+$$
+$$
+<h, h> = h^T \nabla^2 \mathscr{R}(x)h
+$$
+$$
+\text{and}
+$$
+$$
+\mathscr{R} = - \log(R^2 - ||h||^2)
+$$\\
+
+If we choose set of linear classifiers the linear classifier is defined as:
+$$
+c(x) = w \cdot x - t
+$$
+For binary classification
+$$
+c(x) \geq 0 \rightarrow \text{ $x$ is assigned to $+$}
+$$
+$$
+c(x) < 0 \rightarrow \text{ $x$ is assigned to $-$}
+$$\\
+
+Linear model(hypothesis) is finding a weight vector $w$ such that our classifier is of the form given above. As we can express decision boundary as $\mathbf{w} \cdot \mathbf{x} = t$. Our decision boundory is a plane in the cpace spanned by $x_i$. The vector $w$ is perpendicular to boundary and points in $+$ class direction.\\
+The notation of classifier can be simplified by extending both vectors $x$ and $w$ with $x_0 = 1$ and $w_0 = -t$ leading to $c(x) = w^{\circ} \cdot x^{\circ}$\\
+
+Then we can denote our hypothesis space as span of vector $w$.\\
+
+
+
+
+What is self-concordant regularizer?\\
+S-CB allows us to reduce dimentionality of hypothesis space by .
+modeling such infinite or huge hypothesis space woud suffer from many arms in bandits --- effiviency issue.
 
 feasible --- just a word not a section
 
