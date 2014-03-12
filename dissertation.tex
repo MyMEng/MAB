@@ -767,8 +767,64 @@ Then we can denote our hypothesis space as span of vector $w$.\\
 
 
 What is self-concordant regularizer?\\
-S-CB allows us to reduce dimentionality of hypothesis space by .
-modeling such infinite or huge hypothesis space woud suffer from many arms in bandits --- effiviency issue.
+S-CB allows us to reduce dimentionality of hypothesis space by .\\
+modeling such infinite or huge hypothesis space woud suffer from many arms in bandits --- effiviency issue.\\
+
+
+According to paper the cumulative loss suffered through game for arm $a$ at time $t$ is:
+$$
+\hat{L}_t(a) = \frac{1}{nt} \sum_{i=1}^{n} \sum_{\tau = 1}^{t} \frac{Q^{\tau}_i}{p^{\tau}_i} L(c_i h(x_i))
+$$
+where $p^t_i$ is probability of querying $x_i$ in round $t$ extracted from vector described above.\\
+Furthermore $Q^t_i$ is a random variable which takes values $\{0,1\}$; $1$ if $x_i$ was queried in round $t$ and $0$ otherwise.\\
+Such unbiased estimator of hypothesis risk was first proposed by~\cite{journals/jmlr/GantiG12} and in our case can be interpreted as an estimator of cumulative loss the agent would have suffer by pulling arm $a$ for the first $t$ rounds.\\
+
+The variance --- measure of uncertainty --- of our cumulative loss is calculated as:
+$$
+U(\hat{L}_t(a)) = \frac{4}{nt} \sqrt{\log\frac{1}{\delta}V_t}
+$$
+and
+$$
+V_t = \left[
+\sum_{i = 1:n \\ \tau = 1:t} \frac{Q^\tau_i}{(p^\tau_i)^2} L^2(z(x_i))
+-
+\left( \sum_{\mathscr{Q}_t} L(z(x_i)) \right)^2
++
+\frac{L^2_{\text{max}}  \sqrt{2t \log(\frac{1}{\delta}) (n-1)} } {\sqrt{p_{\text{min}}}}
+\right]_+
+$$
+
+??$p_{\text{min}}$??\\
+$p_{\text{min}}$ is parameter which defines the minimum probability of any point to be queried.\\
+
+??$L^2_{\text{max}}$??\\
+For the loss function we assume that it is convex and is upper bounded by some $L^2_{\text{max}} < \infty$ --- it can eb logistic, exponential, squared.\\
+
+??$\delta$??\\
+$\delta$ is a parameter which is bounded by $\delta < \frac{1}{e}$.\\
+
+For the purpose of the experiment which may or may not be done by that time we can assume: see build bridge paper
+$$
+U(\hat{L}^\prime_t(a)) = \frac{ \sqrt{ \log(t) } }
+                       { 10 }
+                  \sqrt{ V^\prime_t }
+$$
+and
+$$
+V^\prime_t = \left[
+  \sum_{i = 1:n \\ \tau = 1:t} \frac{Q^\tau_i}{(p^\tau_i)^2} L^2(z(x_i))
+  -
+  \left( \sum_{\mathscr{Q}_t} L(z(x_i)) \right)^2
+\right]_+
+$$~\\
+
+
+We can use these estimations of mean and variance to model our Thompson's Sampling approach what will follow in next section.\\
+
+Then next section with experiment design and we'll'ya see. Should be the end \\
+
+And before experiment polish first chapter with berry and Firsted.
+
 
 feasible --- just a word not a section
 
