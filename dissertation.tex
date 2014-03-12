@@ -38,6 +38,7 @@
 \usepackage{listings}
 % \usepackage{color}
 
+
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -758,6 +759,8 @@ $$\\
 Linear model(hypothesis) is finding a weight vector $w$ such that our classifier is of the form given above. As we can express decision boundary as $\mathbf{w} \cdot \mathbf{x} = t$. Our decision boundory is a plane in the cpace spanned by $x_i$. The vector $w$ is perpendicular to boundary and points in $+$ class direction.\\
 The notation of classifier can be simplified by extending both vectors $x$ and $w$ with $x_0 = 1$ and $w_0 = -t$ leading to $c(x) = w^{\circ} \cdot x^{\circ}$\\
 
+Please see figure~\ref{fig:binclas}.\\
+
 Then we can denote our hypothesis space as span of vector $w$.\\
 
 
@@ -768,6 +771,16 @@ S-CB allows us to reduce dimentionality of hypothesis space by .
 modeling such infinite or huge hypothesis space woud suffer from many arms in bandits --- effiviency issue.
 
 feasible --- just a word not a section
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{graphics/binclas.png}
+  \begin{tiny}
+    \caption{Visualization of binary, linear classifier in two dimensions.\label{fig:binclas}}
+  \end{tiny}
+  \vspace{1cm}
+\end{figure}
 
 
 
