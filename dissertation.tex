@@ -675,111 +675,80 @@ From this point onward we are narrowing our focus to \textbf{hypothesis space se
 
 
 \section{Active Learning in a view of Multi-Armed Bandits}
-To build a bridge between MAB and AL we first need to describe setting of such scenario. For the sake of simplicity we focus on pool based binary active learning which is based on search through \emph{hypothesis space} $\mathscr{H}$ with query budget $B$. The key point is to view learning problem as exploration-exploitation trade-off. We will firs focus on finding connections between characteristic features of MAB and try to find correspondence in AL.\\
+To build a bridge between MAB and AL we first need to describe setting of such scenario. For the sake of simplicity we focus on pool based, binary active learning with an approach of search through \emph{hypothesis space} $\mathscr{H}$, restricted by a query budget $B$. Moreover, we restrict our hypothesis space to linear classifiers(see later). The key point is to view learning problem as exploration-exploitation trade-off. We will firs focus on finding connections between characteristic features of MAB and try to find correspondence in AL.\\
 
-To begin with, we will frame learning problem as $B$ round game --- finite horizon with discount sequence $\mathbf{A} = ( \underbrace{ 1, 1, 1, ..., 1}_{B}, 0, 0, 0, ... )$ --- where in each round agent is faced with pulling on of given arms and suffer some loss $L_t$ on chosen action. For simplicity, in this scenario we change reward for a loss what leads to optimal strategy being the one that minimizes loss instead of maximizing reward over $B$ rounds.\\
-To be more precise, we define equivalence between arms of a bandit and hypothesis $\mathit{h} \in \mathscr{H}$. We also need to find a proxy of MAB loss signal in our active learning scenario. To define the later lets first clearly state goals of our strategy.\\
-The main aim is to estimate optimal hypothesis i.e.\ the one with lowest risk with use of as little labeled points as possible. If we knew best $\mathit{h}$, so the one with minimal cumulative loss then the optimal strategy would be to pull this arm in each round of our experiment. This leads to the goal of finding optimal strategy as quickly as possible. Now we are left with defining a strategy telling us which arm to pull in each round and how to transform feedback (label) of querying a point $x$ from our pull into a loss signal.\\
-To address the first mentioned issue 
+To begin with, we will frame learning problem as $B$ round game --- finite horizon with discount sequence $\mathbf{A} = ( \underbrace{ 1, 1, 1, ..., 1}_{B}, 0, 0, 0, ... )$ --- where in each round agent is faced with pulling one of given arms and suffer some loss $L_t$ on chosen action. For simplicity, in this scenario we change reward for a loss what leads to optimal strategy being the one that minimizes loss instead of maximizing reward over $B$ rounds.\\
 
+It is worth noting that if $\mathscr{B} \rightarrow \infty$ then this becomes supervised algorithm with streaming data.\\
 
-In general how to connect\\
-what is needed for mab to function\\
-we set budget $\mathscr{B}$ for umber of queries\\
-if $\mathscr{B} \rightarrow \infty$ then this becomes supervised algorithm with streaming data.\\
-choose loose function\\
-choose maximaly informative point to querry by reducing variance of loss.\\
+To be more precise, we define equivalence between arms of a bandit and hypothesis $\mathit{h} \in \mathscr{H}$. We also need to find a proxy of MAB loss signal in our active learning scenario. To define the later lets first clarify goals of our strategy.\\
+The main aim is to estimate optimal hypothesis i.e.\ the one with lowest risk(loss) with use of as little labeled points as possible. If we knew the best $\mathit{h}$, so the one with minimal cumulative loss then the optimal strategy would be to pull this arm in each round of our experiment. This leads to the goal of finding optimal strategy as quickly as possible. Now we are left with defining a strategy telling us which arm to pull in each round and dilemma how to transform feedback --- in our case true label --- of queried point $x$ from our pull into a loss signal.\\
 
-
-\section{MAB-AL Algorithm}
-
-Define $\mathscr{Q}_t$ a set of labels $y_i$ acquired by queering $\mathscr{O}$ for label of $x_i$ up to time $t$.\\
-Just to recall we handle a binary classification so set $y_i$ to $+1$ for positive class and $-1$ for negative class.\\
-
-To decide which point to query we utilize introduced earlier loss and margin function. Based on~\cite{DBLP:journals/corr/GantiG13} we define margin $z(x_i) = \hat{c}(x_i)h_t(x_i)$ where 
-$\hat{c}(x_i) =   \begin{cases}
-                  c(x_i) & \text{if } x_i \in \mathscr{Q}_{t-1} \\
-                  h_t(x_i) & \text{otherwise}
-                \end{cases}$.
-Moreover, set $h(x_i) =   \begin{cases}
-                  +1 & \text{if $h_t$ predicts $x_i$ to belong to positive class} \\
-                  -1 & \text{otherwise}
-                \end{cases}$.\\
-
-Calculating $\hat{c}$ for each $x_i$ during arbitrary round $t$ allows us to utilize this information to calculate corresponding loss. The next stage is to create a vector $\mathbf{p}_t$ containing at i\ts{th} position $L(z(x_i))$. After normalization, where values of such vector add-up to $1$ we use it for sampling distribution to choose a point to query. Such approach has an advantage of of being more prone to query points with small margin (large loss) w.r.t\ $h_t$ or points which have already been queried for label but on which $h_t$ suffers a large loss.\\
-In our opinion there is still some room for improvement here which is described in Section:~\ref{sec:qimprove}.\\
-
-After sampling $x_i$ we check whether it was already queried in the past and if so we reuse given label. On contrary, if $x_i$ has not bean already queried we do so and increase our budget counter.
-
-
-\section{Tweaks, Alternatives and Improvements}
-
-
-\label{sec:qimprove}
-How I would improve choice of point to query?\\
-One way would be to change formula for margin to $z(x_i) = \hat{c}(x_i)  h_t(x_i) p_{\text{right}}(x_i, c_k)$.\\
-Where $p_{\text{right}}(x_i, c_k)$ is the probability of hypothesis being correct with prediction.\\
-BUT HOW TO CALCULATE IT???
-We might use distribution of our hypothesis and take $p_{\text{right}}(x_i, c_k)$ as \emph{probability density function}!
-END OF DISCOVERY FOR TODAY!\\
-
-
-To restrict hypothesis space so to work with finite set we use self-concordant vulgarizers $\mathscr{R}(h)$ defined in~\cite{Abernethy08competingin} as:
+\subsection{Linear classifier}
+To begin with, we define linear classifier as:
 $$
-\mathscr{H} = \{ h : ||h|| \leq R \}
+c(x) = w \cdot x - t \text{~,~}
 $$
-$$
-\text{where } L_2 \text{ norm}
-$$
-$$
-||h||_x = \sqrt{ \frac{1}{ <h, h>_x } }
-$$
-$$
-<h, h> = h^T \nabla^2 \mathscr{R}(x)h
-$$
-$$
-\text{and}
-$$
-$$
-\mathscr{R} = - \log(R^2 - ||h||^2)
-$$\\
-
-If we choose set of linear classifiers the linear classifier is defined as:
-$$
-c(x) = w \cdot x - t
-$$
-For binary classification
+where for binary classification we have:
 $$
 c(x) \geq 0 \rightarrow \text{ $x$ is assigned to $+$}
 $$
 $$
-c(x) < 0 \rightarrow \text{ $x$ is assigned to $-$}
+c(x) < 0 \rightarrow \text{ $x$ is assigned to $-$.}
 $$\\
 
-Linear model(hypothesis) is finding a weight vector $w$ such that our classifier is of the form given above. As we can express decision boundary as $\mathbf{w} \cdot \mathbf{x} = t$. Our decision boundory is a plane in the cpace spanned by $x_i$. The vector $w$ is perpendicular to boundary and points in $+$ class direction.\\
-The notation of classifier can be simplified by extending both vectors $x$ and $w$ with $x_0 = 1$ and $w_0 = -t$ leading to $c(x) = w^{\circ} \cdot x^{\circ}$\\
+In general, linear model(hypothesis) is concerned with finding a weight vector $w$ such that our classifier is of the form given above. We can transform the equation given above to express decision boundary as $\mathbf{w} \cdot \mathbf{x} = t$. This result tells us that decision boundary is a plane in the space spanned by $x_i$. Where vector $w$ is perpendicular to boundary and points in direction of $+$ class.\\
+The notation of classifier can be simplified by extending both vectors $x$ and $w$ with $x_0 = 1$ and $w_0 = -t$ leading to decision boundary $c(x) = w^{\circ} \cdot x^{\circ} = 0$. In this form for the expense of one extra dimension we get decision boundary passing through origin of our coordinate system. Generally, we can denote our hypothesis space as a span of vector $w$.\\
+For visual examples please see figure~\ref{fig:binclas}.\\
 
-Please see figure~\ref{fig:binclas}.\\
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{graphics/binclas.png}
+  \begin{tiny}
+    \caption{Visualization of binary, linear classifier in two dimensions.\label{fig:binclas}}
+  \end{tiny}
+  \vspace{1cm}
+\end{figure}
 
-Then we can denote our hypothesis space as span of vector $w$.\\
-
-
-
-
-What is self-concordant regularizer?\\
-S-CB allows us to reduce dimentionality of hypothesis space by .\\
-modeling such infinite or huge hypothesis space woud suffer from many arms in bandits --- effiviency issue.\\
-
-
-According to paper the cumulative loss suffered through game for arm $a$ at time $t$ is:
+\subsection{Choosing best hypothesis}
+To address the first mentioned above issue we refer to~\cite{DBLP:journals/corr/GantiG13} where an unbiased estimator of the risk of hypothesis is defined as:\\
 $$
-\hat{L}_t(a) = \frac{1}{nt} \sum_{i=1}^{n} \sum_{\tau = 1}^{t} \frac{Q^{\tau}_i}{p^{\tau}_i} L(c_i h(x_i))
+\hat{L}_t(a) = \frac{1}{nt} \sum_{i=1}^{n} \sum_{\tau = 1}^{t} \frac{Q^{\tau}_i}{p^{\tau}_i} L(c_i h(x_i)) \text{~,}
 $$
-where $p^t_i$ is probability of querying $x_i$ in round $t$ extracted from vector described above.\\
-Furthermore $Q^t_i$ is a random variable which takes values $\{0,1\}$; $1$ if $x_i$ was queried in round $t$ and $0$ otherwise.\\
-Such unbiased estimator of hypothesis risk was first proposed by~\cite{journals/jmlr/GantiG12} and in our case can be interpreted as an estimator of cumulative loss the agent would have suffer by pulling arm $a$ for the first $t$ rounds.\\
+where $p^t_i$ is probability of querying $x_i$ in round $t$ extracted from vector $p^t$ described above.\\
+Furthermore, $Q^t_i$ is a random variable which takes values $\{0,1\}$; $1$ if $x_i$ was queried in round $t$ and $0$ otherwise.\\
 
+We also need to decide on loss function to employ in our model. All loss functions with property of being convex w.r.t\ margin and which are upper bounded by $L_{\text{max} < \infty}$ will be suitable. For example we could use logistic loss, squared loss, exponential loss.
+
+
+\subsection{Choosing a point to query --- Constructing loss signal}
+To iteratively improve our guess of best hypothesis we query possibly most informative point in each round. Intuitively such information allows us to tell apart good hypothesis which agree with acquired label and bad ones which mis-classify given point. To make the best possible choice we construct sampling distribution which minimizes the conditional variance of the risk estimate $\hat{L}_t(h)$ defined above. We construct it by utilizing labels which we have already acquired from oracle and labels that our current hypothesis assigns to points which have not been queried yet. To guarantee infinite exploration of all hypothesis and avoid $0$ probabilities we introduce parameter $p_{min}$ which is arbitrarily set by user and denote minimum probability of each point being queried.\\
+
+Let's define $\mathscr{Q}_t$ as a set of labels $y_i$ acquired by queering $\mathscr{O}$ for labels of $x_i$ up to time $t$.\\
+Just to recall we handle a binary classification so we set $c(x_i) = y_i$ to $+1 * \alpha$ for positive class and $-1 * \beta$ for negative class, where $\alpha$ and $\beta$ are arbitrary non-negative numbers.\\
+
+For each $x_i \in \mathscr{P}$
+$$
+\hat{y}_i = \hat{c}(x_i) = \begin{cases}
+                          y_i = c(x_i)  & \text{if } x_i \in \mathscr{Q}_{t-1} \\
+                          \textit{sign}(h_t(x_i)) & \text{otherwise}
+                        \end{cases} 
+$$
+
+To decide which point to query we utilize introduced earlier loss and margin function. Based on~\cite{DBLP:journals/corr/GantiG13} we set margin $z(x_i) = \hat{c}(x_i)h_t(x_i)$.\\
+This leads to probability vector underlying sampling distribution being:
+$$
+p_i^t = p_{\text{min}} + (1-np_{\text{min}}) \frac{L(z(x_i))}{\sum_{x_i \in \mathscr{P}} L(z(x_i))}
+$$
+
+Calculating $\hat{c}$ for each $x_i$ during arbitrary round $t$ allows us to utilize this information to calculate corresponding loss. The next stage is to create a vector $\mathbf{p}_t$ containing at i\ts{th} position $L(z(x_i))$. After normalization, where values of such vector add-up to $1$ we use it for sampling distribution to choose a point to query. Such approach has an advantage of of being more prone to query points with small margin (large loss) w.r.t\ $h_t$ or points which have already been queried for label but on which $h_t$ suffers a large loss.\\
+
+After sampling $x_i$ we check whether it was already queried in the past and if so we reuse given label. On contrary, if $x_i$ has not bean already queried we do so and increase our budget counter.
+
+
+\subsection{Uncertainty of hypothesis}
 The variance --- measure of uncertainty --- of our cumulative loss is calculated as:
+By utilizing constructed earlier vector for sampling pints we can construct measure of uncertainty for our risk on hypothesis. Which is defined in~\cite{DBLP:journals/corr/GantiG13} as:\\
 $$
 U(\hat{L}_t(a)) = \frac{4}{nt} \sqrt{\log\frac{1}{\delta}V_t}
 $$
@@ -794,14 +763,50 @@ V_t = \left[
 \right]_+
 $$
 
-??$p_{\text{min}}$??\\
-$p_{\text{min}}$ is parameter which defines the minimum probability of any point to be queried.\\
+Where $\delta$ is a parameter which is bounded by $\delta < \frac{1}{e}$.\\
 
-??$L^2_{\text{max}}$??\\
-For the loss function we assume that it is convex and is upper bounded by some $L^2_{\text{max}} < \infty$ --- it can eb logistic, exponential, squared.\\
 
-??$\delta$??\\
-$\delta$ is a parameter which is bounded by $\delta < \frac{1}{e}$.\\
+\subsection{Miscellaneous}
+\subsubsection{Dealing with infinite hypothesis space}
+Modeling huge or even infinite hypothesis space would suffer from existence of many arms in our bandit model leading to serious efficiency issue. Furthermore Optimizing infinite space is not an easy task therefore we make use of self-concordant regularizer $\mathscr{R}(h)$ which was first proposed in~\cite{Abernethy08competingin} and is defined as:\\
+$$
+\mathscr{H} = \{ h : \|h\| \leq R \}
+$$
+where $L_2$ norm is defined as:
+$$
+\|h\|_x = \sqrt{ \frac{1}{ \langle h, h \rangle_x } }
+$$
+$$
+\langle h, h \rangle = h^T \nabla^2 \mathscr{R}(x)h
+$$
+and
+$$
+\mathscr{R} = - \log(R^2 - \|h\|^2) \text{~.~}
+$$
+Self-concordant barier does not only allow us to reduce dimensionality of hypothesis space by choosing exemplars which differ.\\
+What is self-concordant regularizer?\\
+
+
+\section{MAB-AL Algorithm}
+
+% give the algorith and describe how it works
+
+
+\section{Employing Thompson's Sampling}
+
+% Do it
+
+
+\section{Tweaks, Alternatives and Improvements --- Experiment}
+
+
+\label{sec:qimprove}
+How I would improve choice of point to query?\\
+One way would be to change formula for margin to $z(x_i) = \hat{c}(x_i)  h_t(x_i) p_{\text{right}}(x_i, c_k)$.\\
+Where $p_{\text{right}}(x_i, c_k)$ is the probability of hypothesis being correct with prediction.\\
+BUT HOW TO CALCULATE IT???
+We might use distribution of our hypothesis and take $p_{\text{right}}(x_i, c_k)$ as \emph{probability density function}!
+END OF DISCOVERY FOR TODAY!\\
 
 For the purpose of the experiment which may or may not be done by that time we can assume: see build bridge paper
 $$
@@ -827,16 +832,6 @@ And before experiment polish first chapter with berry and Firsted.
 
 
 feasible --- just a word not a section
-
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\linewidth]{graphics/binclas.png}
-  \begin{tiny}
-    \caption{Visualization of binary, linear classifier in two dimensions.\label{fig:binclas}}
-  \end{tiny}
-  \vspace{1cm}
-\end{figure}
 
 
 
