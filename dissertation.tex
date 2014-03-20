@@ -772,26 +772,21 @@ This quantity together with previously defined estimator of the hypothesis risk 
 
 \subsection{Miscellaneous}
 \subsubsection{Dealing with infinite hypothesis space}
-Modeling huge or even infinite hypothesis space would suffer from existence of many arms in our bandit model leading to serious efficiency issue. Furthermore optimizing infinite space is not an easy task therefore we make use of self-concordant regularizer $\mathscr{R}(h)$ which was first proposed in~\cite{Abernethy08competingin} and is used in the following way:\\
+Modeling huge or even infinite hypothesis space would suffer from existence of many arms in our bandit model leading to serious efficiency issue. Furthermore optimizing infinite space is not an easy task therefore we choose a subset of hypothesis space defined as:
 $$
-\mathscr{H} = \{ h : \|h\| \leq R \}
+\mathscr{H} = \{ h : \|h\| \leq R \} \text{~,~}
 $$
-where $L_2$ norm is defined as:
+where $R$ is fixed such that $R > 0$ and $\| \dot \|$ is Euclidean $L_2$ norm.\\
+Furthermore, based on observation described in~\cite{Abernethy08competingin} we have self-concordant barrier $\mathscr{R}(h)$ on $\mathscr{H}$ defined as:
 $$
-\|h\|_x = \sqrt{ \frac{1}{ \langle h, h \rangle_x } }
+\mathscr{R}(h) = - \log(R^2 - \|h\|^2) \text{~.~}
 $$
-$$
-\langle h, h \rangle = h^T \nabla^2 \mathscr{R}(x)h
-$$
-and
-$$
-\mathscr{R} = - \log(R^2 - \|h\|^2) \text{~.~}
-$$
-Self-concordant barier does not only allow us to reduce dimensionality of hypothesis space by choosing exemplars which differ.\\
-What is self-concordant regularizer?\\
+Given above restrictions allow us to significantly reduce dimensionality of hypothesis space by choosing hypothesis which differ. Moreover, presented barrier function is a continuous function which penalize with value close to $\infty$ hypothesis approaching defined boundary of hypothesis space.\\
 
 
 \section{MAB-AL Algorithm}
+
+In this section we will briefly discuss \texttt{MAB-AL} algorithm proposed in~\cite{DBLP:journals/corr/GantiG13} to familiarize reader with general concept which build upon presented in previous sections blocks.
 
 % give the algorith and describe how it works
 
