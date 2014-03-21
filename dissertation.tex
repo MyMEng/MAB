@@ -29,6 +29,8 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
+\usepackage[]{algorithm2e}
+
 % \usepackage{polski}
 % \usepackage[polish,english]{babel}
 % \usepackage[utf8]{inputenc}
@@ -786,7 +788,37 @@ Given above restrictions allow us to significantly reduce dimensionality of hypo
 
 \section{MAB-AL Algorithm}
 
-In this section we will briefly discuss \texttt{MAB-AL} algorithm proposed in~\cite{DBLP:journals/corr/GantiG13} to familiarize reader with general concept which build upon presented in previous sections blocks.
+In this section we will briefly discuss \texttt{MAB-AL} algorithm proposed in~\cite{DBLP:journals/corr/GantiG13} to familiarize reader with general concept which build upon presented in previous sections blocks.\\
+
+\begin{algorithm}[H]
+ \LinesNumbered
+ \KwData{pool of points $\mathscr{P}$; loss function $L(\cdot)$; budget $B$; parameter $p_{min}$; access to oracle $\mathscr{O}$}
+ \KwResult{optimal hypothesis $h_B$}
+ $oracleQuerries = 0$\;
+ $h_1 = 0$\;
+ $t = 1$\;
+ \While{oracleQuerries $\leq B$}{
+  \For{$\mathbf{x}_n \in \mathscr{P}$}{
+    $
+    \hat{y}_n = \begin{cases}
+      y_n = c(\mathbf{x}_n)  & \text{if } \mathbf{x}_n \in \mathscr{Q}_{t-1} \\
+      \textit{sign}(h_t(\mathbf{x}_n)) & \text{otherwise.}
+    \end{cases} 
+    $ \;
+    $p_n^t = p_{\text{min}} + (1-Np_{\text{min}}) \frac{L(z(\mathbf{x}_n))}{\sum_{\mathbf{x}_n \in \mathscr{P}} L(z(\mathbf{x}_n))}$ \;
+  }
+  sample point $\mathbf{x}$ from probability vector $\mathbf{p}^t$\;
+  \eIf{$\mathbf{x}$ was already queried}{
+   reuse label of $\mathbf{x}$\;
+   }{
+   query oracle $\mathscr{O}$ for the label $y = c(\mathbf{x})$ of $\mathbf{x}$\;
+   $oracleQuerries \leftarrow oracleQuerries + 1$\;
+  }
+  solve: $h_{t+1} \leftarrow \text{argmin}_{h \in \mathscr{H}} LCB_t(h) + \lambda_t \mathscr{R}(h)$\;
+  $t \leftarrow t + 1$\;
+ }
+ \caption{LCB-AL presented in~\cite{DBLP:journals/corr/GantiG13}.\label{LCB-AL}}
+\end{algorithm}
 
 % give the algorith and describe how it works
 
