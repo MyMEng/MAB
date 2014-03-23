@@ -713,7 +713,7 @@ For visual example please see figure~\ref{fig:binclas}.\\
   \vspace{1cm}
 \end{figure}
 
-\subsection{Choosing best hypothesis}
+\subsection{Choosing best hypothesis\label{sec:risk}}
 To address the first mentioned above issue we refer to~\cite{DBLP:journals/corr/GantiG13} where an unbiased estimator of the risk of hypothesis is defined as:\\
 \begin{equation}\label{eq:mean}
 \hat{L}_t(h) = \frac{1}{Nt} \sum_{n=1}^{N} \sum_{\tau = 1}^{t} \frac{Q^{\tau}_n}{p^{\tau}_n} L(y_n h(\mathbf{x}_n)) \text{~,}
@@ -751,7 +751,7 @@ Calculating $\hat{c}_t = h_t$ and $\\hat{y}$ for each $\mathbf{x}_n$ during arbi
 After sampling $\mathbf{x}_n$ we check whether it was already queried in the past; if so we reuse already gained label. On contrary, if $\mathbf{x}_n$ has not been queried yet, we do so and increase our budget counter.
 
 
-\subsection{Uncertainty of hypothesis}
+\subsection{Uncertainty of hypothesis\label{sec:uncertanity}}
 The variance --- measure of uncertainty --- for risk (loss) of our hypothesis is calculated with help of calculated above vector for sampling distribution over pool instances as:
 \begin{equation}\label{eq:variance}
 U(\hat{L}_t(h)) = \frac{4}{Nt} \sqrt{\log\frac{1}{\delta}V_t}
@@ -837,7 +837,12 @@ Details of summarized above approach are presented in~\cite{DBLP:journals/corr/G
 \section{Employing Thompson's Sampling}
 According to authors given above solution behaves superior to many of its rivals and still has room for improvements. Based on authors suggestions and through analysis of presented reasoning we decided to enhance algorithm~\ref{al:LCB-AL} by replacing LCB minimization with Thompson's Sampling presented in section~\ref{sec:thompson}. We motivate our decision with simplicity of later solution and ease of adaptation.\\
 
-To begin with, all steps of algorithm~\ref{al:LCB-AL} but line~\ref{al:LCB-AL:LCB} will not change. As mentioned above line~\ref{al:LCB-AL:LCB} is responsible for choosing the most suitable hypothesis to try out during next round. Main concept behind this improvement is to model each hypothesis as a normal distribution $\mathcal{N}\left( \mu, \sigma^2 \right)$. To do so we need some estimates of \emph{mean} and \emph{variance}. For each hypothesis we will model $\mu$ as --- described in equation~\ref{eq:mean}. Moreover, variance --- ~\ref{eq:variance}.\\
+To begin with, all steps of algorithm~\ref{al:LCB-AL} but line~\ref{al:LCB-AL:LCB} will not change. As mentioned above line~\ref{al:LCB-AL:LCB} is responsible for choosing the most suitable hypothesis to try out during next round. Main concept behind this improvement is to model each hypothesis as a normal distribution $\mathcal{N}\left( \mu, \sigma^2 \right)$. To do so we need some estimates of \emph{mean} and \emph{variance}. For each hypothesis we will model $\mu$ as risk of choosing particular $h$ described in section~\ref{sec:risk} and calculated in equation~\ref{eq:mean}. Moreover, variance will be modeled as uncertainty of this risk measure described in section~\ref{sec:uncertanity} and given by equation~\ref{eq:variance}.\\
+
+Intuitive description of this process can be understood as trying to find hypothesis with minimal risk. Furthermore, variance of each risk estimate will be decreased or increased by each label acquired from oracle. This process guarantees infinite exploration assumed in previous chapter.\\
+The striking flaw of such approach is in the step of employing information gained from oracle in each round. According to assumptions the information (feedback) gained by pulling particular arm (hypothesis) should only reveal information about given arm. Fortunately, we can loosen this restriction and still get perfectly valid solution.\\
+
+Described above reasoning lead to Algorithm Snippet~\ref{al:TS-AL} replacing line~\ref{al:LCB-AL:LCB} in Algorithm~\ref{al:LCB-AL}.
 
 
 \RestyleAlgo{boxed}
@@ -849,10 +854,12 @@ To begin with, all steps of algorithm~\ref{al:LCB-AL} but line~\ref{al:LCB-AL:LC
     $X_r^t \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right) $ \;
     \text{sample: } $x_r^t \leftarrow X_r^t$ \;
   }
-  solve: $h_{t+1} \leftarrow h_r \leftarrow \text{argmin}_{r} \mathbf{x}^t$\;
+  solve: $h_{t+1} \leftarrow h_r \leftarrow \text{argmin}_{r} \text{~} \mathbf{x}^t$\;
  \caption{Thompson's Sampling improvement.\label{al:TS-AL}}
 \end{algorithm}
 \vspace{2cm}
+
+To sum up, for each $h$ in our hypothesis space we calculate risk --- mean; and risk uncertainty --- variance. We sample a value from normal distribution with parameters calculated as above to create a sample vector. To decide on hypothesis we check which one minimizes this vector and try it in next round.\\
 
 
 \section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
@@ -887,6 +894,11 @@ And before experiment polish first chapter with berry and Firsted.
 feasible --- just a word not a section
 
 
+% \newpage
+% \begin{center} \textbf{\huge \vspace*{15pt} FIN~\cite{berry+firstedt}} \end{center}
+
+\bibliography{ref}{}
+\bibliographystyle{plain}
 
 \appendix
 \chapter{Code snippets}
@@ -908,12 +920,5 @@ points(sam,dnorm(sam, 10, 1), col="green")
 
 # for a few distributions
 \end{lstlisting}
-
-
-\newpage
-\begin{center} \textbf{\huge \vspace*{15pt} FIN~\cite{berry+firstedt}} \end{center}
-
-\bibliography{ref}{}
-\bibliographystyle{plain}
 
 \end{document}
