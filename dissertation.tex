@@ -490,7 +490,7 @@ In our approach we use sampling to draw at random from particular pool (\emph{ar
 
 
 
-\subsection{Introduction to Thompson Sampling}
+\subsection{Introduction to Thompson Sampling\label{sec:thompson}}
 start writing about Thompson sampling~\cite{May:2012:OBS:2503308.2343711}.
 
 
@@ -715,9 +715,9 @@ For visual example please see figure~\ref{fig:binclas}.\\
 
 \subsection{Choosing best hypothesis}
 To address the first mentioned above issue we refer to~\cite{DBLP:journals/corr/GantiG13} where an unbiased estimator of the risk of hypothesis is defined as:\\
-$$
-\hat{L}_t(a) = \frac{1}{Nt} \sum_{n=1}^{N} \sum_{\tau = 1}^{t} \frac{Q^{\tau}_n}{p^{\tau}_n} L(y_n h(\mathbf{x}_n)) \text{~,}
-$$
+\begin{equation}\label{eq:mean}
+\hat{L}_t(h) = \frac{1}{Nt} \sum_{n=1}^{N} \sum_{\tau = 1}^{t} \frac{Q^{\tau}_n}{p^{\tau}_n} L(y_n h(\mathbf{x}_n)) \text{~,}
+\end{equation}
 where $p^t_n$ is probability of querying $\mathbf{x}_n$ in round $t$ extracted from vector $p^t$ described in section~\ref{sec:pointtoquery}.\\
 Furthermore, $Q^t_n$ is a random variable which takes values $\{0,1\}$; $1$ if $\mathbf{x}_n$ was queried in round $t$ and $0$ otherwise.\\
 
@@ -753,9 +753,9 @@ After sampling $\mathbf{x}_n$ we check whether it was already queried in the pas
 
 \subsection{Uncertainty of hypothesis}
 The variance --- measure of uncertainty --- for risk (loss) of our hypothesis is calculated with help of calculated above vector for sampling distribution over pool instances as:
-$$
-U(\hat{L}_t(a)) = \frac{4}{Nt} \sqrt{\log\frac{1}{\delta}V_t}
-$$
+\begin{equation}\label{eq:variance}
+U(\hat{L}_t(h)) = \frac{4}{Nt} \sqrt{\log\frac{1}{\delta}V_t}
+\end{equation}
 and
 $$
 V_t = \left[
@@ -788,11 +788,20 @@ Given above restrictions allow us to significantly reduce dimensionality of hypo
 
 \section{MAB-AL Algorithm}
 
-In this section we will briefly discuss \texttt{MAB-AL} algorithm proposed in~\cite{DBLP:journals/corr/GantiG13} to familiarize reader with general concept which build upon presented in previous sections concept blocks (see algorithm~\ref{al:LCB-AL}).\\
+In this section we will briefly discuss \texttt{MAB-AL} algorithm proposed in~\cite{DBLP:journals/corr/GantiG13} to familiarize reader with general concept which build upon presented in previous sections milestones (see algorithm~\ref{al:LCB-AL}). \\Prior to classification the decision need to be made on loss function, query budget and lower bound on probability of each point being sent to oracle.\\
 
-First of all, at the beginning of each round we construct label ($\{+, -\}$) for each point in our pool. If the point has already been queried we use its true label otherwise we assign label
+First of all, we initialize time and oracle queries counter variables and set our hypothesis to $0$ for each point --- classifier is maximally uncertain about label of each exemplar.\\
 
+At the beginning of each round we construct label ($\{+, -\}$) for each point in our pool. If the point has already been queried we use its true label otherwise we assign label in agreement with current hypothesis. Then based on margin and loss we assign querying probability for each exemplar contributing to vector $\mathbf{p}^t$. We use $\mathbf{p}^t$ to create a sampling distribution and choose new point to query. For the sake of simplicity we allow exemplars to be re-queried so if the sampled point has already been sent to oracle we re-use previous label, otherwise we query oracle and increase our counter.\\
+
+The heart of the algorithm is stated in line~\ref{al:LCB-AL:LCB} which performs \emph{Lower Confidence Bounds} calculation for all hypothesis in our $\mathscr{H}$. With freshly chosen $h$ we repeat above steps until we meet previously fixed budget, therefore picking hypothesis chosen during last iteration.\\
+
+Details of summarized above approach are presented in~\cite{DBLP:journals/corr/GantiG13}.\\
+
+\RestyleAlgo{boxed}
+\vspace{2cm}
 \begin{algorithm}[H]
+ % \boxRuled
  \LinesNumbered
  \KwData{pool of points $\mathscr{P}$; loss function $L(\cdot)$; budget $B$; parameter $p_{min}$; access to oracle $\mathscr{O}$}
  \KwResult{optimal hypothesis $h_B$}
@@ -817,41 +826,51 @@ First of all, at the beginning of each round we construct label ($\{+, -\}$) for
    $\mathscr{Q}_{t} \leftarrow \mathscr{Q}_{t-1} \cup y$\;
    $oracleQuerries \leftarrow oracleQuerries + 1$\;
   }
-  solve: $h_{t+1} \leftarrow \text{argmin}_{h \in \mathscr{H}} LCB_t(h) + \lambda_t \mathscr{R}(h)$\;
+  solve: $h_{t+1} \leftarrow \text{argmin}_{h \in \mathscr{H}} LCB_t(h) + \lambda_t \mathscr{R}(h)$\;\label{al:LCB-AL:LCB}
   $t \leftarrow t + 1$\;
  }
  \caption{LCB-AL presented in~\cite{DBLP:journals/corr/GantiG13}.\label{al:LCB-AL}}
 \end{algorithm}
-
-% give the algorith and describe how it works
+\vspace{2cm}
 
 
 \section{Employing Thompson's Sampling}
+According to authors given above solution behaves superior to many of its rivals and still has room for improvements. Based on authors suggestions and through analysis of presented reasoning we decided to enhance algorithm~\ref{al:LCB-AL} by replacing LCB minimization with Thompson's Sampling presented in section~\ref{sec:thompson}. We motivate our decision with simplicity of later solution and ease of adaptation.\\
 
-% Do it
-
-
-\section{Tweaks, Alternatives and Improvements --- Experiment}
+To begin with, all steps of algorithm~\ref{al:LCB-AL} but line~\ref{al:LCB-AL:LCB} will not change. As mentioned above line~\ref{al:LCB-AL:LCB} is responsible for choosing the most suitable hypothesis to try out during next round. Main concept behind this improvement is to model each hypothesis as a normal distribution $\mathcal{N}\left( \mu, \sigma^2 \right)$. To do so we need some estimates of \emph{mean} and \emph{variance}. For each hypothesis we will model $\mu$ as --- described in equation~\ref{eq:mean}. Moreover, variance --- ~\ref{eq:variance}.\\
 
 
-\label{sec:qimprove}
-How I would improve choice of point to query?\\
-One way would be to change formula for margin to $z(x_i) = \hat{c}(x_i)  h_t(x_i) p_{\text{right}}(x_i, c_k)$.\\
-Where $p_{\text{right}}(x_i, c_k)$ is the probability of hypothesis being correct with prediction.\\
-BUT HOW TO CALCULATE IT???
-We might use distribution of our hypothesis and take $p_{\text{right}}(x_i, c_k)$ as \emph{probability density function}!
-END OF DISCOVERY FOR TODAY!\\
+\RestyleAlgo{boxed}
+\vspace{2cm}
+\begin{algorithm}[H]
+  \For{$h_r \in \mathscr{H}$}{
+    $\mu_r^t \leftarrow \hat{L}_t(h_r)$ \;
+    ${\sigma^2}_r^t \leftarrow U(\hat{L}_t(h_r))$ \;
+    $X_r^t \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right) $ \;
+    \text{sample: } $x_r^t \leftarrow X_r^t$ \;
+  }
+  solve: $h_{t+1} \leftarrow h_r \leftarrow \text{argmin}_{r} \mathbf{x}^t$\;
+ \caption{Thompson's Sampling improvement.\label{al:TS-AL}}
+\end{algorithm}
+\vspace{2cm}
+
+
+\section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
+
+\lipsum[1]
+
+\section{Experiment}
 
 For the purpose of the experiment which may or may not be done by that time we can assume: see build bridge paper
 $$
-U(\hat{L}^\prime_t(a)) = \frac{ \sqrt{ \log(t) } }
+U(\hat{L}_t(h)) = \frac{ \sqrt{ \log(t) } }
                        { 10 }
                   \sqrt{ V^\prime_t }
 $$
 and
 $$
 V^\prime_t = \left[
-  \sum_{i = 1:n \\ \tau = 1:t} \frac{Q^\tau_i}{(p^\tau_i)^2} L^2(z(x_i))
+  \sum_{i = 1:n \text{~} \tau = 1:t} \frac{Q^\tau_i}{(p^\tau_i)^2} L^2(z(x_i))
   -
   \left( \sum_{\mathscr{Q}_t} L(z(x_i)) \right)^2
 \right]_+
