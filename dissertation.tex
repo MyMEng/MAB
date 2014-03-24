@@ -540,7 +540,7 @@ For instance if we are given (in fixed order) three data points $(x_1, x_2, x_3)
 
 If we discuss performance of given hypothesis more sophisticated measure of uncertainty is \emph{loss function} $L : \mathbb{R} \rightarrow [0, \infty)$ which maps \emph{margin} $z(\mathbf{x})$ of particular exemplar to an associated loss $L(z(\mathbf{x}))$. It is primarily used in scoring and ranking classifiers.\\
 By utilising ranking value and true class information we construct a margin which can be understood as the higher positive value the better the model fits for the exemplar; the lower negative value the worse the model fits for the exemplar.\\
-The loss function rewards large positive margins and penalise large negative values. Often we assume $L(0) = 1$ what gives a loss of an exemplar on decision boundary, $L(z) \geq 1$ for $z < 0$ and $0 \leq L(z) < 1$ for $z > 0$. Sometimes the quantity of interest is average loss over test set \texttt{Te} calculate as $\mathtt{Te} = \frac{1}{|\mathtt{Te}|} \sum_{x \in \mathtt{Te}} L(z(\mathbf{x}))$.\\
+The loss function rewards large positive margins and penalises large negative values. Often we assume $L(0) = 1$ what gives a loss of an exemplar on decision boundary, $L(z) \geq 1$ for $z < 0$ and $0 \leq L(z) < 1$ for $z > 0$. Sometimes the quantity of interest is average loss over test set \texttt{Te} calculate as $\mathtt{Te} = \frac{1}{|\mathtt{Te}|} \sum_{x \in \mathtt{Te}} L(z(\mathbf{x}))$.\\
 The simplest loss function called \emph{0--1 loss} is defined as:
 \[
  L_{\text{0--1}} (z) =
