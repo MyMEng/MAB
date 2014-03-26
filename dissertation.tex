@@ -861,6 +861,15 @@ Described above reasoning lead to Algorithm Snippet~\ref{al:TS-AL} replacing lin
 
 To sum up, for each $h$ in our hypothesis space we calculate risk --- mean; and risk uncertainty --- variance. We sample a value from normal distribution with parameters calculated as above to create a sample vector. To decide on hypothesis we check which one minimizes this vector and try it in next round.\\
 
+what about prior posterior with this application\\
+$$
+f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
+$$
+$$
+f \left( \mu \right) \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right)
+$$
+but what is data $X$??\\
+sample from posterior\\
 
 \section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
 
