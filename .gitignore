@@ -36,3 +36,8 @@
 # Mac OS X
 *.DS_Store
 *.old
+
+# Experiment
+experiment/*.data
+experiment/*.header
+graphics/master/*

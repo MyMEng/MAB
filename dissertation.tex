@@ -367,8 +367,9 @@ it is called myoptic because it neglects things that may happen later or disrega
 for some class of problems it can be shown that short term optimum is simultaneously long term one so for this kindaof problems this solution works as it does not perform complex computation or doesn;t do lookahead.
 
 % my
-local not global solution with respect to time.
+local not global solution with respect to time intervals.
 it can be applied to many other strategies but is most often used with index methods.
+is thompson samplkng one of myoptic methods? intead of taking longe ranfe view it ties to minimize current vaiance of hypothesis to decide on best one.
 
 \subsection{Thompson Sampling approach}
 As all the rest of methods is well described in literature and they were main subject of interest it is relatively easy to find good texts about them. On contrary, Thompson Sampling is cutting edge approach with a lot of research going on the focus will be put on it and it will be described in deep details in  \textbf{Section~\ref{sec:thompsonsampling}} which is devoted to Thompson Sampling approach to finding an optimal strategy.
@@ -491,7 +492,15 @@ In our approach we use sampling to draw at random from particular pool (\emph{ar
 
 
 \subsection{Introduction to Thompson Sampling\label{sec:thompson}}
-start writing about Thompson sampling~\cite{May:2012:OBS:2503308.2343711}.
+start writing about Thompson sampling~\cite{May:2012:OBS:2503308.2343711}.\\
+
+General idea:\\
+Thompson sampling takes a sample from posterior distribution of all actions and decide on the one that indicates maximal reward.\\
+This variance minimization leads to exploring actions which in general give high value but once a tiem can give largest value due to high variance.\\
+With variance minimization we arrive with better and better and better estimation of true mean with time leading to decision being less and less unbiased.\\
+
+what else can i add?
+
 
 
 
@@ -834,7 +843,7 @@ Details of summarized above approach are presented in~\cite{DBLP:journals/corr/G
 \vspace{2cm}
 
 
-\section{Employing Thompson's Sampling}
+\section{Employing Thompson Sampling}
 According to authors given above solution behaves superior to many of its rivals and still has room for improvements. Based on authors suggestions and through analysis of presented reasoning we decided to enhance algorithm~\ref{al:LCB-AL} by replacing LCB minimization with Thompson's Sampling presented in section~\ref{sec:thompson}. We motivate our decision with simplicity of later solution and ease of adaptation.\\
 
 To begin with, all steps of algorithm~\ref{al:LCB-AL} but line~\ref{al:LCB-AL:LCB} will not change. As mentioned above line~\ref{al:LCB-AL:LCB} is responsible for choosing the most suitable hypothesis to try out during next round. Main concept behind this improvement is to model each hypothesis as a normal distribution $\mathcal{N}\left( \mu, \sigma^2 \right)$. To do so we need some estimates of \emph{mean} and \emph{variance}. For each hypothesis we will model $\mu$ as risk of choosing particular $h$ described in section~\ref{sec:risk} and calculated in equation~\ref{eq:mean}. Moreover, variance will be modeled as uncertainty of this risk measure described in section~\ref{sec:uncertanity} and given by equation~\ref{eq:variance}.\\
