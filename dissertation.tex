@@ -37,7 +37,7 @@
 \usepackage[T1]{fontenc} % polsih
 
 % Harvard citation
-
+\usepackage[square]{natbib}
 
 % Code snippets
 \usepackage{listings}
@@ -197,7 +197,7 @@ If a gambler does not want to loose all possessed money really quick it would be
 If gambler decides to take advantage of already known arm and pull it again we call this action \emph{exploitation}--- taking advantage of already checked possibilities. On the other hand, taking a risk and choosing one of unknown arms will result in gathering some more information about the system what is usually said to be \emph{exploration} step.\\
 
 ADD-ON
-Multi-armed bandit are class of problems originated from a sequential allocation dilemmas. They were formulated during Second World War and quickly became recognized as so difficult to solve that they were put aside. First general solution was formalized by John Gttins\ref{sec:gitind} in late 60's nevertheless, it was not widely known until the early 80's.~\cite{gittins+glazebrook+weber}
+Multi-armed bandit are class of problems originated from a sequential allocation dilemmas. They were formulated during Second World War and quickly became recognized as so difficult to solve that they were put aside. First general solution was formalized by John Gttins\ref{sec:gitind} in late 60's nevertheless, it was not widely known until the early 80's.~\citep{gittins+glazebrook+weber}
 
 
 \section{Applications} % emphasized underlying
@@ -205,9 +205,9 @@ Multi-armed bandits is not just theory that one reads from a book and try to mem
 
 To begin with, imagine a clinic testing two new drugs for a certain disease. Patients are queuing up to receive a treatment. Assuming that doctor cannot refuse to treat anyone, for each person suffering from a disease (each \emph{Play}) there are two possible cures (two \emph{Arms}). The key assumption here is that the effect of chosen action occur immediately, in other words treated person either stays sick or the disease goes away (immediate \emph{Payoff}). The goal of a doctor is to maximize the number of cured people. This model defines two-armed bandit.\\
 
-The second mentioned approach is nowadays widely incorporated by companies such as Google~\cite{AYPSze12}\cite{ASMB:ASMB874}, LinkedIn~\cite{Tang:2013:AAF:2505515.2514700}, Microsoft~\cite{graepel2010web}, Yahoo~\cite{Li:2010:CAP:1772690.1772758} to their services. Research groups of these companies are using bandits algorithms to choose best website layout and advertisements locations to increase "click-rate", improve recommendation systems or enhance performance of semi-supervised and active learning algorithms in a field of machine learning.\\
+The second mentioned approach is nowadays widely incorporated by companies such as Google~\citep{AYPSze12}\citep{ASMB:ASMB874}, LinkedIn~\citep{Tang:2013:AAF:2505515.2514700}, Microsoft~\citep{graepel2010web}, Yahoo~\citep{Li:2010:CAP:1772690.1772758} to their services. Research groups of these companies are using bandits algorithms to choose best website layout and advertisements locations to increase "click-rate", improve recommendation systems or enhance performance of semi-supervised and active learning algorithms in a field of machine learning.\\
 
-The bandit theory also plays a key role in experiment allocation with restricted time and budget~\cite{gittins+glazebrook+weber}. While considering research projects pending to be conducted with limited amount of resources such as scientist time and grant funding as \emph{Arms} of a bandit. The goal is to maximize the number of accomplished projects (\emph{Payoff}) before running out of money.\\
+The bandit theory also plays a key role in experiment allocation with restricted time and budget~\citep{gittins+glazebrook+weber}. While considering research projects pending to be conducted with limited amount of resources such as scientist time and grant funding as \emph{Arms} of a bandit. The goal is to maximize the number of accomplished projects (\emph{Payoff}) before running out of money.\\
 
 With all the above scenarios barely scratching the tip of the iceberg we are now focusing on foundations of multi-armed bandits theory that one needs to precisely describe the processes happening "behind the scene".
 
@@ -405,7 +405,7 @@ where the first part ${\left( \sigma \sqrt{2 \pi } \right)}^{-1}$ is a normalizi
 $$
 \int_{-\infty}^{+\infty} \! f \left(x | \mu, \sigma \right) \, \mathrm{d}x = 1
 $$
-with area under curve from $-\infty$ to $+\infty$ integrating to $1$~\cite{rice1995mathematical}.
+with area under curve from $-\infty$ to $+\infty$ integrating to $1$~\citep{rice1995mathematical}.
 
 
 \begin{figure}[htbp]
@@ -420,7 +420,7 @@ with area under curve from $-\infty$ to $+\infty$ integrating to $1$~\cite{rice1
 
 
 \subsubsection{\emph{prior}, \emph{posterior} and \emph{likelihood} distributions}
-The next concept that we introduce is the dependency between prior, posterior and likelihood of a particular distribution. To illustrate it the \emph{normal} distribution will be used for the reasons mentioned above. The generalization to other distributions is straight forward~\cite{gelman2003bayesian}.\\
+The next concept that we introduce is the dependency between prior, posterior and likelihood of a particular distribution. To illustrate it the \emph{normal} distribution will be used for the reasons mentioned above. The generalization to other distributions is straight forward~\citep{gelman2003bayesian}.\\
 
 The basic theorem underlying all this section is called Bayes' theorem for point probabilities and states:
 $$
@@ -442,7 +442,7 @@ where:
 
 Now we will focus on general results of Bayesian statistics when our likelihood function is normally distributed. From this point onwards we can develop a couple of different scenarios described below.\\
 
-\textbf{\textrm{Non-informative prior. }}If we are lacking information about prior distribution the best that can be done is to minimize its influence on the inference. According to \emph{principle of insufficient reason} proposed by Bayes and Laplace we should assume that prior is \emph{uniformly} distributed so all outcomes are equally likely. We also assume that it is distributed over the real line for both $\mu$ and $\log \sigma^2$ (transformation to $\log$ scale is performed because $\sigma^2$ is non-negative quantity and it results in stretch along real line). These operations result in joint probability $p \left( \mu, \sigma^2 \right) \propto \frac{1}{\sigma^2} $ leading to posterior distributions given by $p \left( \mu | \mathrm{X}, \sigma^2 \right) \sim \mathcal{N} \left( \bar{x}, \frac{\sigma^2}{n} \right) $ and $p \left( \sigma^2 | \mathrm{X}, \mu \right) \sim \mathrm{Inv}\text{-}\mathrm{Gamma} \left( \frac{n}{2} , \sum_{i} \frac{\left( x_i - \mu \right)^2}{2}  \right) $ (inverse gamma distribution). This approach is not perfect and its criticism is widely known but for our application it suffices~\cite{Syversveen98noninformativebayesian}.\\
+\textbf{\textrm{Non-informative prior. }}If we are lacking information about prior distribution the best that can be done is to minimize its influence on the inference. According to \emph{principle of insufficient reason} proposed by Bayes and Laplace we should assume that prior is \emph{uniformly} distributed so all outcomes are equally likely. We also assume that it is distributed over the real line for both $\mu$ and $\log \sigma^2$ (transformation to $\log$ scale is performed because $\sigma^2$ is non-negative quantity and it results in stretch along real line). These operations result in joint probability $p \left( \mu, \sigma^2 \right) \propto \frac{1}{\sigma^2} $ leading to posterior distributions given by $p \left( \mu | \mathrm{X}, \sigma^2 \right) \sim \mathcal{N} \left( \bar{x}, \frac{\sigma^2}{n} \right) $ and $p \left( \sigma^2 | \mathrm{X}, \mu \right) \sim \mathrm{Inv}\text{-}\mathrm{Gamma} \left( \frac{n}{2} , \sum_{i} \frac{\left( x_i - \mu \right)^2}{2}  \right) $ (inverse gamma distribution). This approach is not perfect and its criticism is widely known but for our application it suffices~\citep{Syversveen98noninformativebayesian}.\\
 
 % give equation for normal likelihood --- uniform prior
 
@@ -485,10 +485,10 @@ what clearly contains a kernel of normal distribution. After some algebraic tran
 $$
 p \left(  \mu, \sigma^2 | \mathrm{X} \right) \propto p \left( \mathrm{X} | \mu, \sigma^2 \right)    p \left( \mu, \sigma^2 \right) \text{ .}
 $$
-We now need to specify the details of prior distribution. One way is to assume independent distributions of both $\mu$ and $\sigma^2$ and establish separate priors for each with $p(\mu, \sigma^2) = p(\mu) p(\sigma^2)$ what is widely documented as a good technique~\cite{gelman2003bayesian}.\\
+We now need to specify the details of prior distribution. One way is to assume independent distributions of both $\mu$ and $\sigma^2$ and establish separate priors for each with $p(\mu, \sigma^2) = p(\mu) p(\sigma^2)$ what is widely documented as a good technique~\citep{gelman2003bayesian}.\\
 With unknown variance one approach is to follow \emph{non-informative} prior scenario described above. The other one is to continue assumption that $\mu \sim \mathcal{N} \left( M, \tau^2 \right)$ with choice of parameters resulting in a flat distribution e.g. $M=0$, $\tau^2 = 10^4$. Furthermore, it is easy to spot that $\sigma^2$ follows \textrm{Inverse}-\textrm{Gamma} distribution with ... . Both these results leads to posterior distribution being ... .\\
 
-Basic results that yields from Bayesian statistics for normal likelihood are available in wide variety of books. For more details regarding normal and other distributions please refer to~\cite{lynch2007introduction}\cite{gelman2003bayesian}.\\
+Basic results that yields from Bayesian statistics for normal likelihood are available in wide variety of books. For more details regarding normal and other distributions please refer to~\citep{lynch2007introduction}\citep{gelman2003bayesian}.\\
 
 \subsection{Sampling}
 In general sampling is a technique used in statistics to select at random a subset of individuals or data points from a population of interest. To goal of such procedure is to gather representative group which holds the properties of original population. The main advantage of such approach is lowering the amount of data to process.\\
@@ -499,14 +499,14 @@ In our approach we use sampling to draw at random from particular pool (\emph{ar
 \centering
 \includegraphics[width=0.7\textwidth]{graphics/sampling.png}
 \begin{tiny}
-\caption{Sampling and updating posterior probability density function of normal distribution $\mathcal{N}\left( \mu , \sigma^2 \right)$ (Figure taken from~\cite{Jacobs2008normalnormal}).\label{fig:sampling}}
+\caption{Sampling and updating posterior probability density function of normal distribution $\mathcal{N}\left( \mu , \sigma^2 \right)$ (Figure taken from~\citep{Jacobs2008normalnormal}).\label{fig:sampling}}
 \end{tiny}
 \vspace{1cm}
 \end{figure}
 
 
 \subsection{Introduction to Thompson Sampling\label{sec:thompson}}
-Thompson Sampling was first proposed in 1933 by William R.\ Thompson~\cite{thompson:biom33}. In this section we explain this approach and discuss related work extending originally proposed methodology~\cite{May:2012:OBS:2503308.2343711}.\\
+Thompson Sampling was first proposed in 1933 by William R.\ Thompson~\citep{thompson:biom33}. In this section we explain this approach and discuss related work extending originally proposed methodology~\citep{May:2012:OBS:2503308.2343711}.\\
 Firstly the general idea is presented. 
 
 General idea:\\
@@ -573,15 +573,15 @@ To utilize introduced above approach
 
 \chapter{\texttt{\textbf{Exploitation}} --- Practical application}
 
-There is a number of historical applications of multi-armed bandits (MAB) mainly concerned with research time management, general job-scheduling, economics and military~\cite{gittins+glazebrook+weber}.
-Nowadays, one of main utilisations is found in contextual bandits which are foundation for optimizing online advertising income. The general idea behind this concept is to present different variations of ads layout at given webpage which are suited to user by inspecting one's history and are widely used by IT giants like Google, Yahoo, Facebook, LinkedIn or Microsoft. For majority of these companies the theory is of high interest as lion's share of their revenue flows from click-through rate in online advertising.~\cite{graepel2010web, Scott:2010:MBL:1944422.1944432}\\
+There is a number of historical applications of multi-armed bandits (MAB) mainly concerned with research time management, general job-scheduling, economics and military~\citep{gittins+glazebrook+weber}.
+Nowadays, one of main utilisations is found in contextual bandits which are foundation for optimizing online advertising income. The general idea behind this concept is to present different variations of ads layout at given webpage which are suited to user by inspecting one's history and are widely used by IT giants like Google, Yahoo, Facebook, LinkedIn or Microsoft. For majority of these companies the theory is of high interest as lion's share of their revenue flows from click-through rate in online advertising.~\citep{graepel2010web, Scott:2010:MBL:1944422.1944432}\\
 
-Other, most recent application of MAB theory in computer science is concerned with classification issue in environment of insufficient information. This approach to machine learning field seems to be under-explored and needs more attention from a research world as to the best of our knowledge it was addressed so far in only one scientific publication, namely~\cite{DBLP:journals/corr/GantiG13}.\\
-Our decision was to pursue this topic mainly by presenting here deep analysis of chosen in~\cite{DBLP:journals/corr/GantiG13} approach. After broad explanation we seek for potential improvements and alternatives of presented algorithm.
+Other, most recent application of MAB theory in computer science is concerned with classification issue in environment of insufficient information. This approach to machine learning field seems to be under-explored and needs more attention from a research world as to the best of our knowledge it was addressed so far in only one scientific publication, namely~\citep{DBLP:journals/corr/GantiG13}.\\
+Our decision was to pursue this topic mainly by presenting here deep analysis of chosen in~\citep{DBLP:journals/corr/GantiG13} approach. After broad explanation we seek for potential improvements and alternatives of presented algorithm.
 
 \section{Structure of this chapter}
-We first introduce foundations of machine learning needed to develop concepts of semi-supervised (SSL) and active (AL) learning. Next, we introduce whole family of active learning scenarios and give detailed description of the one needed for understanding~\cite{DBLP:journals/corr/GantiG13}. Then, we present possible connection between processes of MAB and AL. This interface, will allow to frame active learning as a bandit process.\\
-Proceeding, main section of this chapter focuses on described in \cite{DBLP:journals/corr/GantiG13} ``bridge'' connecting both worlds. Finally, we explore potential changes that can be introduced and improvements that can be beneficial for described earlier algorithm.
+We first introduce foundations of machine learning needed to develop concepts of semi-supervised (SSL) and active (AL) learning. Next, we introduce whole family of active learning scenarios and give detailed description of the one needed for understanding~\citep{DBLP:journals/corr/GantiG13}. Then, we present possible connection between processes of MAB and AL. This interface, will allow to frame active learning as a bandit process.\\
+Proceeding, main section of this chapter focuses on described in \citep{DBLP:journals/corr/GantiG13} ``bridge'' connecting both worlds. Finally, we explore potential changes that can be introduced and improvements that can be beneficial for described earlier algorithm.
 %explore in great detail
 
 \section{Machine Learning 101}
@@ -643,7 +643,7 @@ As mentioned earlier there are a few scenarios used in ML. Main settings of mach
   \caption{Main learning models in ML.\label{fig:learning_models}}
 \end{table}~\\
 
-The main reference for further reading is~\cite{flach2012machine} containing comprehensive introduction to machine learning.
+The main reference for further reading is~\citep{flach2012machine} containing comprehensive introduction to machine learning.
 
 
 \subsection{Semi-supervised Learning}
@@ -773,7 +773,7 @@ For visual example please see figure~\ref{fig:binclas}.\\
 \end{figure}
 
 \subsection{Choosing best hypothesis\label{sec:risk}}
-To address the first mentioned above issue we refer to~\cite{DBLP:journals/corr/GantiG13} where an unbiased estimator of the risk of hypothesis is defined as:\\
+To address the first mentioned above issue we refer to~\citep{DBLP:journals/corr/GantiG13} where an unbiased estimator of the risk of hypothesis is defined as:\\
 \begin{equation}\label{eq:mean}
 \hat{L}_t(h) = \frac{1}{Nt} \sum_{n=1}^{N} \sum_{\tau = 1}^{t} \frac{Q^{\tau}_n}{p^{\tau}_n} L(y_n h(\mathbf{x}_n)) \text{~,}
 \end{equation}
@@ -828,7 +828,7 @@ $$
 
 where $\delta$ is a parameter which is bounded by $\delta < \frac{1}{e}$.\\
 
-This quantity together with previously defined estimator of the hypothesis risk was first defined in~\cite{DBLP:journals/corr/GantiG13}.\\
+This quantity together with previously defined estimator of the hypothesis risk was first defined in~\citep{DBLP:journals/corr/GantiG13}.\\
 
 
 \subsection{Miscellaneous}
@@ -838,7 +838,7 @@ $$
 \mathscr{H} = \{ h : \|h\| \leq R \} \text{~,~}
 $$
 where $R$ is fixed such that $R > 0$ and $\| \cdot \|$ is Euclidean $L_2$ norm.\\
-Furthermore, based on observation described in~\cite{Abernethy08competingin} we have self-concordant barrier $\mathscr{R}(h)$ on $\mathscr{H}$ defined as:
+Furthermore, based on observation described in~\citep{Abernethy08competingin} we have self-concordant barrier $\mathscr{R}(h)$ on $\mathscr{H}$ defined as:
 $$
 \mathscr{R}(h) = - \log(R^2 - \|h\|^2) \text{~.~}
 $$
@@ -847,7 +847,7 @@ Given above restrictions allow us to significantly reduce dimensionality of hypo
 
 \section{MAB-AL Algorithm}
 
-In this section we will briefly discuss \texttt{MAB-AL} algorithm proposed in~\cite{DBLP:journals/corr/GantiG13} to familiarize reader with general concept which build upon presented in previous sections milestones (see algorithm~\ref{al:LCB-AL}). \\Prior to classification the decision need to be made on loss function, query budget and lower bound on probability of each point being sent to oracle.\\
+In this section we will briefly discuss \texttt{MAB-AL} algorithm proposed in~\citep{DBLP:journals/corr/GantiG13} to familiarize reader with general concept which build upon presented in previous sections milestones (see algorithm~\ref{al:LCB-AL}). \\Prior to classification the decision need to be made on loss function, query budget and lower bound on probability of each point being sent to oracle.\\
 
 First of all, we initialize time and oracle queries counter variables and set our hypothesis to $0$ for each point --- classifier is maximally uncertain about label of each exemplar.\\
 
@@ -855,7 +855,7 @@ At the beginning of each round we construct label ($\{+, -\}$) for each point in
 
 The heart of the algorithm is stated in line~\ref{al:LCB-AL:LCB} which performs \emph{Lower Confidence Bounds} calculation for all hypothesis in our $\mathscr{H}$. With freshly chosen $h$ we repeat above steps until we meet previously fixed budget, therefore picking hypothesis chosen during last iteration.\\
 
-Details of summarized above approach are presented in~\cite{DBLP:journals/corr/GantiG13}.\\
+Details of summarized above approach are presented in~\citep{DBLP:journals/corr/GantiG13}.\\
 
 \RestyleAlgo{boxed}
 \vspace{2cm}
@@ -888,7 +888,7 @@ Details of summarized above approach are presented in~\cite{DBLP:journals/corr/G
   solve: $h_{t+1} \leftarrow \text{argmin}_{h \in \mathscr{H}} LCB_t(h) + \lambda_t \mathscr{R}(h)$\;\label{al:LCB-AL:LCB}
   $t \leftarrow t + 1$\;
  }
- \caption{LCB-AL presented in~\cite{DBLP:journals/corr/GantiG13}.\label{al:LCB-AL}}
+ \caption{LCB-AL presented in~\citep{DBLP:journals/corr/GantiG13}.\label{al:LCB-AL}}
 \end{algorithm}
 \vspace{2cm}
 
@@ -963,7 +963,7 @@ feasible --- just a word not a section
 
 
 % \newpage
-% \begin{center} \textbf{\huge \vspace*{15pt} FIN~\cite{berry+firstedt}} \end{center}
+% \begin{center} \textbf{\huge \vspace*{15pt} FIN~\citep{berry+firstedt}} \end{center}
 
 \bibliography{ref}{}
 % \bibliographystyle{plain}
