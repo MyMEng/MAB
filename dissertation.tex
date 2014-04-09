@@ -39,6 +39,9 @@
 % Harvard citation
 \usepackage[square]{natbib}
 
+% argmax with commands
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+
 % Code snippets
 \usepackage{listings}
 % \usepackage{color}
@@ -506,24 +509,17 @@ In our approach we use sampling to draw at random from particular pool (\emph{ar
 
 
 \subsection{Introduction to Thompson Sampling\label{sec:thompson}}
-Thompson Sampling was first proposed in 1933 by William R.\ Thompson~\citep{thompson:biom33} and mainly concerned Bernoulli processes. In this section we explain this approach and discuss related work extending originally proposed methodology~\citep{May:2012:OBS:2503308.2343711}.\\
-Described solution is widely used for on-line advertising by IT giants like Microsoft due to its simplicity, flexibility and scalability~\cite{graepel2010web}.
+Thompson Sampling was first proposed in 1933 by William R.\ Thompson~\citep{thompson:biom33} and mainly concerned Bernoulli processes. In this section we explain this approach and discuss related work extending originally proposed methodology~\citep{May:2012:OBS:2503308.2343711}. Furthermore, under presented assumptions the approach behaves optimally.\\
+Described solution is widely used for on-line advertising by IT giants like Microsoft due to its simplicity, flexibility and scalability~\citep{graepel2010web}. Moreover, simulations indicate Thompson Sampling superiority over all competitors~\citep{May:simulation}.\\
 
-Firstly the general idea is presented. 
 
-General idea:\\
-Thompson sampling takes a sample from posterior distribution of all actions and decide on the one that indicates maximal reward.\\
-This variance minimization leads to exploring actions which in general give high value but once a tiem can give largest value due to high variance.\\
-With variance minimization we arrive with better and better and better estimation of true mean with time leading to decision being less and less unbiased.\\
+% \subsubsection*{Introduction}
+% Firstly the general idea is presented. 
 
-what else can i add?
-* some mathematical theory --- equations, etc.\~\\
-* 
-
-\subsubsection*{Introduction}
 
 \subsubsection{Intuition}
-For the purpose of clarity we assume that at each time step we are able to obtain a sample from posterior distribution with mean $\mu_a$ and variance $\sigma_a$ for each action $a$. If our goal is to maximize the reward we simply select the arm with highest sample. If all assumptions about our process hold by selecting action some action we improve our estimate. It is possible by incorporating obtained sample and updating mean and variance---therefore our posterior becomes a prior for the next round.\\
+We will begin with intuitive description of mechanisms ruling the process.\\
+For the purpose of clarity we assume that at each time step we are able to obtain a sample from posterior distribution with mean $\mu_a$ and variance $\sigma_a$ for each action $a$. If our goal is to maximize the reward we simply select the arm with highest local reward. If all assumptions about our process hold by selecting action some action we improve our estimate. It is possible by incorporating obtained sample and updating mean and variance---therefore our posterior becomes a prior for the next round.\\
 
 To visualise this we assume that we have 2 arms; the posterior of first one is always less than of the second one and the later behaves as shown on figure~\ref{fig:sampling}. We can see that as we sample and update the posterior we converge to true mean and simultaneously decrease the variance of our estimate.\\
 
@@ -551,22 +547,36 @@ Usually the sample will be quite close to mean~\ref{fig:sim1} (normal distributi
 
 
 \subsubsection{A* search correspondence}
-To utilize introduced above approach we need to get \emph{posterior} for each action to draw a sample.
+To utilize introduced above approach we need to get \emph{posterior} for each action and draw a sample from it.
 
 
 \subsubsection{Deep blue}
 * assumptions\\
 * exploratory value / exploitation value ???\\
+
 * why it's local --- how can we improve it\\
+One of cons of this approach is possibility of posterior samples being negative. This issue arises as we represent the samples as sum of exploratory and exploitative values.
+
 * what can we prove --- why it is efficient\\
 * better ...\ \\
+* some mathematical theory --- equations, etc.\~\\
 * example on real posterior\\
 
+We need to consider two major steps of constructing the policy: action evaluation and selection schemes. We also require that evaluation function is \emph{consistent}.
 
 
+We can therefore define the optimal action---with highest expected reward---at time $t$ by:
+$$
+  a_t^\star = \argmax_{a \in A} f_a (x_t) \text{ .}
+$$
 
-
-
+We can prove that this policy converges with time to the best possible policy:
+\begin{equation}
+  \frac
+    {\sum_{s=1}^t f_{a_s} (x_s)}
+    {\sum_{s=1}^t f^\star (x_s)}
+  \xrightarrow{\text{ a.s.\ }} 1 \text{ as } t \rightarrow \infty \text{ .}
+\end{equation}
 
 
 
