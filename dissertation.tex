@@ -36,6 +36,9 @@
 % \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} % polsih
 
+% Harvard citation
+
+
 % Code snippets
 \usepackage{listings}
 % \usepackage{color}
@@ -179,7 +182,7 @@ dzi\k{e}kuj\k{e} Tomek.
 \setcounter{page}{1}
 
 
-\chapter{\texttt{\textbf{Exploration}} of multi-armed bandits theory.}
+\chapter{Introduction}
 The \emph{multi-armed bandit} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of \colorbox{magenta}{problems} that could be framed as a multi-armed bandit scenarios the field has become interest of many scientists, researchers, economists not to mention companies looking for work efficiency improvement and savings. All the solutions addressing these \colorbox{magenta}{problems} can be expressed as simple as finding a balance between \emph{exploration} and \emph{exploitation}.
 
 
@@ -301,6 +304,8 @@ In case of both sequences the decision problem and optimal strategy is unchanged
 \subsection{Dependant \emph{Arms}}
 
 
+
+\chapter{Solution \texttt{\textbf{Exploration}}}
 
 \section{Seeking optimal solution}
 In this section I will present number of approaches to find and optimal solution.\\
@@ -490,9 +495,19 @@ In general sampling is a technique used in statistics to select at random a subs
 In our approach we use sampling to draw at random from particular pool (\emph{arm}) with unknown distribution.
 
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{graphics/sampling.png}
+\begin{tiny}
+\caption{Sampling and updating posterior probability density function of normal distribution $\mathcal{N}\left( \mu , \sigma^2 \right)$ (Figure taken from~\cite{Jacobs2008normalnormal}).\label{fig:sampling}}
+\end{tiny}
+\vspace{1cm}
+\end{figure}
+
 
 \subsection{Introduction to Thompson Sampling\label{sec:thompson}}
-start writing about Thompson sampling~\cite{May:2012:OBS:2503308.2343711}.\\
+Thompson Sampling was first proposed in 1933 by William R.\ Thompson~\cite{thompson:biom33}. In this section we explain this approach and discuss related work extending originally proposed methodology~\cite{May:2012:OBS:2503308.2343711}.\\
+Firstly the general idea is presented. 
 
 General idea:\\
 Thompson sampling takes a sample from posterior distribution of all actions and decide on the one that indicates maximal reward.\\
@@ -504,8 +519,39 @@ what else can i add?
 * 
 
 \subsubsection*{Introduction}
+
 \subsubsection{Intuition}
-\subsubsection{$A^*$ search correspondence}
+For the purpose of clarity we assume that at each time step we are able to obtain a sample from posterior distribution with mean $\mu_a$ and variance $\sigma_a$ for each action $a$. If our goal is to maximize the reward we simply select the arm with highest sample. If all assumptions about our process hold by selecting action some action we improve our estimate. It is possible by incorporating obtained sample and updating mean and variance---therefore our posterior becomes a prior for the next round.\\
+
+To visualise this we assume that we have 2 arms; the posterior of first one is always less than of the second one and the later behaves as shown on figure~\ref{fig:sampling}. We can see that as we sample and update the posterior we converge to true mean and simultaneously decrease the variance of our estimate.\\
+
+It is clear that we can only update the estimate of selected action.\\
+Usually the sample will be quite close to mean~\ref{fig:sim1} (normal distribution) yielding choice of action with highest mean but occasionally it will lie in the tail leading to exploration of suboptimal action at given time~\ref{fig:sim2}. This argument intuitively guarantees infinite exploration of environment thus convergence to overall optimal solution.
+
+
+\begin{figure}[htbp]
+\centering
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{graphics/sim1.png}
+    \caption{\label{fig:sim1}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{graphics/sim2.png}
+    \caption{\label{fig:sim2}}
+  \end{subfigure}
+\begin{tiny}
+\caption{Sampling from two normally distributed arm posteriors.\label{fig:sim}}
+\end{tiny}
+\vspace{1cm}
+\end{figure}
+
+
+\subsubsection{A* search correspondence}
+To utilize introduced above approach
+
+
 \subsubsection{Deep blue}
 * assumptions\\
 * exploratory value / exploitation value ???\\
@@ -516,14 +562,7 @@ what else can i add?
 
 
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.7\textwidth]{graphics/sampling.png}
-\begin{tiny}
-\caption{Sampling and updating posterior probability density function of normal distribution $\mathcal{N}\left( \mu , \sigma^2 \right)$ (Figure taken from~\cite{Jacobs2008normalnormal}).\label{fig:sampling}}
-\end{tiny}
-\vspace{1cm}
-\end{figure}
+
 
 
 
@@ -927,7 +966,8 @@ feasible --- just a word not a section
 % \begin{center} \textbf{\huge \vspace*{15pt} FIN~\cite{berry+firstedt}} \end{center}
 
 \bibliography{ref}{}
-\bibliographystyle{plain}
+% \bibliographystyle{plain}
+\bibliographystyle{plainnat}
 
 \appendix
 \chapter{Code snippets}
