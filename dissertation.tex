@@ -9,7 +9,7 @@
 %  
 %  
 %  
-\documentclass[12pt, a4paper, pdflatex]{report}
+\documentclass[12pt, a4paper, pdflatex, leqno]{report}
 %  notitlepage - abstract on the same page
 \usepackage{indentfirst} % indent frst paragraph of section
 \usepackage{fullpage}    % full A4 page
@@ -565,19 +565,19 @@ One of cons of this approach is possibility of posterior samples being negative.
 * some mathematical theory --- equations, etc.\~\\
 * example on real posterior\\
 
-We need to consider two major steps of constructing the policy: action evaluation and selection schemes. We also require that evaluation function is \emph{consistent}.\\
-
-To achieve consistency we need to guarantee:
+\subsubsection{Assumptions}
+In our considerations the process runs for an infinite sequence of \emph{time steps}, $t \in \mathscr{T} = \{ 1,2,3... \}$; at each step we observe \emph{regressor}, $x_t \in \mathscr{X}$ (compact set); an \emph{action} choice at time $t$, $a_t \in \mathscr{A} = \{ 1,2...A \}$ and $A<\infty$.\\
+Furthermore action selection is based on \emph{information sequence} defined as:
 $$
-  \forall a \in A \text{, } \forall x \in X \text{, } \left[ \hat{f}_{t, a}(x) - f_a(x) \right] \xrightarrow{\mathbb{P}} 0 \text{ as } n_{t,a} \rightarrow \infty
+  \mathscr{L}_t = ( x_1,...,x_{t-1}, r_1,...,r_{t-1}, a_1,...,a_{t-1} ) \text{;}
 $$
-
-Even though we guarantee consistent estimator it is possible that optimal action will never be selected. This feature of solution requires as to make sure that arms seen as sum-optimal will also be explored. The solution is ensuring infinite exploration.
+where $x$ and $a$ is defined as above and $r$ is a reward.\\
 
 We can therefore define the optimal action---with highest expected reward---at time $t$ by:
-$$
-  a_t^\star = \argmax_{a \in A} f_a (x_t) \text{ .}
-$$
+\begin{eqnarray}
+  a_t^\star = \argmax_{a \in A} f_a (x_t) \text{ ,}\\
+  \hat{a}_t^\star = \argmax_{a \in A} \hat{f}_a (x_t) \text{ .}
+\end{eqnarray}
 
 We can prove that this policy converges with time to the best possible policy:
 \begin{equation}
@@ -586,6 +586,37 @@ We can prove that this policy converges with time to the best possible policy:
     {\sum_{s=1}^t f^\star (x_s)}
   \xrightarrow{\text{ a.s.\ }} 1 \text{ as } t \rightarrow \infty \text{ .}
 \end{equation}
+
+
+
+We need to consider two major steps of constructing the policy: action evaluation and selection schemes. We also require that evaluation function is \emph{consistent}.\\
+
+To achieve consistency we need to guarantee:
+$$
+  \forall a \in A \text{, } \forall x \in X \text{, } \left[ \hat{f}_{t, a}(x) - f_a(x) \right] \xrightarrow{\mathbb{P}} 0 \text{ as } n_{t,a} \rightarrow \infty
+$$
+
+Even though we guarantee consistent estimator it is possible that optimal action will never be selected. This feature of solution requires as to make sure that arms seen as sum-optimal will also be explored. The solution is ensuring infinite exploration.\\
+
+So we need:
+$$
+  \mathbb{P} \left( \bigcap_{a \in A} \left\{ n_{t,a} \rightarrow \infty \text{ as } t \rightarrow \infty \right\} \right) = 1
+$$
+
+Finally, we want the action (arm) selection process to exploit obtained information. We want this process to be greedy in the limit. This assumption leads to:\\
+$$
+  \mathbb{P} \left( a_t = \hat{a}_t^\star | \mathscr{L}_t, x_t \right) \xrightarrow{\text{a.s.\ }} 1 \text{ as } t \rightarrow \infty
+$$
+
+If all above conditions hold we call the policy \emph{GLIE}---greedy in the limit with infinite exploration.\\
+
+
+
+
+
+
+
+
 
 
 
