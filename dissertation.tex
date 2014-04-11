@@ -545,6 +545,9 @@ Usually the sample will be quite close to mean~\ref{fig:sim1} (normal distributi
 \vspace{1cm}
 \end{figure}
 
+\subsubsection{Approach development --- \textbf{convergence review??????}}
+first by thompson only with bernouli bandits then local finally global---optimistic
+
 
 \subsubsection{A* search correspondence}
 To utilize introduced above approach we need to get \emph{posterior} for each action and draw a sample from it.
@@ -562,8 +565,14 @@ One of cons of this approach is possibility of posterior samples being negative.
 * some mathematical theory --- equations, etc.\~\\
 * example on real posterior\\
 
-We need to consider two major steps of constructing the policy: action evaluation and selection schemes. We also require that evaluation function is \emph{consistent}.
+We need to consider two major steps of constructing the policy: action evaluation and selection schemes. We also require that evaluation function is \emph{consistent}.\\
 
+To achieve consistency we need to guarantee:
+$$
+  \forall a \in A \text{, } \forall x \in X \text{, } \left[ \hat{f}_{t, a}(x) - f_a(x) \right] \xrightarrow{\mathbb{P}} 0 \text{ as } n_{t,a} \rightarrow \infty
+$$
+
+Even though we guarantee consistent estimator it is possible that optimal action will never be selected. This feature of solution requires as to make sure that arms seen as sum-optimal will also be explored. The solution is ensuring infinite exploration.
 
 We can therefore define the optimal action---with highest expected reward---at time $t$ by:
 $$
@@ -587,6 +596,9 @@ We can prove that this policy converges with time to the best possible policy:
 
 There is a number of historical applications of multi-armed bandits (MAB) mainly concerned with research time management, general job-scheduling, economics and military~\citep{gittins+glazebrook+weber}.
 Nowadays, one of main utilisations is found in contextual bandits which are foundation for optimizing online advertising income. The general idea behind this concept is to present different variations of ads layout at given webpage which are suited to user by inspecting one's history and are widely used by IT giants like Google, Yahoo, Facebook, LinkedIn or Microsoft. For majority of these companies the theory is of high interest as lion's share of their revenue flows from click-through rate in online advertising.~\citep{graepel2010web, Scott:2010:MBL:1944422.1944432}\\
+
+Another application presented in~\citep{Antos09activelearning} describes how to apply well known in machine learning approach: \emph{active learning} to estimate mean of finite number of arms to achieve equally good estimation of these values. Authors claim described problem is of high interest while considering quality control with multiple production lines; proposed solution gives guideline how often company should check products from particular machine.\\
+In this chapter we will look at this problem the other way around, namely: how can we generalise multi-armed bandit framework to create efficient and robust active learning algorithm.\\
 
 Other, most recent application of MAB theory in computer science is concerned with classification issue in environment of insufficient information. This approach to machine learning field seems to be under-explored and needs more attention from a research world as to the best of our knowledge it was addressed so far in only one scientific publication, namely~\citep{DBLP:journals/corr/GantiG13}.\\
 Our decision was to pursue this topic mainly by presenting here deep analysis of chosen in~\citep{DBLP:journals/corr/GantiG13} approach. After broad explanation we seek for potential improvements and alternatives of presented algorithm.
