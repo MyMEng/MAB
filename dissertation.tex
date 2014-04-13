@@ -358,8 +358,6 @@ The general assumptions that need to hold so we are able to apply gittin index:
 * discounting is strict?\\
 * unless bandit is processed (cont control is recived) no rewards accrue from it and its state does not change\\
 
-\subsection{Bayesian approach}
-Bayes' theorem allows for "straight forward" application to adaptive learning so it's a good approach tool in sequential decision making 
 
 \subsection{Strategy comparison}
 
@@ -382,6 +380,21 @@ for some class of problems it can be shown that short term optimum is simultaneo
 local not global solution with respect to time intervals.
 it can be applied to many other strategies but is most often used with index methods.
 is thompson samplkng one of myoptic methods? intead of taking longe ranfe view it ties to minimize current vaiance of hypothesis to decide on best one.
+
++++++++++++
+
+Uncertanity (exploratory value) is taken under account but --- it focuses on current choice- limited lookahead.
+
+\subsection{Undirected}
+In this strategy we only base our choice on exploitative value. e.g.\ $\epsilon$-greedy, $\epsilon$-decreasing, Boltzmann action selection.
+
+\subsection{Belief-lookahead}
+================================
+\subsection{Bayesian approach}
+Bayes' theorem allows for "straight forward" application to adaptive learning so it's a good approach tool in sequential decision making \\
+
+It can be fully Bayesian approach where --- here the chosen action is supposed to maximise the expected cumulative reward for the rest of the process. Drwback of such approach is hard to guarantee inifinite exploration
+$l_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo l_l$
 
 \subsection{Thompson Sampling approach}
 As all the rest of methods is well described in literature and they were main subject of interest it is relatively easy to find good texts about them. On contrary, Thompson Sampling is cutting edge approach with a lot of research going on the focus will be put on it and it will be described in deep details in  \textbf{Section~\ref{sec:thompsonsampling}} which is devoted to Thompson Sampling approach to finding an optimal strategy.
@@ -550,6 +563,20 @@ Usually the sample will be quite close to mean~\ref{fig:sim1} (normal distributi
 \end{figure}
 
 
+
+
+
+
+\subsubsection{Example}
+...on real posterior.\\
+
+
+
+
+
+
+
+
 \subsubsection{Assumptions}
 In our considerations the process runs for an infinite sequence of \emph{time steps}, $t \in \mathscr{T} = \{ 1,2,3... \}$; at each step we observe \emph{regressor}, $x_t \in \mathscr{X}$ (compact set); an \emph{action} choice at time $t$, $a_t \in \mathscr{A} = \{ 1,2...A \}$ and $A<\infty$.\\
 Furthermore action selection is based on \emph{information sequence} defined as:
@@ -619,22 +646,41 @@ where $\delta_0(n)$ is some positive decreasing function of \emph{history} calle
 
 $\delta_0$ for instance can be dependent on discount sequence: decreasing the importance of exploration later in the experiment or giving the same priority to exploration independently of time. Moreover, the \emph{exploratory bonus} can be calculated simply as standard deviation of the expected reward(posterior distribution of each action). Such approach favours actions which are uncertain about their prediction hence, improve their estimation of true reward.\\
 
-\subsubsection{Approach development --- \textbf{convergence review??????}}
+\subsubsection{Approach development}
+We now refine described above approach and present \emph{Local Thompson Sampling}(LTS).\\
+
+
+Under mild assumptions\footnote{Assumptions that are expected to hold if the true posterior distributions and expectations are available.} it can be shown that LTSguarantees convergence given by (eqn~\ref{eqn:convg})\\
+
+
+This policy can be classified as .\\
+
 To utilize introduced above approach we need to get \emph{posterior} for each action and draw a sample from it.\\
+
+ --- \textbf{convergence review??????}\\
 
 first by thompson only with bernouli bandits then local finally global---optimistic\\
 * why it's local --- how can we improve it\\
 
 \subsubsection{Correctness}
+LTs can be shown to explore all actions infinitely ften
+
+
 What can we prove---why it is efficient.\\
 
 \subsubsection{Drawbacks and possible improvements}
-One of cons of this approach is possibility of posterior samples being negative. This issue arises as we represent the samples as sum of exploratory and exploitative values.\\
+One of cons of this approach is possibility of exploratory value can have zero expectation hence, can take negative values. The consequence may lead to probability of particualr action being celected to decrease with the posterior variance of its exploratory value. This issue arises as we represent the samples as sum of exploratory and exploitative values therefore if actions with the highest exploitative value has a lot of uncertinity then it is less likely to be played then if the estiate had little uncertanity.\\
 
-\subsubsection{Example}
-...on real posterior.\\
+The approach which avoid such situation is called \emph{Optimistic Bayesian Sampling}(OBS) where exploratory value is given by:
+$$
+  \tilde{f}_{t,a} (x_t) = max \left( 0, \tilde{f}_{t,a}^{\text{ Th}} (x_t) - \hat{f}_{t,a}(x_t) \right)
+                        = \left [ \tilde{f}_{t,a}^{\text{ Th}} (x_t) - \hat{f}_{t,a}(x_t) \right]_+
+                        \text{ .}
+$$
+Expressed in this way exploratory value has positive expectation and cannot take negative values. This feature yelds increased selection of for uncertain actions---which seems desirable. It also can be shown that OBS satisfies convergence criterion(equation~\ref{eqn:convg}) and outperforms LTS~\citep{May:2012:OBS:2503308.2343711}.\\
 
-
+\subsubsection{Conclusions}
+Presented class of algorithms is robust---convergence criterion is satisfied even if approximations of posteriors and expectations as long as relevant assumptions hold. Given algorithms are also easy \\
 
 
 
