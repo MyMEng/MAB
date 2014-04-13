@@ -553,25 +553,16 @@ first by thompson only with bernouli bandits then local finally global---optimis
 To utilize introduced above approach we need to get \emph{posterior} for each action and draw a sample from it.
 
 
-\subsubsection{Deep blue}
-* assumptions\\
-* exploratory value / exploitation value ???\\
-
-* why it's local --- how can we improve it\\
-One of cons of this approach is possibility of posterior samples being negative. This issue arises as we represent the samples as sum of exploratory and exploitative values.
-
-* what can we prove --- why it is efficient\\
-* better ...\ \\
-* some mathematical theory --- equations, etc.\~\\
-* example on real posterior\\
-
 \subsubsection{Assumptions}
 In our considerations the process runs for an infinite sequence of \emph{time steps}, $t \in \mathscr{T} = \{ 1,2,3... \}$; at each step we observe \emph{regressor}, $x_t \in \mathscr{X}$ (compact set); an \emph{action} choice at time $t$, $a_t \in \mathscr{A} = \{ 1,2...A \}$ and $A<\infty$.\\
 Furthermore action selection is based on \emph{information sequence} defined as:
 $$
-  \mathscr{L}_t = ( x_1,...,x_{t-1}, r_1,...,r_{t-1}, a_1,...,a_{t-1} ) \text{;}
+  \tilde{\mathscr{L}}_t = \left( x_1,...,x_{t-1}, r_1,...,r_{t-1}, a_1,...,a_{t-1} \right) \text{;}
 $$
-where $x$ and $a$ is defined as above and $r$ is a reward.\\
+where $x$ and $a$ is defined as above and $r$ is a reward which results from action at given time and $r_t = f_{a_t}(x) + z_{t,a_t}$; the later value in sum is i.i.d.\ random variable with unknown distribution, zero mean and finite variance. We also denote information available prior to experiment as $\mathscr{L}_0$ and information at time $t$ as $\mathscr{L}_t = \left( \mathscr{L}_0 \cup \tilde{\mathscr{L}}_t \right)$.\\
+Finally, $f_a : \mathscr{X} \rightarrow \mathbb{R}$ is an unknown continuous function of the regressor specific to action $a$.\\
+
+
 
 We can therefore define the optimal action---with highest expected reward---at time $t$ by:
 \begin{eqnarray}
@@ -616,7 +607,16 @@ If all above conditions hold we call the policy \emph{GLIE}---greedy in the limi
 
 
 
+\subsubsection{Deep blue}
+* exploratory value / exploitation value ???\\
 
+* why it's local --- how can we improve it\\
+One of cons of this approach is possibility of posterior samples being negative. This issue arises as we represent the samples as sum of exploratory and exploitative values.
+
+* what can we prove --- why it is efficient\\
+* better ...\ \\
+* some mathematical theory --- equations, etc.\~\\
+* example on real posterior\\
 
 
 
