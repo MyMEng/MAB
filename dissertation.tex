@@ -17,6 +17,7 @@
 \usepackage{amsfonts}    % fancy maths font
 \usepackage{mathrsfs}    % fancy maths font
 \usepackage{dsfont}      % indocator finction
+\usepackage{mathtools}
 
 \usepackage[pdftex]{graphicx}
 \usepackage{cite} % BiTeX
@@ -41,6 +42,9 @@
 
 % argmax with commands
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
+
+% equality from definition | =^{\text{def}}
+\newcommand{\myeq}{\stackrel{\mathclap{\normalfont\scriptsize\mbox{def}}}{=}}
 
 % Code snippets
 \usepackage{listings}
@@ -589,7 +593,7 @@ $$
   \mathbb{P} \left( \bigcap_{a \in A} \left\{ n_{t,a} \rightarrow \infty \text{ as } t \rightarrow \infty \right\} \right) = 1
 $$
 
-Finally, we want the action (arm) selection process to exploit obtained information. We want this process to be greedy in the limit. This assumption leads to:\\
+Finally, we want the action (arm) selection process to exploit obtained information. We want this process to be greedy\footnote{Locally optimal choice at each stage.} in the limit. This assumption leads to:\\
 $$
   \mathbb{P} \left( a_t = \hat{a}_t^\star | \mathscr{L}_t, x_t \right) \xrightarrow{\text{a.s.\ }} 1 \text{ as } t \rightarrow \infty \text{ ,}
 $$
@@ -598,27 +602,37 @@ Where $\hat{a}_t^\star$ is defined as in equation~\ref{eqn:optsol}.\\
 If all above conditions hold we call the policy \emph{GLIE}---greedy in the limit with infinite exploration.\\
 
 
-\subsubsection{A* search correspondence}
-* exploratory value / exploitation value ???\\
-To utilize introduced above approach we need to get \emph{posterior} for each action and draw a sample from it.
+\subsubsection{Exploration and exploitation}
+Chosen approach uses earlier mentioned \emph{exploitative} and \emph{exploratory} values to make a greedy decision based on sum of these estimates at each time step. The first value corresponds to immediate reward---expected value of posterior distribution for each action at given time---and we define it as:
+$$
+  \hat{f}_{t,a} (x_t) = \mathbb{E} ( f_a(x_t) | \mathscr{L}_t, x_t ) \text{ .}
+$$
+The exploratory parameter can be expressed in many different ways reviewed by~\citep{meuleau:exploration}. This value in general describes how keen we should be on exploring other actions and in general can be defined as:
+$$
+  \delta_{t,a} \myeq
+    \begin{cases}
+     \sigma_{t,a} \delta_0(\mathscr{L}_t) & \text{for known variance,}\\
+     s_{t,a}      \delta_0(\mathscr{L}_t) & \text{for unknown variance,}
+    \end{cases}
+$$
+where $\delta_0(n)$ is some positive decreasing function of \emph{history} called \emph{unit exploration bonus}.\\
 
-
-
+$\delta_0$ for instance can be dependent on discount sequence: decreasing the importance of exploration later in the experiment or giving the same priority to exploration independently of time. Moreover, the \emph{exploratory bonus} can be calculated simply as standard deviation of the expected reward(posterior distribution of each action). Such approach favours actions which are uncertain about their prediction hence, improve their estimation of true reward.\\
 
 \subsubsection{Approach development --- \textbf{convergence review??????}}
-first by thompson only with bernouli bandits then local finally global---optimistic
+To utilize introduced above approach we need to get \emph{posterior} for each action and draw a sample from it.\\
 
-
-
-
-\subsubsection{Deep blue}
+first by thompson only with bernouli bandits then local finally global---optimistic\\
 * why it's local --- how can we improve it\\
-One of cons of this approach is possibility of posterior samples being negative. This issue arises as we represent the samples as sum of exploratory and exploitative values.
 
-* what can we prove --- why it is efficient\\
-* better ...\ \\
-* some mathematical theory --- equations, etc.\~\\
-* example on real posterior\\
+\subsubsection{Correctness}
+What can we prove---why it is efficient.\\
+
+\subsubsection{Drawbacks and possible improvements}
+One of cons of this approach is possibility of posterior samples being negative. This issue arises as we represent the samples as sum of exploratory and exploitative values.\\
+
+\subsubsection{Example}
+...on real posterior.\\
 
 
 
