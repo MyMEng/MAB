@@ -650,13 +650,27 @@ We call this approach \emph{local} as it uses greedy action selection---the choi
 Under mild assumptions\footnote{Assumptions that are expected to hold if the true posterior distributions and expectations are available.} it can be shown that LTS guarantees convergence given by equation~\ref{eqn:convg}.\\
 
 \subsubsection{Correctness \& convergence}
-....\\
+LTS and OBS are myopic methods.
+
+It is proved that in LTS algorithm then probability of each action being selected is the posterior that it is the action yielding the highest expected reward.\\
 
 Furthermore, we assume that posterior of all actions that have not been taken at round $t$ does not change.\\
 
+\RestyleAlgo{boxed}
+\vspace{2cm}
+\begin{algorithm}[H]
+  \KwData{Posterior distributions for each action---$\left\{ p_a(\cdot|\mathscr{L}_t,x_t) : a \in \mathscr{A} \right\}$}
+  \For{$a \in \mathscr{A}$}{
+    \text{sample: }$\mathscr{Q}^\text{Th}_{t,a} \leftarrow p_a(\cdot|\mathscr{L}_t,x_t)$ \;
+  }
+  sample $a_t$ uniformly from $\operatorname{arg\,max}_{a \in \mathscr{A}} \mathscr{Q}^\text{Th}_{t,a}$ \;
+ \caption{Local Thompson Sampling(LTS).\label{al:LTS}}
+\end{algorithm}
+\vspace{2cm}
+
 
 \subsubsection{Drawbacks and possible improvements}
-One of cons of this approach is possibility of exploratory value can have zero expectation hence, can take negative values. The consequence may lead to probability of particualr action being celected to decrease with the posterior variance of its exploratory value. This issue arises as we represent the samples as sum of exploratory and exploitative values therefore if actions with the highest exploitative value has a lot of uncertinity then it is less likely to be played then if the estiate had little uncertanity.\\
+One of cons of this approach is possibility of exploratory value can have zero expectation hence, can take negative values. The consequence may lead to probability of particular action being selected to decrease with the posterior variance of its exploratory value. This issue arises as we represent the samples as sum of exploratory and exploitative values therefore if actions with the highest exploitative value has a lot of uncertainty then it is less likely to be played then if the estimate had little uncertainty.\\
 
 The approach which avoid such situation is called \emph{Optimistic Bayesian Sampling}(OBS) where exploratory value is given by:
 $$
@@ -665,6 +679,20 @@ $$
                         \text{ .}
 $$
 Expressed in this way exploratory value has positive expectation and cannot take negative values. This feature yelds increased selection of for uncertain actions---which seems desirable. It also can be shown that OBS satisfies convergence criterion(equation~\ref{eqn:convg}) and outperforms LTS~\citep{May:2012:OBS:2503308.2343711}.\\
+
+\RestyleAlgo{boxed}
+\vspace{2cm}
+\begin{algorithm}[H]
+  \KwData{Posterior distributions for each action---$\left\{ p_a(\cdot|\mathscr{L}_t,x_t) : a \in \mathscr{A} \right\}$}
+  \For{$a \in \mathscr{A}$}{
+    \text{sample: }$\mathscr{Q}^\text{Th}_{t,a} \leftarrow p_a(\cdot|\mathscr{L}_t,x_t)$ \;
+    $\hat{f}_{t,a} (x_t) \leftarrow \mathbb{E}( \mathscr{Q}^\text{Th}_{t,a} | \mathscr{L}_t,x_t )$ \;
+    $\mathscr{Q}_{t,a} \leftarrow \operatorname{max}(\mathscr{Q}^\text{Th}_{t,a}, \hat{f}_{t,a} (x_t))$ \;
+  }
+  sample $a_t$ uniformly from $\operatorname{arg\,max}_{a \in \mathscr{A}} \mathscr{Q}_{t,a}$ \;
+ \caption{Optimistic Bayesian Sampling(OBS).\label{al:OBS}}
+\end{algorithm}
+\vspace{2cm}
 
 \subsubsection{Conclusions}
 Presented class of algorithms is robust---convergence criterion is satisfied even if approximations of posteriors and expectations as long as relevant assumptions hold. Given algorithms are also easy to implement as long as posterior distribution of expected reward can be calculated. Furthermore, the method is computationally cheap in comparison with belief-lookahead approaches(such as Gittins indices) and not only/ limited to. Last but not least, LTS is widely used to address contextual bandit problem widely used by Microsoft, Google and Yahoo.\\
