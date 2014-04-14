@@ -563,18 +563,8 @@ Usually the sample will be quite close to mean~\ref{fig:sim1} (normal distributi
 \end{figure}
 
 
-
-
-
-
 \subsubsection{Example}
-...on real posterior.\\
-
-
-
-
-
-
+Lets assume we are given uniform prior over all available actions and each arm is normally distributed with mean $\mu_a$ and variance $\sigma^2_a$. As ties are broken randomly we choose any action in first round.
 
 
 \subsubsection{Assumptions}
@@ -631,9 +621,9 @@ If all above conditions hold we call the policy \emph{GLIE}---greedy in the limi
 
 \subsubsection{Exploration and exploitation}
 Chosen approach uses earlier mentioned \emph{exploitative} and \emph{exploratory} values to make a greedy decision based on sum of these estimates at each time step. The first value corresponds to immediate reward---expected value of posterior distribution for each action at given time---and we define it as:
-$$
-  \hat{f}_{t,a} (x_t) = \mathbb{E} ( f_a(x_t) | \mathscr{L}_t, x_t ) \text{ .}
-$$
+\begin{equation}
+  \label{eqn:exploitative} \hat{f}_{t,a} (x_t) = \mathbb{E} ( f_a(x_t) | \mathscr{L}_t, x_t ) \text{ .}
+\end{equation}
 The exploratory parameter can be expressed in many different ways reviewed by~\citep{meuleau:exploration}. This value in general describes how keen we should be on exploring other actions and in general can be defined as:
 $$
   \delta_{t,a} \myeq
@@ -647,26 +637,23 @@ where $\delta_0(n)$ is some positive decreasing function of \emph{history} calle
 $\delta_0$ for instance can be dependent on discount sequence: decreasing the importance of exploration later in the experiment or giving the same priority to exploration independently of time. Moreover, the \emph{exploratory bonus} can be calculated simply as standard deviation of the expected reward(posterior distribution of each action). Such approach favours actions which are uncertain about their prediction hence, improve their estimation of true reward.\\
 
 \subsubsection{Approach development}
-We now refine described above approach and present \emph{Local Thompson Sampling}(LTS).\\
+We now refine described above approach and present \emph{Local Thompson Sampling}(LTS). To begin with, we design exploratory value in a way that will guarantee non-sticking\footnote{Avoid focusing on one action hence under-explore all the rest(sub-optimal solution).}. One solution is to randomize the value. It can be achieved by sampling a value from the posterior distribution and using it as an error in exploitative value estimate for current regressor; we denote $\tilde{f}_{t,a}^{\text{ Th}} (x_t)$ as sample from posterior distribution of $f_a(x_t) - \hat{f}_{t,a}(x_t)$, given $\mathscr{L}_t$ and $x_t$.
+\begin{equation}
+  \label{eqn:exploratory} \tilde{f}_{t,a}^{\text{ Th}} (x_t) \sim \{ f_a(x_t) - \hat{f}_{t,a}(x_t) \} | \mathscr{L}_t,x_t 
+\end{equation}
+Intuitively, $\hat{f}_{t,a}(x_t)$ is our estimate of the mean of true function based on all the information and regressors that we observed so far; $f_a(x_t)$ is the function of the regressor. The sample value from the distribution given by difference of these two functions provides us estimate of uncertainty of given action which is random.\\
 
+Sum of both exploratory and exploitative values given in equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} is used in LTS to greedily decide on the next action; this process is equivalent to choosing an action with optimal posterior probability for current regressor. Such solution was proposed by Thompson~\citep{thompson:biom33}.\\
 
-Under mild assumptions\footnote{Assumptions that are expected to hold if the true posterior distributions and expectations are available.} it can be shown that LTSguarantees convergence given by (eqn~\ref{eqn:convg})\\
+We call this approach \emph{local} as it uses greedy action selection---the choice is made based on probabilities calculated for current regressor. The original work of Thompson discussed only Bernoulli bandits but as shown above it can be generalised to sample from the posterior distribution of the expected reward of each action and then select the arm with highest value.\\
 
+Under mild assumptions\footnote{Assumptions that are expected to hold if the true posterior distributions and expectations are available.} it can be shown that LTS guarantees convergence given by equation~\ref{eqn:convg}.\\
 
-This policy can be classified as .\\
+\subsubsection{Correctness \& convergence}
+....\\
 
-To utilize introduced above approach we need to get \emph{posterior} for each action and draw a sample from it.\\
+Furthermore, we assume that posterior of all actions that have not been taken at round $t$ does not change.\\
 
- --- \textbf{convergence review??????}\\
-
-first by thompson only with bernouli bandits then local finally global---optimistic\\
-* why it's local --- how can we improve it\\
-
-\subsubsection{Correctness}
-LTs can be shown to explore all actions infinitely ften
-
-
-What can we prove---why it is efficient.\\
 
 \subsubsection{Drawbacks and possible improvements}
 One of cons of this approach is possibility of exploratory value can have zero expectation hence, can take negative values. The consequence may lead to probability of particualr action being celected to decrease with the posterior variance of its exploratory value. This issue arises as we represent the samples as sum of exploratory and exploitative values therefore if actions with the highest exploitative value has a lot of uncertinity then it is less likely to be played then if the estiate had little uncertanity.\\
@@ -680,12 +667,12 @@ $$
 Expressed in this way exploratory value has positive expectation and cannot take negative values. This feature yelds increased selection of for uncertain actions---which seems desirable. It also can be shown that OBS satisfies convergence criterion(equation~\ref{eqn:convg}) and outperforms LTS~\citep{May:2012:OBS:2503308.2343711}.\\
 
 \subsubsection{Conclusions}
-Presented class of algorithms is robust---convergence criterion is satisfied even if approximations of posteriors and expectations as long as relevant assumptions hold. Given algorithms are also easy \\
+Presented class of algorithms is robust---convergence criterion is satisfied even if approximations of posteriors and expectations as long as relevant assumptions hold. Given algorithms are also easy to implement as long as posterior distribution of expected reward can be calculated. Furthermore, the method is computationally cheap in comparison with belief-lookahead approaches(such as Gittins indices) and not only/ limited to. Last but not least, LTS is widely used to address contextual bandit problem widely used by Microsoft, Google and Yahoo.\\
 
 
 
 
-\chapter{\texttt{\textbf{Exploitation}} --- Practical application}
+\chapter{\texttt{\textbf{Exploitation}}---Practical application}
 
 There is a number of historical applications of multi-armed bandits (MAB) mainly concerned with research time management, general job-scheduling, economics and military~\citep{gittins+glazebrook+weber}.
 Nowadays, one of main utilisations is found in contextual bandits which are foundation for optimizing online advertising income. The general idea behind this concept is to present different variations of ads layout at given webpage which are suited to user by inspecting one's history and are widely used by IT giants like Google, Yahoo, Facebook, LinkedIn or Microsoft. For majority of these companies the theory is of high interest as lion's share of their revenue flows from click-through rate in online advertising.~\citep{graepel2010web, Scott:2010:MBL:1944422.1944432}\\
