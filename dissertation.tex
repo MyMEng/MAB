@@ -413,7 +413,7 @@ To fully develop \emph{Thompson Sampling} approach to multi-armed bandit theory,
 \end{itemize}
 It is possible to use any probability distribution with \emph{Thompson Sampling} but for the sake of simplicity we will focus in this paper only on \emph{normally} distributed data. This restriction does not mean that it is not possible to apply this technique with any other distribution but due to space constrains the theory will be presented with \emph{normal likelihood}. Furthermore, discussing other scenarios of Thompson Sampling would demand from reader to be familiar with analytic approach to Bayesian \emph{posteriors}, \emph{priors} and \emph{likelihoods}.
 
-\subsection{Bayesian statistics}
+\subsection{Bayesian statistics\label{sec:bayesian}}
 In this section we will shortly introduce normal distribution. Then we will discuss its aspects with regard to Bayesian statistics.
 
 \subsubsection{The normal distribution}
@@ -564,7 +564,13 @@ Usually the sample will be quite close to mean~\ref{fig:sim1} (normal distributi
 
 
 \subsubsection{Example}
-Lets assume we are given uniform prior over all available actions and each arm is normally distributed with mean $\mu_a$ and variance $\sigma^2_a$. As ties are broken randomly we choose any action in first round.
+Lets assume we are given uniform prior over all available actions and we model each arm as normally distributed with unknown mean $\mu_a$ and known variance $\sigma^2_a$. Ties are broken randomly we choose any action in first round.\\
+
+We generate normal posterior according to theory presented in section~\ref{sec:bayesian}.\\
+
+After we have obtained posterior we sample for each arm $\mathit{s}_a \leftarrow \mathcal{N}(\mu_a^{\texttt{ pos}}, \sigma^{2\texttt{ pos}}_a)$.
+
+Our selection procedure is $\mathit{a}_{t+1} = \operatorname{arg\,max}_{a \in \mathscr{A}} \mathit{s}_a$. So we play arm $s$ in round $t+1$ and repeat previous steps. We remember all outcomes in histor.\\
 
 
 \subsubsection{Assumptions}
@@ -579,10 +585,13 @@ Finally, $f_a : \mathscr{X} \rightarrow \mathbb{R}$ is an unknown continuous fun
 
 
 We can therefore define the optimal action---with highest expected reward---at time $t$ by:
-\begin{eqnarray}
-  a_t^\star = \argmax_{a \in A} f_a (x_t) \text{ ,}\\
+\begin{equation}
+  a_t^\star = \argmax_{a \in A} f_a (x_t) \text{ ,}
+\end{equation}
+and its approximation by:
+\begin{equation}
   \label{eqn:optsol} \hat{a}_t^\star = \argmax_{a \in A} \hat{f}_a (x_t) \text{ .}
-\end{eqnarray}
+\end{equation}
 
 We can prove that this policy converges with time to the best possible policy---\emph{convergence criterion}:
 \begin{equation}
@@ -656,6 +665,14 @@ It is proved that in LTS algorithm then probability of each action being selecte
 
 Furthermore, we assume that posterior of all actions that have not been taken at round $t$ does not change.\\
 
+Sampling from sum of exploratory and exploitative values given in equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} yield:
+$$
+  \left[ f_a(x_t) - \hat{f}_{t,a}(x_t) \right] + \hat{f}_{t,a}(x_t) = f_a(x_t) \text{ .}
+$$
+As we do not have the true value of function $f$ for arm $a$ the closest approximation is posterior. Therefore it is just sampling from the posterior distribution and choosing highest sample.\\
+
+We denote $p_a(\cdot | \mathscr{L}_t, x_t)$ the posterior distribution of $f_a(x_t)$ given $\mathscr{L}_t$ and $x_t$. Therefore we denote $\mathscr{Q}^\text{Th}_{t,a}$ a random variable with distribution $p_a(\cdot | \mathscr{L}_t, x_t)$ which we draw our samples from.
+
 \RestyleAlgo{boxed}
 \vspace{2cm}
 \begin{algorithm}[H]
@@ -678,7 +695,7 @@ $$
                         = \left [ \tilde{f}_{t,a}^{\text{ Th}} (x_t) - \hat{f}_{t,a}(x_t) \right]_+
                         \text{ .}
 $$
-Expressed in this way exploratory value has positive expectation and cannot take negative values. This feature yelds increased selection of for uncertain actions---which seems desirable. It also can be shown that OBS satisfies convergence criterion(equation~\ref{eqn:convg}) and outperforms LTS~\citep{May:2012:OBS:2503308.2343711}.\\
+Expressed in this way exploratory value has positive expectation and cannot take negative values. This feature yields increased selection of for uncertain actions---which seems desirable. It also can be shown that OBS satisfies convergence criterion(equation~\ref{eqn:convg}) and outperforms LTS~\citep{May:2012:OBS:2503308.2343711}.\\
 
 \RestyleAlgo{boxed}
 \vspace{2cm}
