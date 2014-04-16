@@ -189,7 +189,7 @@ dzi\k{e}kuj\k{e} Tomek.
 \setcounter{page}{1}
 
 
-\chapter{Introduction}
+\chapter{Introduction\label{chap:intro}}
 The \emph{multi-armed bandit} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of \colorbox{magenta}{problems} that could be framed as a multi-armed bandit scenarios the field has become interest of many scientists, researchers, economists not to mention companies looking for work efficiency improvement and savings. All the solutions addressing these \colorbox{magenta}{problems} can be expressed as simple as finding a balance between \emph{exploration} and \emph{exploitation}.
 
 
@@ -325,13 +325,13 @@ The most popular and one of a few non-monotone sequences is defined by: $\alpha_
 
 
 \section{Bandits settings}
-Multi-arme d.\\
+Multi-armed bandit setting can be used to solve variety of problems. The most common settings have been described in chapter~\ref{chap:intro}; nevertheless some non-trivial environment is also used and presented below.\\
 \subsubsection{Real time, random bandits}
-blah.\\
+Real time, random bandits are usually present when decision needs to be made for event of given class or assigned to particular problem that occur in non-deterministic intervals of time and information of the event can only be acquired during its occurrence. Such scenarios can be similar to ones described in \emph{Random discounting} section.\\
 \subsubsection{Information gathering}
 One of scenarios where multi-armed bandits are also used is to gather information about available choices. If such learning needs to be done in efficient manner MAB is often a good choice. An example presented in \emph{non-monotone} section, where a number of rounds at the beginning was used to learn some information about the environment.\\
-\subsubsection{Dependant \emph{Arms}}
-~\citep{Pandey:2007:MBP:1273496.1273587}.\\
+\subsubsection{Dependant arms}
+MAB with dependent arms grow in popularity due to the Internet advertising application. In such scenario the ads displayed to the user are usually dependent(one manufacturer different products or one class of products made by different companies) and usually can be grouped. Policies for such scenarios are made to consider this connections between actions and exploit this information~\citep{Pandey:2007:MBP:1273496.1273587}.\\
 
 
 \chapter{Solution \texttt{\textbf{Exploration}}}
