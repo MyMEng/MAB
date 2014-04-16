@@ -257,14 +257,10 @@ When an \emph{Arm} is selected the discount sequence is modified as follows:
 $$
 \left( \alpha_1, \alpha_2, \alpha_3, ... \right)
 \rightarrow
-\left( \alpha_2, \alpha_3, \alpha_4, ... \right)
+\left( \alpha_2, \alpha_3, \alpha_4, ... \right) \text{ .}
 $$
 
-\subsection{Observable and non-observable sequences}
-\lipsum[1]
-
-
-\subsection{Most common sequences}
+\subsubsection{Most common sequences}
 There are many different discount sequences used with multi-armed bandits each with numerous assumptions. In the literature only two of them are described in great detail and both are presented below.
 {
 \subsubsection{Uniform sequence}
@@ -298,18 +294,44 @@ On the other hand, here after \emph{Arm} selection the discount sequence is prop
 }
 In case of both sequences the decision problem and optimal strategy is unchanged if a discount series is multiplied by some constant. Furthermore, in case of geometric sequence is effectively the same the same throughout the \emph{Game}.
 
-\subsection{Random discounting}
-\subsection{Infinite horizon }
 
-\subsection{Non-monotone sequences}
+\subsubsection{Mixtures of uniform sequences}
+If we consider Bernoulli trials(with success worth $1$) of a clinical trial. The experiment can terminate with positive probability $\nu_m$ at any stage $m$ as we do not know the exact number of incoming patients. In such cases we may form a discount sequence where factor at given stage is the probability that the experiment has not been terminated so far, $\alpha_m = \sum_{i=m}^\infty \nu_i$. Clearly discount series that arises in presented scenario is a mixture of uniforms(random). This case is identical to deterministic sequence---an average of uniforms weighted by the $\nu_m$'s.\\
+An example my be probability of terminating at each stage is $\gamma$, therefore the factor at each reached stage is: $\nu_m = (1-\gamma)\gamma^{m-1}, m=1,2,3,...$, leading to geometric discount sequence.
 
+\subsubsection{Random discounting}
+The random discounting is more complex. In mixture of uniforms we get no advantage conditioning on them: as long as we get one the process continues and there is no possibility that previous factors were $0$; once we get $0$ the process is no more of interest. In random environment. In general with random discount sequence we are only provide with some prior probability distribution over the space of all possible discount sequences.\\
+
+\subsubsection{Observable and non-observable sequences}
+If the discount sequence cannot be observed: it is either blended with a reward as a single value or is not given to us together with reward we need to estimate it. Like in random case given the distribution over all possible discount sequences we can estimate it by: $\hat{\alpha}_m = \mathbb{E}(\alpha_m | \text{``probability distribution over all discount sequences''})$.\\
+
+We say about observable discount sequence if together with a reward we get a value of discount factor for given stage. This cases are in general harder to solve as we cannot replace random with a non-random sequence without altering the problem significantly. In presented scenario strategies tend to depend on observed discount factors.\\
+
+\subsubsection{Real-time sequences}
+In real time sequences the intervals between events are random directly influencing decision making. To visualize this scenario we consider clinical trial where patients arrive in random time intervals. In such cases we usually use discount sequence described by: $A = ( \exp(-\beta t_1), \exp(-\beta t_2), \exp(-\beta t_3),... )$, where $\beta$ is weight coefficient and $t_i$ are known arrival times.\\
+more complicated situation for real-time discounting can be described as:
+$$
+  \alpha_t =
+    \begin{cases}
+      1 & \text{for } t \in [0,1] \text{ ,} \\
+      0 & \text{for } t \in [1,\infty) \text{ .}
+    \end{cases}
+$$
+Such sequence can express interest in maximising response of patients arriving in first unit interval. It is worth noting that the choice may be significantly different if the first event occurs at time $0.01$ then if it would occur at time $0.99$; generally risky arm could be appropriate in first case and large mean action can be a good choice in second case.\\
+
+\subsubsection{Non-monotone sequences}
+Majority of discount sequences considered in literature are monotone increasing or decreasing. This fact is motivated by real life applications where our interest in process decreases---the player is interested in  quick reward---or increases---the player is interested in high reward in the future by first learning about environment.\\
+The most popular and one of a few non-monotone sequences is defined by: $\alpha_n = 1$ and $\alpha_m = 0$ for $m \neq n$. This structure of discount sequence indicate that first $n-1$ stages are played for sole purpose of obtaining information to make the best possible choice at stage $n$ and all the other rounds do not matter.\\
 
 
 \section{Bandits settings}
-\subsection{Real time, random bandits}
-\subsection{Information gathering}
-\subsection{Dependant \emph{Arms}}
-
+Multi-arme d.\\
+\subsubsection{Real time, random bandits}
+blah.\\
+\subsubsection{Information gathering}
+One of scenarios where multi-armed bandits are also used is to gather information about available choices. If such learning needs to be done in efficient manner MAB is often a good choice. An example presented in \emph{non-monotone} section, where a number of rounds at the beginning was used to learn some information about the environment.\\
+\subsubsection{Dependant \emph{Arms}}
+~\citep{Pandey:2007:MBP:1273496.1273587}.\\
 
 
 \chapter{Solution \texttt{\textbf{Exploration}}}
@@ -1083,7 +1105,7 @@ sample from posterior\\
 
 \lipsum[1]
 
-\section{Experiment}
+\chapter{Experiment}
 
 For the purpose of the experiment which may or may not be done by that time we can assume: see build bridge paper
 $$
