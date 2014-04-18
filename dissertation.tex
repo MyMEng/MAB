@@ -155,6 +155,9 @@ Dr.~David \textsc{\textbf{Leslie}}
 This dissertation consists of two chapters. First one is a comprehensive introduction to theory underlying multi-armed bandits problem. Reader is assumed not to need any prior knowledge in this field, only basics of statistics and probability theory are required. Second chapter is experimental part focused on ...
 \begin{center}
 Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, exploration, exploitation, Thompson's sampling}
+
+\footnote*{This dissertation together with all figures and experiment source code is available as \texttt{GitHub} repository at: \url{Reinforcement-Learning}.}
+
 \end{center}
 \end{abstract}
 
@@ -1097,8 +1100,11 @@ To sum up, for each $h$ in our hypothesis space we calculate risk --- mean; and 
 
 
 
-\chapter{Experiment}
+\chapter{The experiment}
 
+This chapter is entirely devoted to conducted experiment.\\
+
+\section{Introduction}
 For the purpose of the experiment which may or may not be done by that time we can assume: see build bridge paper
 $$
 U(\hat{L}_t(h)) = \frac{ \sqrt{ \log(t) } }
@@ -1138,9 +1144,9 @@ sample from posterior \footnote{Used dataset is preprocessed to contain only two
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.5\linewidth]{graphics/gypothesis.png}
+  \includegraphics[width=0.7\linewidth]{graphics/gypothesis.png}
   \begin{tiny}
-    \caption{Visualization of binary, linear classifier in two dimensions.\label{fig:binclas}}
+    \caption{Visualization of linearly separable \texttt{iris} dataset together with tested hypothesis(arms).\label{fig:hyp}}
   \end{tiny}
   \vspace{1cm}
 \end{figure}
@@ -1148,17 +1154,15 @@ sample from posterior \footnote{Used dataset is preprocessed to contain only two
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.5\linewidth]{graphics/convergence.png}
+  \includegraphics[width=0.7\linewidth]{graphics/convergence.png}
   \begin{tiny}
-    \caption{Visualization of binary, linear classifier in two dimensions.\label{fig:binclas}}
+    \caption{Change of mean(risk of hypothesis) estimation along experiment time. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:conv}}
   \end{tiny}
   \vspace{1cm}
 \end{figure}
 
 
 \section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
-
-\lipsum[1]
 
 
 
@@ -1173,7 +1177,7 @@ sample from posterior \footnote{Used dataset is preprocessed to contain only two
 
 
 \newpage
-\begin{center} \textbf{\huge \vspace*{15pt} FIN} \end{center}
+\begin{center} \textbf{\huge ~\vspace*{15cm} FIN} \end{center}
 
 
 % \appendix
