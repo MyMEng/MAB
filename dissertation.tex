@@ -156,7 +156,7 @@ This dissertation consists of two chapters. First one is a comprehensive introdu
 \begin{center}
 Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, exploration, exploitation, Thompson's sampling}
 
-\footnote*{This dissertation together with all figures and experiment source code is available as \texttt{GitHub} repository at: \url{Reinforcement-Learning}.}
+\let\thefootnote\relax\footnote{This dissertation together with all figures and experiment source code is available as \texttt{GitHub} repository at: \url{https://github.com/So-Cool/MAB}.}
 
 \end{center}
 \end{abstract}
@@ -461,7 +461,8 @@ with area under curve from $-\infty$ to $+\infty$ integrating to $1$~\citep{rice
 \centering
 \includegraphics[width=0.5\textwidth]{graphics/normalpdf.pdf}
 \begin{tiny}
-\caption{Probability density function of normal distribution $\mathcal{N}\left( 0, 5 \right)$ in characteristic bell shape created in \texttt{R} (Snippet in \emph{Appendix~\ref{snip:normaldist}}).\label{fig:normaldist}}
+\caption{Probability density function of normal distribution $\mathcal{N}\left( 0, 5 \right)$ in characteristic bell shape.\label{fig:normaldist}}
+% created in \texttt{R} (Snippet in \emph{Appendix~\ref{snip:normaldist}})
 \end{tiny}
 \vspace{1cm}
 \end{figure}
@@ -746,7 +747,7 @@ Presented class of algorithms is robust---convergence criterion is satisfied eve
 
 
 
-\chapter{\texttt{\textbf{Exploitation}}---Practical application}
+\chapter{\texttt{\textbf{Exploitation}}---Practical application\label{ch:MAB-AL}}
 
 There is a number of historical applications of multi-armed bandits (MAB) mainly concerned with research time management, general job-scheduling, economics and military~\citep{gittins+glazebrook+weber}.
 Nowadays, one of main utilisations is found in contextual bandits which are foundation for optimizing online advertising income. The general idea behind this concept is to present different variations of ads layout at given webpage which are suited to user by inspecting one's history and are widely used by IT giants like Google, Yahoo, Facebook, LinkedIn or Microsoft. For majority of these companies the theory is of high interest as lion's share of their revenue flows from click-through rate in online advertising.~\citep{graepel2010web, Scott:2010:MBL:1944422.1944432}\\
@@ -1100,47 +1101,14 @@ To sum up, for each $h$ in our hypothesis space we calculate risk --- mean; and 
 
 
 
-\chapter{The experiment}
 
-This chapter is entirely devoted to conducted experiment.\\
+
+
+\chapter{The experiment}
+To test our version of active learning MAB algorithm(\ref{al:LCB-AL} \& \ref{al:TS-AL}) presented in chapter~\ref{ch:MAB-AL} we conducted a small experiment described through this chapter. The purpose of presented below work is just to visualise the algorithm and show its correctness; no comparison to other multi-armed bandits active learning algorithms has been performed.\\
 
 \section{Introduction}
-For the purpose of the experiment which may or may not be done by that time we can assume: see build bridge paper
-$$
-U(\hat{L}_t(h)) = \frac{ \sqrt{ \log(t) } }
-                       { 10 }
-                  \sqrt{ V^\prime_t }
-$$
-and
-$$
-V^\prime_t = \left[
-  \sum_{i = 1:n \text{~} \tau = 1:t} \frac{Q^\tau_i}{(p^\tau_i)^2} L^2(z(x_i))
-  -
-  \left( \sum_{\mathscr{Q}_t} L(z(x_i)) \right)^2
-\right]_+
-$$~\\
-
-
-We can use these estimations of mean and variance to model our Thompson's Sampling approach what will follow in next section.\\
-
-Then next section with experiment design and we'll'ya see. Should be the end \\
-
-And before experiment polish first chapter with berry and Firsted.
-
-
-feasible --- just a word not a section
-
-
-
-what about prior posterior with this application\\
-$$
-f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
-$$
-$$
-f \left( \mu \right) \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right)
-$$
-but what is data $X$??\\
-sample from posterior \footnote{Used dataset is preprocessed to contain only two attributes(2D) and two classes(binary classification) of \texttt{iris} which can be found at \url{http://archive.ics.uci.edu/ml/datasets/Iris}.} lol.\\
+The experiment was performed only on one dataset:\texttt{iris}\footnote{Used dataset is preprocessed to contain only two attributes(2D) and two classes(binary classification) of \texttt{iris} which can be found at \url{http://archive.ics.uci.edu/ml/datasets/Iris}.}, which is linearly separable. This dataset is well known in machine learning experiments and provide two dense cluster. For the purpose of simplicity we predefined 6 different linear classifiers---hypothesis---from which the algorithm chooses the best. The dataset together with predefined boundaries is presented in figure~\ref{fig:hyp}.\\
 
 \begin{figure}[htbp]
   \centering
@@ -1151,19 +1119,54 @@ sample from posterior \footnote{Used dataset is preprocessed to contain only two
   \vspace{1cm}
 \end{figure}
 
+\section{Algorithm design and tuning}
+As suggested in~\citep{DBLP:journals/corr/GantiG13} we change our estimate of hypothesis uncertainty from the one presented in equation~\ref{eq:variance} to~\ref{eqn:expvar} given below.\\
+\begin{equation}
+\label{eqn:expvar}
+U(\hat{L}_t(h)) = \frac{ \sqrt{ \log(t) } }
+                       { 10 }
+                  \sqrt{ V^\prime_t }
+\end{equation}
+$$
+V^\prime_t = \left[
+  \sum_{i = 1:n \text{~} \tau = 1:t} \frac{Q^\tau_i}{(p^\tau_i)^2} L^2(z(x_i))
+  -
+  \left( \sum_{\mathscr{Q}_t} L(z(x_i)) \right)^2
+\right]_+
+$$
+This change is made solely for simplicity and does not affect the variance estimate in any way.\\
+
+With change given above we implemented our solution in \texttt{Python} programming language(formatted as \texttt{iPython notebook}). 
+
+
+
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\linewidth]{graphics/convergence.png}
   \begin{tiny}
-    \caption{Change of mean(risk of hypothesis) estimation along experiment time. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:conv}}
+    \caption{Change of mean(risk of hypothesis) estimation along experiment time. Experiment with querying 20\% of dataset size points. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:conv}}
   \end{tiny}
   \vspace{1cm}
 \end{figure}
 
 
 \section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
+We can use these estimations of mean and variance to model our Thompson's Sampling approach what will follow in next section.\\
 
+
+what about prior posterior with this application\\
+$$
+f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
+$$
+$$
+f \left( \mu \right) \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right)
+$$
+but what is data $X$??\\
+sample from posterior.\\
+
+\section{Lookahead}
+What we would do if we have more time. what could be better here. what is application and benefit.\\
 
 
 
