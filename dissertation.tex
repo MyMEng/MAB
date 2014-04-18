@@ -37,6 +37,8 @@
 % \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} % polsih
 
+\usepackage{hyperref}
+
 % Harvard citation
 \usepackage[square]{natbib}
 
@@ -190,7 +192,9 @@ dzi\k{e}kuj\k{e} Tomek.
 
 
 \chapter{Introduction\label{chap:intro}}
-The \emph{multi-armed bandit} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of \colorbox{magenta}{problems} that could be framed as a multi-armed bandit scenarios the field has become interest of many scientists, researchers, economists not to mention companies looking for work efficiency improvement and savings. All the solutions addressing these \colorbox{magenta}{problems} can be expressed as simple as finding a balance between \emph{exploration} and \emph{exploitation}.
+The \emph{multi-armed bandit} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of \colorbox{magenta}{problems} that could be framed as a multi-armed bandit scenarios the field has become interest of many scientists, researchers, economists not to mention companies looking for work efficiency improvement and savings. All the solutions addressing these \colorbox{magenta}{problems} can be expressed as simple as finding a balance between \emph{exploration} and \emph{exploitation}.\\
+
+The main reference for this chapter is~\citep{berry+firstedt}.\\
 
 
 \section{Background}
@@ -1091,19 +1095,7 @@ Described above reasoning lead to Algorithm Snippet~\ref{al:TS-AL} replacing lin
 
 To sum up, for each $h$ in our hypothesis space we calculate risk --- mean; and risk uncertainty --- variance. We sample a value from normal distribution with parameters calculated as above to create a sample vector. To decide on hypothesis we check which one minimizes this vector and try it in next round.\\
 
-what about prior posterior with this application\\
-$$
-f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
-$$
-$$
-f \left( \mu \right) \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right)
-$$
-but what is data $X$??\\
-sample from posterior\\
 
-\section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
-
-\lipsum[1]
 
 \chapter{Experiment}
 
@@ -1133,32 +1125,76 @@ And before experiment polish first chapter with berry and Firsted.
 feasible --- just a word not a section
 
 
-% \newpage
-% \begin{center} \textbf{\huge \vspace*{15pt} FIN~\citep{berry+firstedt}} \end{center}
+
+what about prior posterior with this application\\
+$$
+f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
+$$
+$$
+f \left( \mu \right) \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right)
+$$
+but what is data $X$??\\
+sample from posterior \footnote{Used dataset is preprocessed to contain only two attributes(2D) and two classes(binary classification) of \texttt{iris} which can be found at \url{http://archive.ics.uci.edu/ml/datasets/Iris}.} lol.\\
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{graphics/gypothesis.png}
+  \begin{tiny}
+    \caption{Visualization of binary, linear classifier in two dimensions.\label{fig:binclas}}
+  \end{tiny}
+  \vspace{1cm}
+\end{figure}
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{graphics/convergence.png}
+  \begin{tiny}
+    \caption{Visualization of binary, linear classifier in two dimensions.\label{fig:binclas}}
+  \end{tiny}
+  \vspace{1cm}
+\end{figure}
+
+
+\section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
+
+\lipsum[1]
+
+
+
+
+
+
 
 \bibliography{ref}{}
 % \bibliographystyle{plain}
 \bibliographystyle{plainnat}
 
-\appendix
-\chapter{Code snippets}
 
-\label{snip:normaldist}PDF of normal distribution with mean $0$ and standard deviation $5$.
-\begin{lstlisting}
-x   <- seq(-30,30,length=10000)
-y   <- dnorm(x,mean=0, sd=5)
-plot(x,y, type="l", lwd=1)
-\end{lstlisting}
 
-\label{snip:thompsonsampling}Creating multiple normal distributions to visualize Thompson sampling.
-\begin{lstlisting}
- x   <- seq(5,15,length=1000)
- y   <- dnorm(x,mean=10, sd=30)
-plot(x,y, type="l", lwd=1)
-sam <- sample(x, 10)
-points(sam,dnorm(sam, 10, 1), col="green")
+\newpage
+\begin{center} \textbf{\huge \vspace*{15pt} FIN} \end{center}
 
-# for a few distributions
-\end{lstlisting}
+
+% \appendix
+% \chapter{Code snippets}
+
+% \label{snip:normaldist}PDF of normal distribution with mean $0$ and standard deviation $5$.
+% \begin{lstlisting}
+% x   <- seq(-30,30,length=10000)
+% y   <- dnorm(x,mean=0, sd=5)
+% plot(x,y, type="l", lwd=1)
+% \end{lstlisting}
+
+% \label{snip:thompsonsampling}Creating multiple normal distributions to visualize Thompson sampling.
+% \begin{lstlisting}
+%  x   <- seq(5,15,length=1000)
+%  y   <- dnorm(x,mean=10, sd=30)
+% plot(x,y, type="l", lwd=1)
+% sam <- sample(x, 10)
+% points(sam,dnorm(sam, 10, 1), col="green")
+
+% # for a few distributions
+% \end{lstlisting}
 
 \end{document}
