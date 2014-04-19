@@ -1136,9 +1136,7 @@ V^\prime_t = \left[
 $$
 This change is made solely for simplicity and does not affect the variance estimate in any way.\\
 
-With change given above we implemented our solution in \texttt{Python} programming language(formatted as \texttt{iPython notebook}). 
-
-
+With change given above we implemented our solution in \texttt{Python} programming language(formatted as \texttt{iPython notebook}). We ran the experiment with different querying budget:1\%, 5\%, 10\%, 15\% and 20\% of initial dataset size. Figures~\ref{fig:conv} and~\ref{fig:conv.ALL} show change of risk mean value estimate with number of queries for each of listed above query allowance.\\
 
 
 \begin{figure}[htbp]
@@ -1150,23 +1148,19 @@ With change given above we implemented our solution in \texttt{Python} programmi
   \vspace{1cm}
 \end{figure}
 
+\section{Results}
+Figure~\ref{fig:conv} shows the results for experiment with largest querying budget. The outcome is reasonable as it estimates \textcolor{magenta}{magenta} hypothesis as the best and \textcolor{cyan}{cyan} one as second best; risk estimates for both these classifiers lie very close. Both these choices seems reasonable for given dataset---they make no error in classification.\\
+\textcolor{blue}{blue} and \textcolor{green}{green} hypothesis also en up having close risk estimates and being 4\ts{th} and 5\ts{th} at the end. This result seems reasonable as the first one cuts one of clouds in half, classifying approximately 75\% of exemplars right and the other hypothesis does the same with other cloud of points.\\
 
-\section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
-We can use these estimations of mean and variance to model our Thompson's Sampling approach what will follow in next section.\\
+\textcolor{red}{red} and \textcolor{Dandelion}{yellow} hypothesis classify both class correspondingly by either $+$'s or $-$'s. The later one performs the worst what agrees with our prediction. On contrary the first one outperforms \textcolor{blue}{blue} and \textcolor{green}{green} what in this case should be treated as error.\\
 
+We also present graphs for four other query budgets in figure~\ref{fig:conv.ALL}. In~\ref{fig:conv.ALL:01}(the smallest querying budget) the algorithm queried only 1 exemplar what yield random behavior. It seems like this particular point belonged to $+$ class placing \textcolor{blue}{blue} and \textcolor{Dandelion}{yellow} as the worst classifiers. Intuitively as \textcolor{Dandelion}{yellow} treats all exemplars as $-$s any query revealing $+$ point puts it in the worst position and any query resulting in $-$ point in the best---what can be seen on \textcolor{red}{red} hypothesis which was estimated as the best.\\
+In~\ref{fig:conv.ALL:05}.\\
+In~\ref{fig:conv.ALL:10}.\\
+In~\ref{fig:conv.ALL:15}.\\
+Interesting fact can be observed by comparing \textcolor{red}{red} and \textcolor{Dandelion}{yellow} hypothesis through all experiments. As \textcolor{red}{red} is always predicted better than \textcolor{Dandelion}{yellow} one our algorithm seems to send to oracle more points from top($+$) cloud than from the bottom($-$).\\
 
-what about prior posterior with this application\\
-$$
-f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
-$$
-$$
-f \left( \mu \right) \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right)
-$$
-but what is data $X$??\\
-sample from posterior.\\
-
-
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \begin{subfigure}{.5\linewidth}\centering
     \includegraphics[width=1.1\textwidth]{graphics/convergence01.png}
     \caption{1\%\label{fig:conv.ALL:01}}
@@ -1187,6 +1181,29 @@ sample from posterior.\\
 
   \caption{Change of mean(risk of hypothesis) estimation along experiment time. Each sub-figure presents different percentage of oracle queries with regard to number of points in the dataset. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:conv.ALL}}
 \end{figure}
+
+
+
+
+
+
+\section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
+
+\lipsum[1]
+
+We can use these estimations of mean and variance to model our Thompson's Sampling approach what will follow in next section.\\
+
+
+what about prior posterior with this application\\
+$$
+f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
+$$
+$$
+f \left( \mu \right) \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right)
+$$
+but what is data $X$??\\
+sample from posterior.\\
+
 
 
 \section{Lookahead}
