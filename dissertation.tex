@@ -1072,7 +1072,7 @@ Details of summarized above approach are presented in~\citep{DBLP:journals/corr/
 \vspace{2cm}
 
 
-\section{Employing Thompson Sampling}
+\section{Employing Thompson Sampling\label{sec:thompsonimprovement}}
 According to authors given above solution behaves superior to many of its rivals and still has room for improvements. Based on authors suggestions and through analysis of presented reasoning we decided to enhance algorithm~\ref{al:LCB-AL} by replacing LCB minimization with Thompson's Sampling presented in section~\ref{sec:thompson}. We motivate our decision with simplicity of later solution and ease of adaptation.\\
 
 To begin with, all steps of algorithm~\ref{al:LCB-AL} but line~\ref{al:LCB-AL:LCB} will not change. As mentioned above line~\ref{al:LCB-AL:LCB} is responsible for choosing the most suitable hypothesis to try out during next round. Main concept behind this improvement is to model each hypothesis as a normal distribution $\mathcal{N}\left( \mu, \sigma^2 \right)$. To do so we need some estimates of \emph{mean} and \emph{variance}. For each hypothesis we will model $\mu$ as risk of choosing particular $h$ described in section~\ref{sec:risk} and calculated in equation~\ref{eq:mean}. Moreover, variance will be modeled as uncertainty of this risk measure described in section~\ref{sec:uncertanity} and given by equation~\ref{eq:variance}.\\
@@ -1155,10 +1155,12 @@ Figure~\ref{fig:conv} shows the results for experiment with largest querying bud
 \textcolor{red}{red} and \textcolor{Dandelion}{yellow} hypothesis classify both class correspondingly by either $+$'s or $-$'s. The later one performs the worst what agrees with our prediction. On contrary the first one outperforms \textcolor{blue}{blue} and \textcolor{green}{green} what in this case should be treated as error.\\
 
 We also present graphs for four other query budgets in figure~\ref{fig:conv.ALL}. In~\ref{fig:conv.ALL:01}(the smallest querying budget) the algorithm queried only 1 exemplar what yield random behavior. It seems like this particular point belonged to $+$ class placing \textcolor{blue}{blue} and \textcolor{Dandelion}{yellow} as the worst classifiers. Intuitively as \textcolor{Dandelion}{yellow} treats all exemplars as $-$s any query revealing $+$ point puts it in the worst position and any query resulting in $-$ point in the best---what can be seen on \textcolor{red}{red} hypothesis which was estimated as the best.\\
-In~\ref{fig:conv.ALL:05}.\\
-In~\ref{fig:conv.ALL:10}.\\
-In~\ref{fig:conv.ALL:15}.\\
+In~\ref{fig:conv.ALL:05} gives the right answer by selecting \textcolor{magenta}{magenta} hypothesis. The second best prediction---\textcolor{cyan}{cyan}---is also correct, but the distance between these two optimal solutions an two suboptimal, namely: \textcolor{red}{red} and \textcolor{green}{green}, seems to be really small. Due to this fact this size of oracle queries is still pron to severe errors.\\
+In~\ref{fig:conv.ALL:10} gives good separation of optimal and sub-optimal hypothesis. Moreover, the prediction is still correct. For given dataset we can claim that 10\% sample is enough to give \emph{safe} prediction of hypothesis.\\
+In~\ref{fig:conv.ALL:15} improves the results given by above sample by further separating optimal and sub-optimal answers. In contrast to, 10\% sample the best arm according to this experiment is \textcolor{cyan}{cyan} and the second best is \textcolor{magenta}{magenta}. Despite this phenomenon, all exemplars of dataset are classified correctly. It seems that with more than one 0-error-rate hypothesis we need a big number of oracle queries to choose the one with largest distance to both clouds of points. On the other hand \textcolor{cyan}{cyan} hypothesis might be better than \textcolor{magenta}{magenta} one, if we have not observed in our data any negative exemplar situated above the lower cloud due to the fact that they are rare,\\
 Interesting fact can be observed by comparing \textcolor{red}{red} and \textcolor{Dandelion}{yellow} hypothesis through all experiments. As \textcolor{red}{red} is always predicted better than \textcolor{Dandelion}{yellow} one our algorithm seems to send to oracle more points from top($+$) cloud than from the bottom($-$).\\
+
+To sum up, for tested dataset 10\% sample seems to be the minimum we should use to ensure optimal outcome. 0-error-rate hypothesis seems to have indistinguishable outcomes while querying less than 30\% of dataset volume. Finally, the behavior seems quite reasonable and further studies should be carried out to examine properties of suggested solution.\\
 
 \begin{figure}[htbp]
   \begin{subfigure}{.5\linewidth}\centering
@@ -1188,10 +1190,8 @@ Interesting fact can be observed by comparing \textcolor{red}{red} and \textcolo
 
 
 \section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
-
-\lipsum[1]
-
-We can use these estimations of mean and variance to model our Thompson's Sampling approach what will follow in next section.\\
+Presented in section~\ref{sec:thompsonimprovement} solution uses estimates of risk on given hypothesis and uncertainty about this estimate. Both these values are updated after oracle query is done. We can change this process by assuming uniform prior over all hypothesis and updating them by Bayes rule when new information is revealed---after each oracle query.\
+yolo.\\
 
 
 what about prior posterior with this application\\
@@ -1207,10 +1207,11 @@ sample from posterior.\\
 
 
 \section{Lookahead}
-What we would do if we have more time. what could be better here. what is application and benefit.\\
+Presented here work covers brief introduction to multi-armed bandits world with stress put on Thompson sampling approach. It also deeply explains possible application of MAB in machine learning---active learning---by presenting one of its kind~\citep{DBLP:journals/corr/GantiG13} work. We took even further step by proposing Thompson approach to the problem replacing lower confidence bound chosen by authors. Finally we planned, coded and carried out the experiment to examine results of our small change in algorithm. The outcomes seems promising and vouch for our intuition behind the active learning problem.\\
 
+Due to time constrains, we were not able to improve our Thompson approach as described above(\S\ref{sec:qimprove}). We also could not perform full tests and comparisons between already existing algorithms and proposed one. We hope do address these issues in the near future.\\
 
-
+Finally, we think that our algorithm along with simplicity brings low computational costs and comparable with others solutions available---good performance. We consider presented solution to bring a good framework for active leaning problems to machine learning world in near future.\\
 
 
 
@@ -1221,7 +1222,7 @@ What we would do if we have more time. what could be better here. what is applic
 
 
 \newpage
-\begin{center} \textbf{\huge ~\vspace*{15cm} FIN} \end{center}
+\begin{center} \huge \textbf{\textcolor{white}{FIN}} \vspace{15cm} \textbf{FIN} \end{center}
 
 
 % \appendix
