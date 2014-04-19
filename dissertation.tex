@@ -99,7 +99,7 @@
 \begin{center}
 % Upper part of the page. The '~' is needed because \\
 % only works if a paragraph has started.
-\includegraphics[width=0.5\textwidth]{graphics/UOB-logo.png}~\\[4cm] % was 1cm
+\includegraphics[width=0.5\textwidth]{graphics/UOB-logo.png}~\\[2.5cm] % was 1cm
 
 % \textsc{\LARGE University of Bristol}\\[1.5cm]
 
@@ -129,12 +129,27 @@ Dr.~David \textsc{\textbf{Leslie}}
 \end{flushright}
 \end{minipage}
 
+\let\thefootnote\relax\footnote{Level H/6 $|$ MATH 32200---20cp Project}
+
 \vfill
 
 % Bottom of the page
 {\large \today}
 \end{center}
 \end{titlepage}
+
+
+
+%Acknowledgment
+\begin{center}Acknowledgement of Sources\\[2cm]\end{center}
+For all ideas taken from other sources (books, articles, internet), the source of the ideas is mentioned in the main text and fully referenced at the end of the report.\\[0.5cm]
+All material which is quoted essentially word-for-word from other sources is given in quotation marks and referenced.\\[.5cm]
+Pictures and diagrams copied from the internet or other sources are labelled with a reference to the web page,book, article etc.\\[2cm]
+Signed:\\[1cm]
+Dated:\\
+\vfill
+
+
 
 % \title{\emph{Multi-armed bandits} problem.\\
 % 	Practical introduction to the problem for everyone.\\
@@ -1190,20 +1205,12 @@ To sum up, for tested dataset 10\% sample seems to be the minimum we should use 
 
 
 \section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
-Presented in section~\ref{sec:thompsonimprovement} solution uses estimates of risk on given hypothesis and uncertainty about this estimate. Both these values are updated after oracle query is done. We can change this process by assuming uniform prior over all hypothesis and updating them by Bayes rule when new information is revealed---after each oracle query.\
-yolo.\\
+Presented in section~\ref{sec:thompsonimprovement} solution uses estimates of risk on given hypothesis and uncertainty about this estimate. Both these values are updated after oracle query is done. We can change this process by assuming uniform prior over all hypothesis and updating them by Bayes rule when new information is revealed---after each oracle query.\\
+This method would demand posterior to estimate fit of given hypothesis for classified data. Queried point would either support hypothesis by agreeing with it's prediction or discourage to choose it again by not agreeing.\\
+The point to query would be chosen based on being the most informative for current hypothesis. For instance point being closest to boundary---having largest contribution to variance estimate.\\
 
 
-what about prior posterior with this application\\
-$$
-f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
-$$
-$$
-f \left( \mu \right) \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right)
-$$
-but what is data $X$??\\
-sample from posterior.\\
-
+Another possible improvement can be used to significantly reduce hypothesis space to the one that are most probable a good fit. It can be acquired by first doing unsupervised learning on dataset(clustering, U-SVM) with number of threshold parameters. The output of such process can be subset of our hypothesis space.\\
 
 
 \section{Lookahead}
