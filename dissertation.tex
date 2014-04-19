@@ -356,19 +356,18 @@ One of scenarios where multi-armed bandits are also used is to gather informatio
 MAB with dependent arms grow in popularity due to the Internet advertising application. In such scenario the ads displayed to the user are usually dependent(one manufacturer different products or one class of products made by different companies) and usually can be grouped. Policies for such scenarios are made to consider this connections between actions and exploit this information~\citep{Pandey:2007:MBP:1273496.1273587}.\\
 
 
+
+
+
 \chapter{Solution \texttt{\textbf{Exploration}}}
+In this section we will present number of approaches to find and optimal solution. Firstly we will briefly describe methodologies well known for couple of decades; then we will give extensive description of one of the most recent approach called \emph{Thompson Sampling}.\\
 
 \section{Seeking optimal solution}
-In this section I will present number of approaches to find and optimal solution.\\
-Blah blah blah blah.
-Strategy id balancing exploration and exploitation to find optimal solution. Sometime it demand sanctifying early payoff to gain some more information about the system and maximize future payoff.
-Information vs.\ immediate payoff. -- in hospital example case it means that sacrificing good of early coming patients by means of experimenting means improvement over time and better results of treatment on future patients.
-To democratize it we can use geometric sequence so health of current patients is the same in comparison to future patients.\\
-\\
-\\
-OPTIMALITY IS GUARANTEED BY LIMIT ... ETC.
-\\
-\\
+Presented below strategies are used to balance exploration and exploitation to find optimal solution. The main issue is how to find equilibrium between acquiring information and immediate payoff. Coming back to the hospital example; we have to decide whether to scarify wellbeing of people to learn more about particular condition of early coming patients by means of experimenting leading to improvement over time and better results of treatment on future patients---sanctifying early payoff to gain some more information about the system and maximize future payoff.\\
+To democratize such dramatic scenario we can use geometric sequence so health of current patients is the same in comparison to future patients.\\
+
+In general we can consider strategy as optimal if in the limit of time it converges to optimal selection.\\
+
 This result shows that when the discounting is geometric, a bandit problem involving k independent arms can be solved by solving k different two-armed bandits, each involving one known and one unknown arm.\\
 
 \subsection{Index approach (Gittins Index)\label{sec:gitind}}
@@ -1229,7 +1228,7 @@ Finally, we think that our algorithm along with simplicity brings low computatio
 
 
 \newpage
-\begin{center} \huge \textbf{\textcolor{white}{FIN}} \vspace{15cm} \textbf{FIN} \end{center}
+\begin{center}~\\[10cm] \textbf{\huge FIN} \end{center}
 
 
 % \appendix
