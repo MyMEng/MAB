@@ -284,22 +284,22 @@ $$
 
 \subsubsection{Most common sequences}
 There are many different discount sequences used with multi-armed bandits each with numerous assumptions. In the literature only two of them are described in great detail and both are presented below.
-{
+
 \subsubsection{Uniform sequence}
 This discount sequence is most commonly used when a player wants to maximize the payoff of first $h$ outcomes.
 The $h$-horizon uniform discount sequence is defined as:
-\[
+$$
  \alpha_i =
   \begin{cases}
    1 & \text{for } i \leq n \\
    0 & \text{for } i > n
   \end{cases}
-\]
+$$
 leading to:
-\[
+$$
   \mathbf{A} = ( \underbrace{ 1, 1, 1, ..., 1}_{h\text{ elements}}, 0, 0, 0, ... ) \text{ .}
-\]\\
-\\
+$$
+
 Here after \emph{Arm} selection the horizon of discount sequence is decreased by $1$.
 
 
@@ -309,11 +309,13 @@ $$
 \mathbf{A} = \left( a^0, a^1, a^2, ... \right)
 $$
 where $\alpha_1 = a^0$ is always equal to $1$.\\
-\\
-On the other hand, here after \emph{Arm} selection the discount sequence is proportional to original sequence.\\
-\\
 
-}
+On the other hand, here after \emph{Arm} selection the discount sequence is proportional to original sequence.\\
+
+It can also be shown that when the discounting is geometric, a bandit problem involving k independent arms can be solved by solving k different two-armed bandits, each involving one known and one unknown arm.\\[3cm]
+
+
+
 In case of both sequences the decision problem and optimal strategy is unchanged if a discount series is multiplied by some constant. Furthermore, in case of geometric sequence is effectively the same the same throughout the \emph{Game}.
 
 
@@ -368,7 +370,6 @@ To democratize such dramatic scenario we can use geometric sequence so health of
 
 In general we can consider strategy as optimal if in the limit of time it converges to optimal selection.\\
 
-This result shows that when the discounting is geometric, a bandit problem involving k independent arms can be solved by solving k different two-armed bandits, each involving one known and one unknown arm.\\
 
 \subsection{Index approach (Gittins Index)\label{sec:gitind}}
 % chap 1
