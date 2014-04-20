@@ -423,42 +423,29 @@ This method is extensively described in section~\ref{sec:thompsonsampling}; we m
 
 
 \subsubsection{Finite memory strategy}
-It is a class of strategies where .\\
+It is a class of strategies where the decision process has finite memory in a sense of the history. The restriction can be set to $w$ last rounds; some policies can suffer large ??not-improvement?? with restricted memory while others will not.\\
 
 \subsubsection{Myopic strategies}
-~\citep{Scott:2010:MBL:1944422.1944432}.\\
-Not good in general.\\
+They are not good in general. These strategies try to maximize the expected reward during the next infinitesimal time interval. They are called myopic because they neglects things that may happen later or disregard a long-range(long-time) vision to continue the optic metphore.\\
 
-% from gittins book\\
-it corresponds to maximizing the expected reward during the next infinitesimal time interval
+For some class of problems it can be shown that short term optimum is simultaneously long term one, so for this kind of problems this solution seems the best as it does not perform complex computation or expensive lookahead. This approach is mainly applied to it can be applied to many other strategies but is most often used with index methods.
 
-it is called myoptic because it neglects things that may happen later or disregard a long-range(long-time) vision to continue the optic metphore.
-
-for some class of problems it can be shown that short term optimum is simultaneously long term one so for this kindaof problems this solution works as it does not perform complex computation or doesn;t do lookahead.
-
-% my
-local not global solution with respect to time intervals.
-it can be applied to many other strategies but is most often used with index methods.
 is thompson samplkng one of myoptic methods? intead of taking longe ranfe view it ties to minimize current vaiance of hypothesis to decide on best one.\\
 
 
-+++++++++++
-
 Uncertanity (exploratory value) is taken under account but --- it focuses on current choice- limited lookahead.
 
+% local not global solution with respect to time intervals.
+
 \subsubsection{Undirected}
-In this strategy we only base our choice on exploitative value. e.g.\ $\epsilon$-greedy, $\epsilon$-decreasing, Boltzmann action selection.
+In this class of strategies we only base our choice on exploitative value e.g.\ $\epsilon$-greedy, $\epsilon$-decreasing, Boltzmann action selection. We select an action based on currently highest reward estimate and do not include exploratory component.\\
 
-\subsubsection{Belief-lookahead}
-================================
+% \subsubsection{Belief-lookahead}
+
 \subsubsection{Bayesian approach}
-Bayes' theorem allows for "straight forward" application to adaptive learning so it's a good approach tool in sequential decision making \\
-
-It can be fully Bayesian approach where --- here the chosen action is supposed to maximise the expected cumulative reward for the rest of the process. Drwback of such approach is hard to guarantee inifinite exploration
-$l_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo l_l$
-
-
-
+This set of policies uses Bayesian inference---combines prior belief with likelihood estimation--- to produce current estimation of a process. Bayes' theorem allows for ``straight forward'' application to adaptive learning so it is a good tool in sequential decision making processes like MAB.\\
+Thompson Sampling is a good example of BAyesian approach.\\
+% It can be fully Bayesian approach where---here the chosen action is supposed to maximise the expected cumulative reward for the rest of the process. Drwback of such approach is hard to guarantee inifinite exploration.\\
 
 
 
