@@ -368,7 +368,7 @@ In this section we will present number of approaches to find and optimal solutio
 Presented below strategies are used to balance exploration and exploitation to find optimal solution. The main issue is how to find equilibrium between acquiring information and immediate payoff. Coming back to the hospital example; we have to decide whether to scarify wellbeing of people to learn more about particular condition of early coming patients by means of experimenting leading to improvement over time and better results of treatment on future patients---sanctifying early payoff to gain some more information about the system and maximize future payoff.\\
 To democratize such dramatic scenario we can use geometric sequence so health of current patients is the same in comparison to future patients.\\
 
-In general we can consider strategy as optimal if in the limit of time it converges to optimal selection.\\
+In general we can consider strategy as optimal if in the limit of time it converges to optimal selection---chooses optimal arm infinitely many times. We usually consider \emph{preemptive} case---arbitrary switching between actions is allowed and takes negligible time.\\
 
 
 \subsubsection{Index approach (Gittins Index)\label{sec:gitind}}
@@ -376,31 +376,36 @@ It is one of the oldest approaches providing optimal solution. The pioneering in
 
 The basic intuition behind this approach is to assign \emph{priority indices} to each action, where index of particular action should only depend on the history of outcomes for this action and no other. The decision process then comes down to choosing action with highest current index.\\
 
-Basic theory of allocating indeces is based on calibrating actions at given state against some standardized actions with simple properties. The main advantage of such approach is restricting state function of an action to depend only on one's own history therefore deducing the complexity.\\
+Basic theory of allocating indeces is based on calibrating actions at given state against some standardized actions with simple properties. The main advantage of such approach is restricting state function of an action to depend only on one's own history therefore deducing the complexity~\citep{gittins+glazebrook+weber}.\\
+Indeces are described as real-valued functions(dynamic allocation index) on the set of all available alternatives; the selection process is maximizing this function.\\
 
+With such indeces we can specify optimal policy for particular problem which has any set of possible alternatives of a given type; all is with regard to so called \emph{standard bandit problem}.\\
 
-So there exists a real valued function defined by a set of all available alternatives, and the selected one is chosen to maximize this function. This function is(are) dynamic allocation index(ices). indeces are described as functions on the set of available alternatives.\\
-With such indeces we can specify optimal policy for particular problem which has any set of possible alternatives of a given type.\\
-Defining optimal policy---the one that chooses optimal arm infinitely many times- is obscure(not straight forward) in \emph{preemptive} case---what means that arbitrary switching between actions is allowed which take negligible time, \\
-all is with regard to so called \emph{standard bandit problem}\\
-in the simplest case we consider multi-armed bandit as a number of semi-Markov decision processes. The \emph{index theorem} states that there exists \emph{index policy} which is optimal. Wht means that there exists a real-valued index, say $\nu ( B_i , \xi_i(t) )$, where $B_i$ is i-th bandit process and $\xi_i$ is a state of i-th process. Furthermore index for particular bandit process depends only on current state of this process and no other processes. The optimal strategy is thus to continue the process with greatest index.\\
-The index theorem says that a policy for bandits process is optimal if it is an index policy ith respect to $\nu(B_1, .), \nu(N_2, .), ... , \nu(B_n, .)$.\\
-ASSUMPTIONS\\
-The general assumptions that need to hold so we are able to apply gittin index:
-* rewards are accumulated up to an infinite time horizon\\
-* there is constant exponential discounting\\
-* there is only one processor/server\\
-******\\
-* discounting is strict?\\
-* unless bandit is processed (cont control is recived) no rewards accrue from it and its state does not change\\
+The index theorem says that a policy for bandits process is optimal if it is an index policy with respect to $\nu(B_1, \cdot), \nu(B_2, \cdot),..., \nu(B_n, \cdot)$ where $\nu$ is index function and $B_i$ is given bandit process.\\
 
+The significant drawback of index strategy is demand of huge amount of computation and memory storage. Moreover, following assumptions need to hold:\\
+\begin{itemize}
+\item rewards are accumulated up to an infinite time horizon,
+\item there is constant and strict exponential discounting,
+\item there is only one processor(server),
+\item unless arm is pulled no rewards are collected and its state does not change.\\
+\end{itemize}
+
+In the simplest case we consider multi-armed bandit as a number of semi-Markov decision processes. The \emph{index theorem} states that there exists \emph{index policy} which is optimal. It means that there exists a real-valued index, say $\nu ( B_i , \xi_i(t) )$, where $B_i$ is i-th bandit process and $\xi_i$ is a state of i-th process(dependent on history)---each index depends only on its(arm---process) current state and no other processes' state. As previously mentioned we play the process with highest current index.\\
+
+\subsubsection{Upper Confidence Bound(UCB) and Lower Confidence Bound(LCB)}
+This method is based on UCB and LCB for the mean reward of each arm, where selection process is based on correspondingly largest and lowest bound. It is shown that under certain assumptions the policy will only select suboptimal arm finite number of times---the optimal arm will be played exponentially more often than any other further along the time. Some algorithms of this family require only---therefore being ... simpictity and computational inexepsivev~\citep{Scott:2010:MBL:1944422.1944432}.\\
 
 \subsubsection{Strategy comparison}
+~\citep{Scott:2010:MBL:1944422.1944432}.\\
+
 \subsubsection{Minimax approach}
+~\citep{Scott:2010:MBL:1944422.1944432}.\\
+
 \subsubsection{Finite memory strategy}
-\subsubsection{'Stay on a winner'}
 
 \subsubsection{Myopic strategies}
+~\citep{Scott:2010:MBL:1944422.1944432}.\\
 Not good in general.\\
 
 % from gittins book\\
@@ -413,7 +418,9 @@ for some class of problems it can be shown that short term optimum is simultaneo
 % my
 local not global solution with respect to time intervals.
 it can be applied to many other strategies but is most often used with index methods.
-is thompson samplkng one of myoptic methods? intead of taking longe ranfe view it ties to minimize current vaiance of hypothesis to decide on best one.
+is thompson samplkng one of myoptic methods? intead of taking longe ranfe view it ties to minimize current vaiance of hypothesis to decide on best one.\\
+
+\texttt{'Stay on a winner'}\\
 
 +++++++++++
 
@@ -430,13 +437,8 @@ Bayes' theorem allows for "straight forward" application to adaptive learning so
 It can be fully Bayesian approach where --- here the chosen action is supposed to maximise the expected cumulative reward for the rest of the process. Drwback of such approach is hard to guarantee inifinite exploration
 $l_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo l_l$
 
-\subsubsection{Thompson Sampling approach}
+\texttt{Thompson Sampling approach}
 As all the rest of methods is well described in literature and they were main subject of interest it is relatively easy to find good texts about them. On contrary, Thompson Sampling is cutting edge approach with a lot of research going on the focus will be put on it and it will be described in deep details in  \textbf{Section~\ref{sec:thompsonsampling}} which is devoted to Thompson Sampling approach to finding an optimal strategy.
-
-\subsubsection{etc.\ based on Google paper}
-
-% dynamic programming recurence equation
-describing by recursiveequations--- demand significant amount of computation and memory storage<- index book.
 
 
 
