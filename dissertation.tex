@@ -13,6 +13,8 @@
 %  notitlepage - abstract on the same page
 \usepackage{indentfirst} % indent frst paragraph of section
 \usepackage{fullpage}    % full A4 page
+% \usepackage[left=2.5cm, right=2.5cm]{geometry}
+
 \usepackage{amsmath}
 \usepackage{amsfonts}    % fancy maths font
 \usepackage{mathrsfs}    % fancy maths font
@@ -109,10 +111,10 @@
 
 % Title
 \HRule \\[0.4cm]
-{ \huge \bfseries \emph{Multi-armed bandits.}\\
-	Comprehensive introduction to the topic with \emph{Thompson's Sampling} approach\\
+{ \huge \bfseries \emph{\textbf{Multi-armed bandits}}\\[0.5cm]
+	Comprehensive introduction with focus on \emph{Thompson Sampling}\\
   \&\\
-  Active Learning in the bandits scenario.\\[0.4cm] }
+  Active Learning in the bandits scenario\\[0.4cm] }
 \HRule \\[1.5cm]
 
 % Author and supervisor
@@ -147,6 +149,11 @@ All material which is quoted essentially word-for-word from other sources is giv
 Pictures and diagrams copied from the internet or other sources are labelled with a reference to the web page,book, article etc.\\[2cm]
 Signed:\\[1cm]
 Dated:\\
+
+% \thispagestyle{empty}% no header and footer
+\thispagestyle{empty}
+\cleardoublepage
+\pagestyle{plain}
 \vfill
 
 
@@ -167,9 +174,10 @@ Dated:\\
 
 \begin{abstract}
 \thispagestyle{empty}% no header and footer
-This dissertation consists of two chapters. First one is a comprehensive introduction to theory underlying multi-armed bandits problem. Reader is assumed not to need any prior knowledge in this field, only basics of statistics and probability theory are required. Second chapter is experimental part focused on ...
+This dissertation covers two main topics: multi-armed bandits theory with extensive treatment of Thompson Sampling approach as well as application of MAB in active learning. The comprehensive introduction to theory underlying multi-armed bandits is gradually developing concepts necessary for understanding the basic bandit strategies. The late part of this work presents first of its kind(as far as we know) application of MAB algorithm to solve computer science task of learning in environment with insufficient information.\\
+Reader is assumed not to need any prior knowledge in this field, only basics of statistics and probability theory are required to smoothly follow the text.
 \begin{center}
-Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, exploration, exploitation, Thompson's sampling}
+Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, exploration, exploitation, Thompson sampling}
 
 \let\thefootnote\relax\footnote{This dissertation together with all figures and experiment source code is available as \texttt{GitHub} repository at: \url{https://github.com/So-Cool/MAB}.}
 
@@ -201,12 +209,14 @@ dzi\k{e}kuj\k{e} Tomek.
 
 
 \newpage
-\tableofcontents
-% \newpage
 \thispagestyle{empty}
 \cleardoublepage
 \pagestyle{plain}
 \setcounter{page}{1}
+
+\tableofcontents
+% \newpage
+
 
 
 \chapter{Introduction\label{chap:intro}}
@@ -370,6 +380,7 @@ To democratize such dramatic scenario we can use geometric sequence so health of
 
 In general we can consider strategy as optimal if in the limit of time it converges to optimal selection---chooses optimal arm infinitely many times. We usually consider \emph{preemptive} case---arbitrary switching between actions is allowed and takes negligible time.\\
 
+\subsection{Examples}
 
 \subsubsection{Index approach (Gittins Index)\label{sec:gitind}}
 It is one of the oldest approaches providing optimal solution. The pioneering index method introduced by John C. Gittins moved forward not only multi-armed bandits concept but whole wide class of sequential allocation problems.\\
@@ -394,15 +405,25 @@ The significant drawback of index strategy is demand of huge amount of computati
 In the simplest case we consider multi-armed bandit as a number of semi-Markov decision processes. The \emph{index theorem} states that there exists \emph{index policy} which is optimal. It means that there exists a real-valued index, say $\nu ( B_i , \xi_i(t) )$, where $B_i$ is i-th bandit process and $\xi_i$ is a state of i-th process(dependent on history)---each index depends only on its(arm---process) current state and no other processes' state. As previously mentioned we play the process with highest current index.\\
 
 \subsubsection{Upper Confidence Bound(UCB) and Lower Confidence Bound(LCB)}
-This method is based on UCB and LCB for the mean reward of each arm, where selection process is based on correspondingly largest and lowest bound. It is shown that under certain assumptions the policy will only select suboptimal arm finite number of times---the optimal arm will be played exponentially more often than any other further along the time. Some algorithms of this family require only---therefore being ... simpictity and computational inexepsivev~\citep{Scott:2010:MBL:1944422.1944432}.\\
+This method is based on UCB and LCB for the mean reward of each arm, where selection process is based on correspondingly largest and lowest bound. It is shown that under certain assumptions the policy will only select suboptimal arm finite number of times---the optimal arm will be played exponentially more often than any other further along the time. Some algorithms of this family require only the knowledge of sample mean for each arm---therefore being simple and computationally inexpensive~\citep{Scott:2010:MBL:1944422.1944432}.\\
 
-\subsubsection{Strategy comparison}
-~\citep{Scott:2010:MBL:1944422.1944432}.\\
+\subsubsection{'Stay on a winner'}
+It is well known strategy, very often used by gamblers. It is a myopic policy where arm $a$ is selected in round $t+1$ if it was considered successful at time $t$. On contrary, if selected arm failed we either select next at random or according to some deterministic policy.\\
+It was shown by~\citep{berry+firstedt} that continuation on successful arm is a good strategy, nevertheless, ``failure switch'' is not always desirable. This strategy tends toward equal allocation what leads to over-exploration~\citep{Scott:2010:MBL:1944422.1944432}.\\
 
-\subsubsection{Minimax approach}
-~\citep{Scott:2010:MBL:1944422.1944432}.\\
+% \subsubsection{Minimax approach}
+% ~\citep{Scott:2010:MBL:1944422.1944432}.\\
+
+\subsubsection{Thompson Sampling approach}
+This method is the most recent making its way by simplicity and low computational cost. The basic idea is to sample from posterior distribution of each action and select arm with highest sample. The more uncertain we are about particular action the higher variance estimate we have yielding more sparse samples---this natural mechanisms guarantees infinite exploration of all actions.\\
+This method is extensively described in section~\ref{sec:thompsonsampling}; we motivate our choice by relatively few undergraduate level texts available. Furthermore, Thompson Sampling is cutting edge approach with a lot of ongoing research.\\
+
+
+\subsection{Strategies---Policies}
+
 
 \subsubsection{Finite memory strategy}
+It is a class of strategies where .\\
 
 \subsubsection{Myopic strategies}
 ~\citep{Scott:2010:MBL:1944422.1944432}.\\
@@ -420,7 +441,6 @@ local not global solution with respect to time intervals.
 it can be applied to many other strategies but is most often used with index methods.
 is thompson samplkng one of myoptic methods? intead of taking longe ranfe view it ties to minimize current vaiance of hypothesis to decide on best one.\\
 
-\texttt{'Stay on a winner'}\\
 
 +++++++++++
 
@@ -436,9 +456,6 @@ Bayes' theorem allows for "straight forward" application to adaptive learning so
 
 It can be fully Bayesian approach where --- here the chosen action is supposed to maximise the expected cumulative reward for the rest of the process. Drwback of such approach is hard to guarantee inifinite exploration
 $l_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo lll_lo l_l$
-
-\texttt{Thompson Sampling approach}
-As all the rest of methods is well described in literature and they were main subject of interest it is relatively easy to find good texts about them. On contrary, Thompson Sampling is cutting edge approach with a lot of research going on the focus will be put on it and it will be described in deep details in  \textbf{Section~\ref{sec:thompsonsampling}} which is devoted to Thompson Sampling approach to finding an optimal strategy.
 
 
 
