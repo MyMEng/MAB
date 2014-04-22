@@ -221,13 +221,13 @@ dzi\k{e}kuj\k{e} Tomek.
 
 
 \chapter{Introduction\label{chap:intro}}
-The \emph{multi-armed bandit} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of \colorbox{magenta}{problems} that could be framed as a multi-armed bandit scenarios the field has become interest of many scientists, researchers, economists not to mention companies looking for work efficiency improvement and savings. All the solutions addressing these \colorbox{magenta}{problems} can be expressed as simple as finding a balance between \emph{exploration} and \emph{exploitation}.\\
+The \emph{multi-armed bandits} problem has been rapidly developing field of statistics and probability theory since early 20\ts{th} century. With a vastly growing number of tasks that could be framed as a bandit scenario the field has become a topic of research for many scientists, economists not to mention companies looking for efficiency improvements and savings. All things considered, these problems can be solved with ease by finding a balance between \emph{exploration} and \emph{exploitation}.\\
 
-The main reference for this chapter is~\citep{berry+firstedt}.\\
+\noindent The main reference for this chapter is~\citep{berry+firstedt}.\\
 
 
 \section{Background}
-Many people know statistics and probability as analyzing processes or data in various aspects. They consider it as a rather \emph{static} science. But what if the process of our interest is continuously developing while we want to discover it or it demands our interaction. Simple statistics or probability might not be able to handle such cases as good as bandit theory.\\
+Many people consider statistics and probability as analyzing processes or data in various aspects---as a rather \emph{static} science. But what if the process of our interest is continuously developing while we want to discover it or it demands our interaction. Simple statistics or probability might not be able to handle such cases as good as bandits theory.\\
 
 To begin with, lets consider \emph{fruit machine} as it is a first thing that crosses reader's mind after hearing about multi-armed bandits. Imagine a row of slot machines in front of you. Pulling an arm of each of these automaton will result in different outcome (win or loose) each with corresponding probability according to some unknown distribution. Result for now on can be interpreted as various reels combinations. For the sake of simplicity it can be assumed that each automaton gives binary result: \emph{win} with probability $p$ and \emph{loose} with probability $p-1$. Without lost of any information row of such machines can be transformed into only one automation but with multiples arms or buttons each corresponding to single machine in a mentioned row.\\
 
@@ -1121,16 +1121,16 @@ To sum up, for each $h$ in our hypothesis space we calculate risk --- mean; and 
 
 
 \chapter{The experiment}
-To test our version of active learning MAB algorithm(\ref{al:LCB-AL} \& \ref{al:TS-AL}) presented in chapter~\ref{ch:MAB-AL} we conducted a small experiment described through this chapter. The purpose of presented below work is just to visualise the algorithm and show its correctness; no comparison to other multi-armed bandits active learning algorithms has been performed.\\
+To test and evaluate our version of active learning MAB algorithm(\ref{al:LCB-AL} \& \ref{al:TS-AL}) presented in chapter~\ref{ch:MAB-AL} we conducted an experiment described through the following sections. The purpose of presented below results are just to visualize the algorithm and confirm its correctness; no comparison to other multi-armed bandits active learning algorithms has been performed.\\
 
 \section{Introduction}
-The experiment was performed only on one dataset:\texttt{iris}\footnote{Used dataset is preprocessed to contain only two attributes(2D) and two classes(binary classification) of \texttt{iris} which can be found at \url{http://archive.ics.uci.edu/ml/datasets/Iris}.}, which is linearly separable. This dataset is well known in machine learning experiments and provide two dense cluster. For the purpose of simplicity we predefined 6 different linear classifiers---hypothesis---from which the algorithm chooses the best. The dataset together with predefined boundaries is presented in figure~\ref{fig:hyp}.\\
+The experiment was conducted only on one dataset:\texttt{iris}\footnote{Used dataset was preprocessed to contain only two attributes(2D) and two classes(binary classification). The \texttt{iris} set can be found at \url{http://archive.ics.uci.edu/ml/datasets/Iris}.}, which is linearly separable. This data package is well known in machine learning experiments and provide two dense cluster of points. For the purpose of simplicity we predefined 6 different linear classifiers from which the algorithm chooses the best. The dataset together with selected hypothesis(arms) is presented in figure~\ref{fig:hyp}.\\
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\linewidth]{graphics/gypothesis.png}
   \begin{tiny}
-    \caption{Visualization of linearly separable \texttt{iris} dataset together with tested hypothesis(arms).\label{fig:hyp}}
+    \caption{Visualization of linearly separable \texttt{iris} dataset together with selected hypothesis.\label{fig:hyp}}
   \end{tiny}
   \vspace{1cm}
 \end{figure}
@@ -1150,33 +1150,34 @@ V^\prime_t = \left[
   \left( \sum_{\mathscr{Q}_t} L(z(x_i)) \right)^2
 \right]_+
 $$
-This change is made solely for simplicity and does not affect the variance estimate in any way.\\
+This change is made solely to simplify and does not affect the variance estimate in any way.\\
 
-With change given above we implemented our solution in \texttt{Python} programming language(formatted as \texttt{iPython notebook}). We ran the experiment with different querying budget:1\%, 5\%, 10\%, 15\% and 20\% of initial dataset size. Figures~\ref{fig:conv} and~\ref{fig:conv.ALL} show change of risk mean value estimate with number of queries for each of listed above query allowance.\\
+With adjustment given above we implemented our solution in \texttt{Python} programming language(formatted as \texttt{iPython notebook}). We ran the experiment with different querying budgets: 1\%, 5\%, 10\%, 15\% and 20\% of initial dataset size. Figures~\ref{fig:conv} and~\ref{fig:conv.ALL} show change of risk mean estimate with number of queries made for listed above allowances.\\
 
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.7\linewidth]{graphics/convergence.png}
   \begin{tiny}
-    \caption{Change of mean(risk of hypothesis) estimation along experiment time. Experiment with querying 20\% of dataset size points. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:conv}}
+    \caption{Change of hypothesis risk estimation along time. Experiment conducted with query budget of 20\% of dataset size. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:conv}}
   \end{tiny}
   \vspace{1cm}
 \end{figure}
 
 \section{Results}
-Figure~\ref{fig:conv} shows the results for experiment with largest querying budget. The outcome is reasonable as it estimates \textcolor{magenta}{magenta} hypothesis as the best and \textcolor{cyan}{cyan} one as second best; risk estimates for both these classifiers lie very close. Both these choices seems reasonable for given dataset---they make no error in classification.\\
-\textcolor{blue}{blue} and \textcolor{green}{green} hypothesis also en up having close risk estimates and being 4\ts{th} and 5\ts{th} at the end. This result seems reasonable as the first one cuts one of clouds in half, classifying approximately 75\% of exemplars right and the other hypothesis does the same with other cloud of points.\\
+Figure~\ref{fig:conv} illustrates the results for the experiment with largest querying budget. The outcome is reasonable as it predicts \textcolor{magenta}{magenta} hypothesis as the best and \textcolor{cyan}{cyan} one as the second best; risk estimates for both these classifiers lie very close. Both these choices seems reasonable for given dataset---they make no error in classification.\\
+\textcolor{green}{green} and \textcolor{blue}{blue} hypothesis also end up having close risk estimates and scoring 4\ts{th} and 5\ts{th} respectively. This result can be justified; the first one cuts one of the clouds in half, classifying approximately 75\% of exemplars correctly and the other hypothesis does the same with the other cloud of points.\\
 
-\textcolor{red}{red} and \textcolor{Dandelion}{yellow} hypothesis classify both class correspondingly by either $+$'s or $-$'s. The later one performs the worst what agrees with our prediction. On contrary the first one outperforms \textcolor{blue}{blue} and \textcolor{green}{green} what in this case should be treated as error.\\
+\textcolor{red}{red} and \textcolor{Dandelion}{yellow} hypothesis classify all points correspondingly as $+$'s and $-$'s. The later one performs the worst what agrees with our prediction. On contrary the first one outperforms \textcolor{blue}{blue} and \textcolor{green}{green} what in this case should be treated as error; such behavior is possible and can be justified by algorithm querying more true negatives than positives.\\
 
-We also present graphs for four other query budgets in figure~\ref{fig:conv.ALL}. In~\ref{fig:conv.ALL:01}(the smallest querying budget) the algorithm queried only 1 exemplar what yield random behavior. It seems like this particular point belonged to $+$ class placing \textcolor{blue}{blue} and \textcolor{Dandelion}{yellow} as the worst classifiers. Intuitively as \textcolor{Dandelion}{yellow} treats all exemplars as $-$s any query revealing $+$ point puts it in the worst position and any query resulting in $-$ point in the best---what can be seen on \textcolor{red}{red} hypothesis which was estimated as the best.\\
-In~\ref{fig:conv.ALL:05} gives the right answer by selecting \textcolor{magenta}{magenta} hypothesis. The second best prediction---\textcolor{cyan}{cyan}---is also correct, but the distance between these two optimal solutions an two suboptimal, namely: \textcolor{red}{red} and \textcolor{green}{green}, seems to be really small. Due to this fact this size of oracle queries is still pron to severe errors.\\
-In~\ref{fig:conv.ALL:10} gives good separation of optimal and sub-optimal hypothesis. Moreover, the prediction is still correct. For given dataset we can claim that 10\% sample is enough to give \emph{safe} prediction of hypothesis.\\
-In~\ref{fig:conv.ALL:15} improves the results given by above sample by further separating optimal and sub-optimal answers. In contrast to, 10\% sample the best arm according to this experiment is \textcolor{cyan}{cyan} and the second best is \textcolor{magenta}{magenta}. Despite this phenomenon, all exemplars of dataset are classified correctly. It seems that with more than one 0-error-rate hypothesis we need a big number of oracle queries to choose the one with largest distance to both clouds of points. On the other hand \textcolor{cyan}{cyan} hypothesis might be better than \textcolor{magenta}{magenta} one, if we have not observed in our data any negative exemplar situated above the lower cloud due to the fact that they are rare,\\
-Interesting fact can be observed by comparing \textcolor{red}{red} and \textcolor{Dandelion}{yellow} hypothesis through all experiments. As \textcolor{red}{red} is always predicted better than \textcolor{Dandelion}{yellow} one our algorithm seems to send to oracle more points from top($+$) cloud than from the bottom($-$).\\
+We also present graphs for four other query budgets in figure~\ref{fig:conv.ALL}. In~\ref{fig:conv.ALL:01}(the smallest querying budget) the algorithm sent to oracle only 1 exemplar what yields random behavior. It seems like this particular point belonged to $+$ class placing \textcolor{blue}{blue} and \textcolor{Dandelion}{yellow} as the worst classifiers. Intuitively as \textcolor{Dandelion}{yellow} treats all exemplars as $-$'s, any query revealing $+$ point evaluates it as the worst hypothesis and any query resulting in $-$ point in the best; \textcolor{red}{red} hypothesis which was estimated as the best confirms preceding description.\\
+Figure \ref{fig:conv.ALL:05}, corresponding to 5\% budget gives the correct answer by selecting \textcolor{magenta}{magenta} hypothesis. The second best prediction---\textcolor{cyan}{cyan}---is also correct, but the distance between these two optimal solutions an two sub-optimal, namely: \textcolor{red}{red} and \textcolor{green}{green}, seems to be really small. Due to this fact 5\% size oracle queries is still pron to severe errors.\\
+Graph~\ref{fig:conv.ALL:10} provides good separation of optimal and sub-optimal hypothesis. Moreover, the predictions are still correct. For given dataset we can claim that 10\% sample is enough to give \emph{safe} prediction of the optimal hypothesis.\\
+The following figure~\ref{fig:conv.ALL:15} improves the results given above by further separating optimal and sub-optimal answers. Experiment with 15\% sample in contrast to 10\% one estimates \textcolor{cyan}{cyan} hypothesis as the best and \textcolor{magenta}{magenta} one as the second best. Despite this phenomenon, all exemplars of dataset are classified correctly by chosen classifier. It seems that with more than one 0-error-rate hypothesis we need bigger number of oracle queries to choose the one with largest distance to both clouds of points. On the other hand \textcolor{cyan}{cyan} hypothesis might be better than \textcolor{magenta}{magenta} one in case we have not observed in our data any negative exemplar situated between two clouds due to the fact that they are rare.\\
 
-To sum up, for tested dataset 10\% sample seems to be the minimum we should use to ensure optimal outcome. 0-error-rate hypothesis seems to have indistinguishable outcomes while querying less than 30\% of dataset volume. Finally, the behavior seems quite reasonable and further studies should be carried out to examine properties of suggested solution.\\
+Interesting fact can be observed by comparing \textcolor{red}{red} and \textcolor{Dandelion}{yellow} hypothesis through all experiments. As \textcolor{red}{red} is always predicted better than \textcolor{Dandelion}{yellow} our algorithm seems to send to oracle more points from top($+$) cloud than from the bottom($-$) one. This feature should be investigated further to better understand this phenomenon.\\
+
+To sum up, for tested dataset 10\% sample seems to be the minimum we should use to ensure optimal hypothesis selection. All 0-error-rate hypothesis seems to have indistinguishable outcomes while querying less than 30\% of dataset volume. Finally, the behavior is quite reasonable and further studies should be carried out to examine properties of suggested solution.\\
 
 \begin{figure}[htbp]
   \begin{subfigure}{.5\linewidth}\centering
@@ -1197,7 +1198,7 @@ To sum up, for tested dataset 10\% sample seems to be the minimum we should use 
     \caption{15\%\label{fig:conv.ALL:15}}
   \end{subfigure}
 
-  \caption{Change of mean(risk of hypothesis) estimation along experiment time. Each sub-figure presents different percentage of oracle queries with regard to number of points in the dataset. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:conv.ALL}}
+  \caption{Change of hypothesis risk estimation along time. Each sub-figure presents different percentage of oracle queries with regard to the number of points in the dataset. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:conv.ALL}}
 \end{figure}
 
 
@@ -1206,20 +1207,20 @@ To sum up, for tested dataset 10\% sample seems to be the minimum we should use 
 
 
 \section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
-Presented in section~\ref{sec:thompsonimprovement} solution uses estimates of risk on given hypothesis and uncertainty about this estimate. Both these values are updated after oracle query is done. We can change this process by assuming uniform prior over all hypothesis and updating them by Bayes rule when new information is revealed---after each oracle query.\\
-This method would demand posterior to estimate fit of given hypothesis for classified data. Queried point would either support hypothesis by agreeing with it's prediction or discourage to choose it again by not agreeing.\\
-The point to query would be chosen based on being the most informative for current hypothesis. For instance point being closest to boundary---having largest contribution to variance estimate.\\
+Presented in section~\ref{sec:thompsonimprovement} solution uses estimate of risk of given hypothesis and value representing uncertainty about this estimate. Both these quantities are updated after each oracle query is done. We can change this process by assuming uniform prior over all hypothesis and updating the distributions by Bayes rule when new information is revealed---a point is queried.\\
+This method would demand posterior to estimate fit of given hypothesis for both known and unknown data. Queried point would either support hypothesis by agreeing with it's predictions or discourage this choice by not agreeing.\\
+The point to query would be chosen based on being the most informative for current hypothesis. For instance point laying closest to boundary---having largest contribution to variance estimate.\\
 
 
-Another possible improvement can be used to significantly reduce hypothesis space to the one that are most probable a good fit. It can be acquired by first doing unsupervised learning on dataset(clustering, U-SVM) with number of threshold parameters. The output of such process can be subset of our hypothesis space.\\
+Another possible improvement can be used to significantly reduce hypothesis space to the ones that are most probable a good fit. It can be acquired by first doing unsupervised learning on dataset(clustering, U-SVM) with number of threshold parameters to produce range of linear classifiers. The output of such process can be incorporated as a subset of our hypothesis space.\\
 
 
 \section{Lookahead}
-Presented here work covers brief introduction to multi-armed bandits world with stress put on Thompson sampling approach. It also deeply explains possible application of MAB in machine learning---active learning---by presenting one of its kind~\citep{DBLP:journals/corr/GantiG13} work. We took even further step by proposing Thompson approach to the problem replacing lower confidence bound chosen by authors. Finally we planned, coded and carried out the experiment to examine results of our small change in algorithm. The outcomes seems promising and vouch for our intuition behind the active learning problem.\\
+Presented here work covers brief introduction to multi-armed bandits world with stress put on Thompson sampling approach. It also deeply explains possible application of MAB in machine learning---active learning---by presenting one of its kind~\citep{DBLP:journals/corr/GantiG13} work. We took a step ahead by proposing Thompson approach to the problem by replacing lower confidence bound method chosen by authors with Thompson Sampling inspired hypothesis selection mechanism. Finally we planned, coded and carried out the experiment to examine results of our methodological change in algorithm. The outcomes seems promising and vouch for our intuition behind the active learning problem.\\
 
-Due to time constrains, we were not able to improve our Thompson approach as described above(\S\ref{sec:qimprove}). We also could not perform full tests and comparisons between already existing algorithms and proposed one. We hope do address these issues in the near future.\\
+Due to time constrains, we were not able to improve our Thompson approach as described above(\S\ref{sec:qimprove}). We also could not perform full range of tests and comparisons between already existing algorithms and proposed one. We hope do address these issues in the near future.\\
 
-Finally, we think that our algorithm along with simplicity brings low computational costs and comparable with others solutions available---good performance. We consider presented solution to bring a good framework for active leaning problems to machine learning world in near future.\\
+Finally, we think that our algorithm along with simplicity brings low computational costs and performance comparable with other available solutions. We consider presented here algorithm to bring a good framework for active leaning problems in machine learning world in near future.\\
 
 \begin{center}
 \noindent \line(1,0){250}
