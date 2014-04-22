@@ -12,8 +12,8 @@
 \documentclass[12pt, a4paper, pdflatex, leqno]{report}
 %  notitlepage - abstract on the same page
 \usepackage{indentfirst} % indent frst paragraph of section
-\usepackage{fullpage}    % full A4 page
-% \usepackage[left=2.5cm, right=2.5cm]{geometry}
+% \usepackage{fullpage}    % full A4 page
+\usepackage[left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm]{geometry}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}    % fancy maths font
@@ -111,8 +111,9 @@
 
 % Title
 \HRule \\[0.4cm]
-{ \huge \bfseries \emph{\textbf{Multi-armed bandits}}\\[0.5cm]
-	Comprehensive introduction with focus on \emph{Thompson Sampling}\\
+{ \huge \bfseries %\\[0.5cm]
+	Comprehensive introduction to \emph{\textbf{Multi-armed bandits}}:\\[.5cm]
+  \emph{Thompson Sampling}\\
   \&\\
   Active Learning in the bandits scenario\\[0.4cm] }
 \HRule \\[1.5cm]
@@ -148,7 +149,7 @@ For all ideas taken from other sources (books, articles, internet), the source o
 All material which is quoted essentially word-for-word from other sources is given in quotation marks and referenced.\\[.5cm]
 Pictures and diagrams copied from the internet or other sources are labelled with a reference to the web page,book, article etc.\\[2cm]
 Signed:\\[1cm]
-Dated:\\
+Dated:~~~~~~~~~~~~\today
 
 % \thispagestyle{empty}% no header and footer
 \thispagestyle{empty}
@@ -174,12 +175,12 @@ Dated:\\
 
 \begin{abstract}
 \thispagestyle{empty}% no header and footer
-This dissertation covers two main topics: multi-armed bandits theory with extensive treatment of Thompson Sampling approach as well as application of MAB in active learning. The comprehensive introduction to theory underlying multi-armed bandits is gradually developing concepts necessary for understanding the basic bandit strategies. The late part of this work presents first of its kind(as far as we know) application of MAB algorithm to solve computer science task of learning in environment with insufficient information.\\
-Reader is assumed not to need any prior knowledge in this field, only basics of statistics and probability theory are required to smoothly follow the text.
+This dissertation covers two main topics: multi-armed bandits theory with extensive treatment of Thompson Sampling approach as well as application of MAB in active learning. The comprehensive introduction to the theory underlying multi-armed bandits is gradually developed to cover concepts necessary for understanding the basic bandits strategies. The later part of this dissertation presents first of its kind(as far as we know) application of Thompson Sampling inspired MAB algorithm to solve computer science task of learning in the environment of insufficient information.\\
+Reader does not require any prior knowledge in this field, only basics of statistics and probability theory are necessary to smoothly follow the text.\\
 \begin{center}
-Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, exploration, exploitation, Thompson sampling}
+Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, exploration, exploitation, Thompson Sampling}
 
-\let\thefootnote\relax\footnote{This dissertation together with all figures and experiment source code is available as \texttt{GitHub} repository at: \url{https://github.com/So-Cool/MAB}.}
+\let\thefootnote\relax\footnote{\noindent This dissertation together with all figures and experiment source code is available as \texttt{GitHub} repository at: \url{https://github.com/So-Cool/MAB}.}
 
 \end{center}
 \end{abstract}
@@ -1220,6 +1221,10 @@ Due to time constrains, we were not able to improve our Thompson approach as des
 
 Finally, we think that our algorithm along with simplicity brings low computational costs and comparable with others solutions available---good performance. We consider presented solution to bring a good framework for active leaning problems to machine learning world in near future.\\
 
+\begin{center}
+\noindent \line(1,0){250}
+\end{center}
+
 
 
 \bibliography{ref}{}
@@ -1228,8 +1233,8 @@ Finally, we think that our algorithm along with simplicity brings low computatio
 
 
 
-\newpage
-\begin{center}~\\[10cm] \textbf{\huge FIN} \end{center}
+% \newpage
+% \begin{center}~\\[10cm] \textbf{\huge FIN} \end{center}
 
 
 % \appendix
