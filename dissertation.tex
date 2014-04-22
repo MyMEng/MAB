@@ -186,11 +186,11 @@ Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, explor
 \end{abstract}
 
 \begin{dedication}
-I would like to thank my parents who support me both financially and mentally. For the guidance and advice they are providing so I can make right choices throughout life and fulfill my dream of studying abroad.\newline
+I would like to thank my parents who support me both financially and mentally. For the guidance and advice they are providing so I can make right choices throughout life and fulfill my dream.\newline
 
-It would also be a painful journey without my supervisor Dr.~David~Leslie who always served me with an advice how to ``read'' all the mathematical books not to get overwhelmed with heavy maths.\newline
+It would also be a painful journey without my supervisor Dr.~David~Leslie who always served me with an advice how to ``read'' and ``write'' all the maths and avoid unnecessary, overwhelming .\newline
 
-Finally, big thanks to I.\ and J.\ who always take care of my leisure time even though it always lacks.\\[2cm]
+Finally, big thanks to Iza and Kuba who often take care of my leisure time even though it always lacks.\\[2cm]
 
 
 % \foreignlanguage{polish}{}
@@ -241,44 +241,42 @@ If gambler decides to take advantage of already known arm and pull it again we c
 
 
 \section{Applications} % emphasized underlying
-Multi-armed bandits is not just theory that one reads from a book and try to memorize, but it extends to many real life applications. This section is devoted to simple case study in which it seems natural to use "bandit approach". Applications are versatile ranging from drug testing and maximizing income from web advertisement through semi-supervised machine learning in modern computer science as well as time and budget management of research projects.\\
+Multi-armed bandits are not just a theory that one reads from a book and try to memorize; they extends to many real life applications. This section is devoted to simple case study in which it seems natural to use ``bandit approach''. Applications are versatile ranging from drug testing and maximizing income from web advertisement through semi-supervised machine learning in modern computer science as well as time and budget management of research projects.\\
 
-To begin with, imagine a clinic testing two new drugs for a certain disease. Patients are queuing up to receive a treatment. Assuming that doctor cannot refuse to treat anyone, for each person suffering from a disease (each \emph{Play}) there are two possible cures (two \emph{Arms}). The key assumption here is that the effect of chosen action occur immediately, in other words treated person either stays sick or the disease goes away (immediate \emph{Payoff}). The goal of a doctor is to maximize the number of cured people. This model defines two-armed bandit.\\
+To begin with, imagine a hospital testing two new medicines for a certain disease. Patients are queuing up to receive a treatment. Assuming that doctor cannot refuse to treat anyone, each person suffering from a disease(each \emph{play}) can be given two possible drugs(two \emph{arms}). The key assumption here is that the effect of chosen action occur immediately, in other words treated person either stays sick or is cured(immediate \emph{payoff}). The goal of a doctor is to maximize the number of healed people. This model defines two-armed bandit.\\
 
-The second mentioned approach is nowadays widely incorporated by companies such as Google~\citep{AYPSze12}\citep{ASMB:ASMB874}, LinkedIn~\citep{Tang:2013:AAF:2505515.2514700}, Microsoft~\citep{graepel2010web}, Yahoo~\citep{Li:2010:CAP:1772690.1772758} to their services. Research groups of these companies are using bandits algorithms to choose best website layout and advertisements locations to increase "click-rate", improve recommendation systems or enhance performance of semi-supervised and active learning algorithms in a field of machine learning.\\
+The second mentioned approach is nowadays widely incorporated by companies such as Google~\citep{AYPSze12, ASMB:ASMB874}, LinkedIn~\citep{Tang:2013:AAF:2505515.2514700}, Microsoft~\citep{graepel2010web}, Yahoo~\citep{Li:2010:CAP:1772690.1772758} to their services. Research groups of these companies are using bandits algorithms to choose the best website layout and advertisements locations to increase click-through rate(CTR)\footnote{Measure of success of an on-line advertising campaign.}, improve recommendation systems or enhance performance of semi-supervised and active learning algorithms in the field of machine learning.\\
 
-The bandit theory also plays a key role in experiment allocation with restricted time and budget~\citep{gittins+glazebrook+weber}. While considering research projects pending to be conducted with limited amount of resources such as scientist time and grant funding as \emph{Arms} of a bandit. The goal is to maximize the number of accomplished projects (\emph{Payoff}) before running out of money.\\
+The bandit theory also plays a key role in experiment allocation with restricted resources like time and budget~\citep{gittins+glazebrook+weber}. While considering bandit's \emph{arms} as research projects pending to be conducted with limited amount scientist, time or funding the goal is to maximize the number of accomplished tasks(\emph{payoff}) before distributing the money among them.\\
 
-With all the above scenarios barely scratching the tip of the iceberg we are now focusing on foundations of multi-armed bandits theory that one needs to precisely describe the processes happening "behind the scene".
-
-\section{Structure of this chapter}
-We begin with introducing the reader with necessary notation and nomenclature. Then we are moving to basic process description. Next proved optimal solutions of multi-armed bandits problem are described. Finally we form conclusions and highlight ongoing research with possible results and influence on applications.
+With all presented above scenarios barely scratching the tip of the iceberg we are now focusing on foundations of multi-armed bandits theory that one needs to precisely describe the processes happening ``behind the scene''.\\
+We begin with introducing the reader with necessary notation and nomenclature. Then we are moving to basic process description.
 
 
 \section{Terminology}
-More scientific definition of "simple" multi-armed bandit in a statistical decision theory defines it as: sequential selection from $N \geq 2$ stochastic processes--- generally called \emph{Arms}, where both time and processes may be discrete or continuous. The goal is typically to recover unknown parameters which characterize stochastic processes behind each of the \emph{Arm} to maximize expected \emph{Payoff}.
+Statistical decision theory defines ``simple'' multi-armed bandit as a sequential selection from $N \geq 2$ stochastic processes---generally called \emph{arms}, where both time and processes may be discrete or continuous. The goal is typically to recover unknown parameters that characterize stochastic processes the \emph{arms} to maximize expected \emph{payoff}.\\
 
-It is very useful to be familiar with most common terms used to describe multi-armed bandit in papers and books. The basic concepts are listed below.
+It is handy to be familiar with most common terms used to describe multi-armed bandit in papers and books. The basic concepts are:
 \begin{description}
-\item[Multi-armed bandit ($N$)]--- a ``device'' with $N \geq 2$ possible choices of action (\emph{Arms}).
-\item[Strategy ($\tau$)]--- tells the \emph{Agent} which \emph{Arm} to pull at given stage of \emph{Game}. A strategy is \emph{optimal} if it yields maximal expected \emph{Payoff}.
-\item[Arm]--- one of $N$ actions that may be taken by \emph{Agent}. An \emph{Arm} is \emph{optimal} if it the best selection when following some \emph{optimal} strategy.
-\item[Play]--- an \emph{Arm} pulled at stage $m$ of the \emph{Game} (i.e.\ one turn).
-\item[Agent]--- a person that decides which \emph{Arm} to pull based on \emph{Strategy} $\tau$.
-\item[Game]--- a sequence of \emph{Arms} pulled based on chosen \emph{Strategy} $\tau$.
-\item[Payoff]--- a return of a game such as \emph{win--loose} or \emph{amount} of money gained.
-\item[Discount series]--- factors that define how valuable is each of \emph{Payoffs}. For example only first $m$ outcomes may count and all the rest is neglected or the longer the \emph{Game} is ran the less particular outcome counts toward overall expected \emph{Payoff}.
+\item[Multi-armed bandit ($N$)]---a ``device'' with $N \geq 2$ possible choices of action(\emph{arms}).
+\item[Agent]---a person who decides which \emph{arm} to pull based on chosen \emph{strategy} $\tau$.
+\item[Strategy ($\tau$)]---tells the \emph{agent} which \emph{arm} to pull at given stage of the \emph{game}. A strategy is \emph{optimal} if it yields maximal expected \emph{payoff}.
+\item[Arm]---one of $N$ actions that may be taken by the \emph{agent}. An \emph{arm} is \emph{optimal} if it is the best selection when following some \emph{optimal} strategy.
+\item[Play]---an \emph{arm} pulled at stage $m$ of the \emph{game} (i.e.\ one turn).
+\item[Game]---a sequence of \emph{arms} pulled based on chosen \emph{strategy} $\tau$.
+\item[Payoff]---a return of a game such as \emph{win--loose} or \emph{amount} of money gained.
+\item[Discount series]---factors that define how valuable is each of \emph{payoffs}. For example only first $m$ outcomes may count and all the rest is neglected or the longer the \emph{game} is played the less particular outcome counts toward overall expected \emph{payoff}.
 \end{description}
 
 
 \section{General assumptions}
 Two fundamental assumptions to vast majority of bandit problems regard benefits from selecting an arm, namely:
 \begin{itemize}
-\item immediate \emph{Payoff} i.e.\ \emph{Agent} knows result of taken action straight away,
-\item information gathered after a \emph{Play} can be used to modify chosen \emph{Strategy}.
+\item immediate \emph{Payoff} i.e.\ \emph{agent} knows the result of taken action immediately,
+\item information gathered after a \emph{play} can be used to modify chosen \emph{strategy}.
 \end{itemize}
-Moreover in some cases we may restrict the memory of an \emph{Agent} to last $s$ outcomes. Therefore, selected \emph{Strategy} $\tau$ can relay on up to $s$ previous \emph{Plays}. These bandits approaches are called \emph{finite memory}.\\
-Majority of this dissertation assumes that \emph{Arms} are independent. If this setting changes it will be clearly stated.
+Moreover in some cases we may restrict the memory of an \emph{agent} to last $s$ outcomes. Therefore, selected \emph{strategy} $\tau$ can relay on up to $s$ previous \emph{plays}. These bandits approaches are called \emph{finite memory}.\\
+Majority of this dissertation assumes that \emph{arms} are independent. If this setting changes it will be clearly stated.
 
 
 \section{Discount Sequence}
@@ -286,24 +284,24 @@ To specify the rules governing the ``significance'' of outcome from a single pla
 $$
 \mathbf{A} = \left( \alpha_1, \alpha_2, \alpha_3, ... \right)
 $$
-When an \emph{Arm} is selected the discount sequence is modified as follows:
+When an \emph{arm} is selected the discount sequence is modified by left shift:
 $$
 \left( \alpha_1, \alpha_2, \alpha_3, ... \right)
 \rightarrow
 \left( \alpha_2, \alpha_3, \alpha_4, ... \right) \text{ .}
 $$
 
-\subsubsection{Most common sequences}
+\subsection{Most common sequences}
 There are many different discount sequences used with multi-armed bandits each with numerous assumptions. In the literature only two of them are described in great detail and both are presented below.
 
 \subsubsection{Uniform sequence}
-This discount sequence is most commonly used when a player wants to maximize the payoff of first $h$ outcomes.
+This discount sequence is most commonly used when a player wants to maximize the payoff of the first $h$ outcomes.
 The $h$-horizon uniform discount sequence is defined as:
 $$
  \alpha_i =
   \begin{cases}
    1 & \text{for } i \leq n \\
-   0 & \text{for } i > n
+   0 & \text{for } i > n \text{ ,}
   \end{cases}
 $$
 leading to:
@@ -311,39 +309,38 @@ $$
   \mathbf{A} = ( \underbrace{ 1, 1, 1, ..., 1}_{h\text{ elements}}, 0, 0, 0, ... ) \text{ .}
 $$
 
-Here after \emph{Arm} selection the horizon of discount sequence is decreased by $1$.
+After \emph{arm} selection the horizon of discount sequence is decreased by $1$.
 
 
 \subsubsection{Geometric sequence}
 The geometric discount sequence is expressed with components $\alpha_i = a^{i-1}$ for some $a \in ( 0, 1 )$ resulting in:
 $$
-\mathbf{A} = \left( a^0, a^1, a^2, ... \right)
+\mathbf{A} = \left( a^0, a^1, a^2, ... \right) \text{ ,}
 $$
-where $\alpha_1 = a^0$ is always equal to $1$.\\
+where $\alpha_1 = a^0$ is always equal to $1$. The characteristic feature of this series is that after \emph{arm} selection the discount sequence is still proportional to the original sequence.\\
 
-On the other hand, here after \emph{Arm} selection the discount sequence is proportional to original sequence.\\
-
-It can also be shown that when the discounting is geometric, a bandit problem involving k independent arms can be solved by solving k different two-armed bandits, each involving one known and one unknown arm.\\[3cm]
+It can also be shown that when the discounting is geometric, a bandit problem involving $k$ independent arms can be solved by solving $k$ different two-armed bandits, each involving one known and one unknown arm.\\[2cm]
 
 
 
-In case of both sequences the decision problem and optimal strategy is unchanged if a discount series is multiplied by some constant. Furthermore, in case of geometric sequence is effectively the same the same throughout the \emph{Game}.
+In case of both sequences the decision problem and optimal strategy is unchanged if a discount series is multiplied by some constant. Furthermore, the geometric sequence is effectively the same throughout the \emph{game}.
 
 
 \subsubsection{Mixtures of uniform sequences}
-If we consider Bernoulli trials(with success worth $1$) of a clinical trial. The experiment can terminate with positive probability $\nu_m$ at any stage $m$ as we do not know the exact number of incoming patients. In such cases we may form a discount sequence where factor at given stage is the probability that the experiment has not been terminated so far, $\alpha_m = \sum_{i=m}^\infty \nu_i$. Clearly discount series that arises in presented scenario is a mixture of uniforms(random). This case is identical to deterministic sequence---an average of uniforms weighted by the $\nu_m$'s.\\
-An example my be probability of terminating at each stage is $\gamma$, therefore the factor at each reached stage is: $\nu_m = (1-\gamma)\gamma^{m-1}, m=1,2,3,...$, leading to geometric discount sequence.
+If we consider Bernoulli trials(with success worth $1$) of a clinical test the experiment can terminate with positive probability $\nu_m$ at any stage $m$ as we do not know the exact number of incoming patients. In such cases we may form a discount sequence where factor at given stage is the probability that the experiment has not been terminated so far, $\alpha_m = \sum_{i=m}^\infty \nu_i$. Clearly discount series that arises in presented scenario is a mixture of uniforms. This case is identical to deterministic sequence---an average of uniforms weighted by the $\nu_m$'s.\\
+An example my be a $\gamma$ probability of terminating at each stage therefore, the factor at each reached stage is: $\nu_m = (1-\gamma)\gamma^{m-1}, m=1,2,3,...$, leading to geometric discount sequence.
 
 \subsubsection{Random discounting}
-The random discounting is more complex. In mixture of uniforms we get no advantage conditioning on them: as long as we get one the process continues and there is no possibility that previous factors were $0$; once we get $0$ the process is no more of interest. In random environment. In general with random discount sequence we are only provide with some prior probability distribution over the space of all possible discount sequences.\\
+The random discounting is more complex. In mixture of uniforms we get no advantage conditioning on the past: as long as we get $1$ the process continues and there is no possibility that previous factors were $0$; once we get $0$ the process is no more of interest. In general, with random discount sequence we are only provided with some prior probability distribution over the space of all possible discount sequences.\\
 
 \subsubsection{Observable and non-observable sequences}
-If the discount sequence cannot be observed: it is either blended with a reward as a single value or is not given to us together with reward we need to estimate it. Like in random case given the distribution over all possible discount sequences we can estimate it by: $\hat{\alpha}_m = \mathbb{E}(\alpha_m | \text{``probability distribution over all discount sequences''})$.\\
+Sometimes the discount sequence cannot be observed: it is either blended with a reward as a single value or it is not given to us together with the reward. In such cases we need to estimate it. Like in the random scenario, given the distribution over all possible discount sequences we can estimate it by: $\hat{\alpha}_m = \mathbb{E}(\alpha_m | \text{``probability distribution over all discount sequences''})$.\\
 
-We say about observable discount sequence if together with a reward we get a value of discount factor for given stage. This cases are in general harder to solve as we cannot replace random with a non-random sequence without altering the problem significantly. In presented scenario strategies tend to depend on observed discount factors.\\
+We say that a discount sequence is observable if together with a reward we get a value of discount factor at given stage. This cases may be harder to solve as with random sequences we cannot replace them with a non-random sequences without significantly altering the problem.\\
+In presented scenarios strategies tend to depend on deterministic, observable discount factors.\\
 
 \subsubsection{Real-time sequences}
-In real time sequences the intervals between events are random directly influencing decision making. To visualize this scenario we consider clinical trial where patients arrive in random time intervals. In such cases we usually use discount sequence described by: $A = ( \exp(-\beta t_1), \exp(-\beta t_2), \exp(-\beta t_3),... )$, where $\beta$ is weight coefficient and $t_i$ are known arrival times.\\
+In real time sequences the intervals between events are random therefore directly influence decision making process. To visualize this scenario we consider clinical trial with patients arriving in random time intervals. In such cases we usually use discount sequence described by: $A = ( \exp(-\beta t_1), \exp(-\beta t_2), \exp(-\beta t_3),... )$, where $\beta$ is weight coefficient and $t_i$ are known arrival times.\\
 more complicated situation for real-time discounting can be described as:
 $$
   \alpha_t =
@@ -352,21 +349,21 @@ $$
       0 & \text{for } t \in [1,\infty) \text{ .}
     \end{cases}
 $$
-Such sequence can express interest in maximising response of patients arriving in first unit interval. It is worth noting that the choice may be significantly different if the first event occurs at time $0.01$ then if it would occur at time $0.99$; generally risky arm could be appropriate in first case and large mean action can be a good choice in second case.\\
+Such sequence can express interest in maximizing the response of patients arriving in first unit interval. It is worth noting that the action choice may be significantly different if the first event occurs at time $0.01$ then if it would occur at time $0.99$; generally, risky arm could be appropriate in first case and mean maximizing action can be a good choice in second case.\\
 
 \subsubsection{Non-monotone sequences}
 Majority of discount sequences considered in literature are monotone increasing or decreasing. This fact is motivated by real life applications where our interest in process decreases---the player is interested in  quick reward---or increases---the player is interested in high reward in the future by first learning about environment.\\
-The most popular and one of a few non-monotone sequences is defined by: $\alpha_n = 1$ and $\alpha_m = 0$ for $m \neq n$. This structure of discount sequence indicate that first $n-1$ stages are played for sole purpose of obtaining information to make the best possible choice at stage $n$ and all the other rounds do not matter.\\
+The most popular and one of a few non-monotone sequences are defined by: $\alpha_n = 1$ and $\alpha_m = 0$ for $m \neq n$. This structure of discount sequence indicate that the first $n-1$ stages are played for sole purpose of obtaining information to make the best possible choice at stage $n$ and all the other rounds do not matter.\\
 
 
 \section{Bandits settings}
-Multi-armed bandit setting can be used to solve variety of problems. The most common settings have been described in chapter~\ref{chap:intro}; nevertheless some non-trivial environment is also used and presented below.\\
+Multi-armed bandit setting can be used to solve variety of problems. The most common settings have been discussed in chapter~\ref{chap:intro}; nevertheless, some non-trivial environments are also used and presented below.\\
 \subsubsection{Real time, random bandits}
 Real time, random bandits are usually present when decision needs to be made for event of given class or assigned to particular problem that occur in non-deterministic intervals of time and information of the event can only be acquired during its occurrence. Such scenarios can be similar to ones described in \emph{Random discounting} section.\\
 \subsubsection{Information gathering}
-One of scenarios where multi-armed bandits are also used is to gather information about available choices. If such learning needs to be done in efficient manner MAB is often a good choice. An example presented in \emph{non-monotone} section, where a number of rounds at the beginning was used to learn some information about the environment.\\
+One of scenarios where multi-armed bandits are also used is to gather information about available choices. If such learning needs to be done in efficient manner MAB is often a good choice. An example presented in \emph{non-monotone} section, where a number of rounds at the beginning was used to learn some information about the environment is one of them.\\
 \subsubsection{Dependant arms}
-MAB with dependent arms grow in popularity due to the Internet advertising application. In such scenario the ads displayed to the user are usually dependent(one manufacturer different products or one class of products made by different companies) and usually can be grouped. Policies for such scenarios are made to consider this connections between actions and exploit this information~\citep{Pandey:2007:MBP:1273496.1273587}.\\
+MAB with dependent arms grow in popularity due to the Internet advertising applications. In such scenario the ads displayed to the user are usually dependent(one manufacturer different products or one class of products made by different companies) and they very often can be easily grouped. Policies for such scenarios are made to consider this connections between actions and to exploit underlying information~\citep{Pandey:2007:MBP:1273496.1273587}.\\
 
 
 
@@ -374,6 +371,12 @@ MAB with dependent arms grow in popularity due to the Internet advertising appli
 
 \chapter{Solution \texttt{\textbf{Exploration}}}
 In this section we will present number of approaches to find and optimal solution. Firstly we will briefly describe methodologies well known for couple of decades; then we will give extensive description of one of the most recent approach called \emph{Thompson Sampling}.\\
+
+
+
+
+Next proved optimal solutions of multi-armed bandits problem are described. Finally we form conclusions and highlight ongoing research with possible results and influence on applications.\\
+
 
 \section{Seeking optimal solution}
 Presented below strategies are used to balance exploration and exploitation to find optimal solution. The main issue is how to find equilibrium between acquiring information and immediate payoff. Coming back to the hospital example; we have to decide whether to scarify wellbeing of people to learn more about particular condition of early coming patients by means of experimenting leading to improvement over time and better results of treatment on future patients---sanctifying early payoff to gain some more information about the system and maximize future payoff.\\
