@@ -370,46 +370,42 @@ MAB with dependent arms grow in popularity due to the Internet advertising appli
 
 
 \chapter{Solution \texttt{\textbf{Exploration}}}
-In this section we will present number of approaches to find and optimal solution. Firstly we will briefly describe methodologies well known for couple of decades; then we will give extensive description of one of the most recent approach called \emph{Thompson Sampling}.\\
+In this chapter we will present number of approaches to find an optimal solution. First of all, we will briefly describe methodologies well-known for a couple of decades; then we will give extensive description of one of the most recent approach called \emph{Thompson Sampling}. Finally, we form conclusions and highlight ongoing research.\\
 
 
-
-
-Next proved optimal solutions of multi-armed bandits problem are described. Finally we form conclusions and highlight ongoing research with possible results and influence on applications.\\
-
-
-\section{Seeking optimal solution}
-Presented below strategies are used to balance exploration and exploitation to find optimal solution. The main issue is how to find equilibrium between acquiring information and immediate payoff. Coming back to the hospital example; we have to decide whether to scarify wellbeing of people to learn more about particular condition of early coming patients by means of experimenting leading to improvement over time and better results of treatment on future patients---sanctifying early payoff to gain some more information about the system and maximize future payoff.\\
-To democratize such dramatic scenario we can use geometric sequence so health of current patients is the same in comparison to future patients.\\
+\section{Seeking an optimal solution}
+Presented below strategies are used to balance exploration and exploitation to find an optimal solution---determine equilibrium between acquiring information and immediate payoff.\\
+Let's recall the hospital example; we have to decide whether it is worth to scarify wellbeing of early coming patients to learn more about particular condition by means of experimenting. Such choice would lead to treatment improving over time yielding better results on future patients---sanctifying early payoff to gain some more information about the system and maximize future return.\\
+We could also democratize such dramatic scenario by using geometric sequence therefore, health of current patients would be worth the same in comparison to future patients.\\
 
 In general we can consider strategy as optimal if in the limit of time it converges to optimal selection---chooses optimal arm infinitely many times. We usually consider \emph{preemptive} case---arbitrary switching between actions is allowed and takes negligible time.\\
 
 \subsection{Examples}
 
 \subsubsection{Index approach (Gittins Index)\label{sec:gitind}}
-It is one of the oldest approaches providing optimal solution. The pioneering index method introduced by John C. Gittins moved forward not only multi-armed bandits concept but whole wide class of sequential allocation problems.\\
+It is one of the oldest approaches providing optimal solution. The pioneering index method introduced by John C. Gittins moved significantly forward not only multi-armed bandits concept but the whole wide class of sequential allocation problems.\\
 
-The basic intuition behind this approach is to assign \emph{priority indices} to each action, where index of particular action should only depend on the history of outcomes for this action and no other. The decision process then comes down to choosing action with highest current index.\\
+The basic intuition behind this approach is to assign \emph{priority indices} to each action, where index of particular arm should only depend on the history and outcomes for this action and no other. The decision process then comes down to choosing action with highest current index.\\
 
-Basic theory of allocating indeces is based on calibrating actions at given state against some standardized actions with simple properties. The main advantage of such approach is restricting state function of an action to depend only on one's own history therefore deducing the complexity~\citep{gittins+glazebrook+weber}.\\
+Basic theory of indeces allocation is based on calibrating actions at given state against some standardized actions with simple properties. The main advantage of such approach is restricting \emph{state function} of an action to depend only on its history therefore reducing the complexity~\citep{gittins+glazebrook+weber}.\\
+
 Indeces are described as real-valued functions(dynamic allocation index) on the set of all available alternatives; the selection process is maximizing this function.\\
+With such indeces we can specify optimal policy for particular problem(which has any set of possible alternatives of a given type) with regard to so called \emph{standard bandit problem}.\\
 
-With such indeces we can specify optimal policy for particular problem which has any set of possible alternatives of a given type; all is with regard to so called \emph{standard bandit problem}.\\
+The index theorem says that a policy for bandit process is optimal if it is an index policy with respect to $\nu(B_1, \cdot), \nu(B_2, \cdot),..., \nu(B_n, \cdot)$ where $\nu$ is index function and $B_i$ is given bandit process.\\
 
-The index theorem says that a policy for bandits process is optimal if it is an index policy with respect to $\nu(B_1, \cdot), \nu(B_2, \cdot),..., \nu(B_n, \cdot)$ where $\nu$ is index function and $B_i$ is given bandit process.\\
-
-The significant drawback of index strategy is demand of huge amount of computation and memory storage. Moreover, following assumptions need to hold:\\
+The significant drawback of index strategy is requirement of vast amount of resources such as computational power and memory storage. Moreover, the following assumptions need to hold:\\
 \begin{itemize}
 \item rewards are accumulated up to an infinite time horizon,
 \item there is constant and strict exponential discounting,
-\item there is only one processor(server),
-\item unless arm is pulled no rewards are collected and its state does not change.\\
+\item unless arm is pulled no rewards are collected and its state does not change,
+\item there is only one processor(server).\\
 \end{itemize}
 
-In the simplest case we consider multi-armed bandit as a number of semi-Markov decision processes. The \emph{index theorem} states that there exists \emph{index policy} which is optimal. It means that there exists a real-valued index, say $\nu ( B_i , \xi_i(t) )$, where $B_i$ is i-th bandit process and $\xi_i$ is a state of i-th process(dependent on history)---each index depends only on its(arm---process) current state and no other processes' state. As previously mentioned we play the process with highest current index.\\
+In the simplest case we consider multi-armed bandit as a number of semi-Markov decision processes. The \emph{index theorem} states that there exists \emph{index policy} which is optimal. It means that there exists a real-valued index, say $\nu ( B_i , \xi_i(t) )$, where $B_i$ is i-th bandit process and $\xi_i$ is a state of i-th process(dependent on history)---each index depends only on its current state and no other processes' state. As previously mentioned we play the process with highest current index.\\
 
 \subsubsection{Upper Confidence Bound(UCB) and Lower Confidence Bound(LCB)}
-This method is based on UCB and LCB for the mean reward of each arm, where selection process is based on correspondingly largest and lowest bound. It is shown that under certain assumptions the policy will only select suboptimal arm finite number of times---the optimal arm will be played exponentially more often than any other further along the time. Some algorithms of this family require only the knowledge of sample mean for each arm---therefore being simple and computationally inexpensive~\citep{Scott:2010:MBL:1944422.1944432}.\\
+This method is based on UCB and LCB for the mean reward of each arm, where selection process is based on correspondingly largest and lowest bound. It is shown that under certain assumptions the policy will only select suboptimal arms finite number of times---the optimal arm will be played exponentially more often than any other in the time limit. Some algorithms of this family require only the knowledge of sample mean for each arm therefore, being simple and computationally inexpensive~\citep{Scott:2010:MBL:1944422.1944432}.\\
 
 \subsubsection{'Stay on a winner'}
 It is well known strategy, very often used by gamblers. It is a myopic policy where arm $a$ is selected in round $t+1$ if it was considered successful at time $t$. On contrary, if selected arm failed we either select next at random or according to some deterministic policy.\\
@@ -427,23 +423,23 @@ This method is extensively described in section~\ref{sec:thompsonsampling}; we m
 
 
 \subsubsection{Finite memory strategy}
-It is a class of strategies where the decision process has finite memory in a sense of the history. The restriction can be set to $w$ last rounds; some policies can suffer large ??not-improvement?? with restricted memory while others will not.\\
+It is a class of strategies where the decision process has finite memory in a sense of the history. The restriction can be set to $w$ last rounds; some policies can suffer large loss with restricted memory while others will work great.\\
 
 \subsubsection{Myopic strategies}
-They are not good in general. These strategies try to maximize the expected reward during the next infinitesimal time interval. They are called myopic because they neglects things that may happen later or disregard a long-range(long-time) vision to continue the optic metphore.\\
+They are not good in general. These strategies try to maximize the expected reward during the next infinitesimal interval of time. They are called myopic because they neglect things that may happen later or sacrifice a long-range vision to maximize current payoff. Uncertainty(exploratory value) is taken under account but it focuses on current choice---limited lookahead.\\
 
-For some class of problems it can be shown that short term optimum is simultaneously long term one, so for this kind of problems this solution seems the best as it does not perform complex computation or expensive lookahead. This approach can be applied to many strategies but it is most often used with index methods. Uncertainty(exploratory value) is taken under account but it focuses on current choice---limited lookahead.\\
+For some class of problems it can be shown that short term optimum is simultaneously a long term one, so for these kind of problems the solution seems the best as it does not perform complex computation or expensive lookahead. This approach can be applied to many strategies but it is very often used with index methods.\\
 % is thompson samplkng one of myoptic methods? intead of taking longe ranfe view it ties to minimize current vaiance of hypothesis to decide on best one.\\
 % local not global solution with respect to time intervals.
 
 \subsubsection{Undirected}
-In this class of strategies we only base our choice on exploitative value e.g.\ $\epsilon$-greedy, $\epsilon$-decreasing, Boltzmann action selection. We select an action based on currently highest reward estimate and do not include exploratory component.\\
+In this class of strategies we make our choice by only considering exploitative value e.g.\ $\epsilon$-greedy, $\epsilon$-decreasing, Boltzmann action selection. We select an action based on currently highest reward estimate and do not include exploratory component.\\
 
 % \subsubsection{Belief-lookahead}
 
 \subsubsection{Bayesian approach}
-This set of policies uses Bayesian inference---combines prior belief with likelihood estimation--- to produce current estimation of a process. Bayes' theorem allows for ``straight forward'' application to adaptive learning so it is a good tool in sequential decision making processes like MAB.\\
-Thompson Sampling is a good example of BAyesian approach.\\
+This set of policies uses Bayesian inference---combines prior belief with likelihood estimate---to produce current approximation of the process. Bayes' theorem allows for ``straight forward'' application to adaptive learning so it is a good tool in sequential decision making processes like MAB.\\
+Thompson Sampling is a good example of Bayesian approach.\\
 % It can be fully Bayesian approach where---here the chosen action is supposed to maximise the expected cumulative reward for the rest of the process. Drwback of such approach is hard to guarantee inifinite exploration.\\
 
 
