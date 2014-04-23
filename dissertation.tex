@@ -575,8 +575,8 @@ In our approach we use sampling to draw values from posterior distribution of ea
 
 
 \subsection{Introduction to Thompson Sampling\label{sec:thompson}}
-Thompson Sampling was first proposed in 1933 by William R.\ Thompson~\citep{thompson:biom33} and mainly concerned Bernoulli processes. In this section we explain this approach and discuss related work extending originally proposed methodology~\citep{May:2012:OBS:2503308.2343711}. Furthermore, under presented assumptions the approach behaves optimally.\\
-Described solution is widely used for on-line advertising by IT giants like Microsoft due to its simplicity, flexibility and scalability~\citep{graepel2010web}. Moreover, simulations indicate Thompson Sampling superiority over all competitors~\citep{May:simulation}.\\
+Thompson Sampling was first proposed in 1933 by William R.\ Thompson~\citep{thompson:biom33} and mainly concerned Bernoulli processes. In this section we explain this approach and discuss related work extending originally proposed methodology~\citep{May:2012:OBS:2503308.2343711}. Furthermore, it can be proved that under presented below assumptions the approach behaves optimally.\\
+Described here solution is widely used for on-line advertising by IT giants like Microsoft, Google and Yahoo due to its simplicity, flexibility and scalability~\citep{graepel2010web}. Moreover, simulations indicate superiority of Thompson Sampling over all competitors~\citep{May:simulation}.\\
 
 
 % \subsubsection*{Introduction}
@@ -585,12 +585,11 @@ Described solution is widely used for on-line advertising by IT giants like Micr
 
 \subsubsection{Intuition}
 We will begin with intuitive description of mechanisms ruling the process.\\
-For the purpose of clarity we assume that at each time step we are able to obtain a sample from posterior distribution with mean $\mu_a$ and variance $\sigma_a$ for each action $a$. If our goal is to maximize the reward we simply select the arm with highest local reward. If all assumptions about our process hold by selecting action some action we improve our estimate. It is possible by incorporating obtained sample and updating mean and variance---therefore our posterior becomes a prior for the next round.\\
+With a view of clarifying we assume that at each time step we are able to obtain a sample from posterior distribution with mean $\mu_a$ and variance $\sigma_a$ for each action $a$. If our goal is to maximize the reward we simply select the arm with highest local reward(highest sample). If all assumptions about our process hold by selecting given action we improve our estimate of its parameters. It is desirable to incorporate obtained sample and update mean and variance---therefore our posterior becomes a prior for the next round.\\
 
-To visualise this we assume that we have 2 arms; the posterior of first one is always less than of the second one and the later behaves as shown on figure~\ref{fig:sampling}. We can see that as we sample and update the posterior we converge to true mean and simultaneously decrease the variance of our estimate.\\
+In order to visualize this we assume that we have 2 arms; the posterior of first one is always less than of the second one and the later behaves as shown in figure~\ref{fig:sampling}. We can see that as we sample and update the posterior it converge to true mean and simultaneously the variance of our estimate decreases. It is clear that we can only update the estimate of selected action and no other.\\
 
-It is clear that we can only update the estimate of selected action.\\
-Usually the sample will be quite close to mean~\ref{fig:sim1} (normal distribution) yielding choice of action with highest mean but occasionally it will lie in the tail leading to exploration of suboptimal action at given time~\ref{fig:sim2}. In other words, the higher the variance of action, the greater the probability of exploring this arm. This argument intuitively guarantees infinite exploration of environment thus convergence to overall optimal solution.
+Usually, drawn sample will be quite close to mean~\ref{fig:sim1}(normal distribution) yielding choice of action with highest mean; occasionally it will lie in the distribution tail leading to exploration of suboptimal at given time action~\ref{fig:sim2}. In other words, the higher the variance of action, the greater the probability of exploring particular arm. This argument intuitively guarantees infinite exploration of environment thus convergence to overall optimal solution.
 
 
 \begin{figure}[htbp]
@@ -606,30 +605,30 @@ Usually the sample will be quite close to mean~\ref{fig:sim1} (normal distributi
     \caption{\label{fig:sim2}}
   \end{subfigure}
 \begin{tiny}
-\caption{Sampling from two normally distributed arm posteriors.\label{fig:sim}}
+\caption{Sampling from two posteriors of normally distributed arm.\label{fig:sim}}
 \end{tiny}
 \vspace{1cm}
 \end{figure}
 
 
 \subsubsection{Example}
-Lets assume we are given uniform prior over all available actions and we model each arm as normally distributed with unknown mean $\mu_a$ and known variance $\sigma^2_a$. Ties are broken randomly we choose any action in first round.\\
+Lets assume we are given uniform prior and we model each arm as normally distributed with unknown mean $\mu_a$ and known variance $\sigma^2_a$. Ties are broken randomly; we choose any action in the first round.\\
 
 We generate normal posterior according to theory presented in section~\ref{sec:bayesian}.\\
 
-After we have obtained posterior we sample for each arm $\mathit{s}_a \leftarrow \mathcal{N}(\mu_a^{\texttt{ pos}}, \sigma^{2\texttt{ pos}}_a)$.
+After we have obtained posterior we draw a sample for each arm $\mathit{s}_a \leftarrow \mathcal{N}(\mu_a^{\texttt{ pos}}, \sigma^{2\texttt{ pos}}_a)$.\\
 
-Our selection procedure is $\mathit{a}_{t+1} = \operatorname{arg\,max}_{a \in \mathscr{A}} \mathit{s}_a$. So we play arm $s$ in round $t+1$ and repeat previous steps. We remember all outcomes in histor.\\
+Our selection procedure is $\mathit{a}_{t+1} = \operatorname{arg\,max}_{a \in \mathscr{A}} \mathit{s}_a$. So we play an arm $s$ in round $t+1$ and repeat previous steps. We place all outcomes and samples in the history vector.\\
 
 
 \subsubsection{Assumptions}
-In our considerations the process runs for an infinite sequence of \emph{time steps}, $t \in \mathscr{T} = \{ 1,2,3... \}$; at each step we observe \emph{regressor}, $x_t \in \mathscr{X}$ (compact set); an \emph{action} choice at time $t$, $a_t \in \mathscr{A} = \{ 1,2...A \}$ and $A<\infty$.\\
-Furthermore action selection is based on \emph{information sequence} defined as:
+In our considerations the process runs for an infinite sequence of \emph{time steps}, $t \in \mathscr{T} = \{ 1,2,3... \}$; at each step we observe \emph{regressor}, $x_t \in \mathscr{X}$ (compact set); an \emph{action} choice at time $t$ is $a_t \in \mathscr{A} = \{ 1,2...A \}$ and $A<\infty$.\\
+Furthermore action selection is based on \emph{information sequence}(history vector) defined as:
 $$
-  \tilde{\mathscr{L}}_t = \left( \text{  } (x_1,a_1,r_1);...(x_{t-1},a_{t-1},r_{t-1}) \text{  } \right) \text{;}
+  \tilde{\mathscr{L}}_t = \left( \text{  } (x_1,a_1,r_1);...(x_{t-1},a_{t-1},r_{t-1}) \text{  } \right) \text{ ,}
 $$
-where $x$ and $a$ is defined as above and $r$ is a reward which results from action at given time and $r_t = f_{a_t}(x) + z_{t,a_t}$; the later value in sum is i.i.d.\ random variable with unknown distribution, zero mean and finite variance. We also denote information available prior to experiment as $\mathscr{L}_0$ and information at time $t$ as $\mathscr{L}_t = \left( \mathscr{L}_0 \cup \tilde{\mathscr{L}}_t \right)$.\\
-Finally, $f_a : \mathscr{X} \rightarrow \mathbb{R}$ is an unknown continuous function of the regressor specific to action $a$.\\
+where $x$ and $a$ is defined as above, $r$ is a reward which results from action at given time and $r_t = f_{a_t}(x) + z_{t,a_t}$; the later value in the sum is i.i.d.\ \footnote{independent and identically distributed} random variable with unknown distribution, zero mean and finite variance. We also denote information available prior to experiment as $\mathscr{L}_0$ and information at time $t$ as $\mathscr{L}_t = \left( \mathscr{L}_0 \cup \tilde{\mathscr{L}}_t \right)$.\\
+Finally, $f_a : \mathscr{X} \rightarrow \mathbb{R}$ is an unknown continuous function of the regressor specific to the action $a$.\\
 
 
 
@@ -642,7 +641,7 @@ and its approximation by:
   \label{eqn:optsol} \hat{a}_t^\star = \argmax_{a \in A} \hat{f}_a (x_t) \text{ .}
 \end{equation}
 
-We can prove that this policy converges with time to the best possible policy---\emph{convergence criterion}:
+We can prove that this policy converges with time to the best possible policy(infinite selection of arm with highest reward)---\emph{convergence criterion}:
 \begin{equation}
   \label{eqn:convg}
   \frac
@@ -650,39 +649,38 @@ We can prove that this policy converges with time to the best possible policy---
     {\sum_{s=1}^t f^\star (x_s)}
   \xrightarrow{\text{ a.s.\ }} 1 \text{ as } t \rightarrow \infty \text{ .}
 \end{equation}
-Above formula states that in infinite process we will finally discover the optimal arm and will be playing it forever since.\\
+Above formula states that in infinite process we will finally discover the optimal arm and we will be playing it forever since.\\
 
 
-We need to consider two major steps of constructing the policy: action evaluation and selection schemes. We also require that evaluation function is \emph{consistent}.\\
+We need to consider two major steps of constructing such policy: action evaluation and selection schemes. We also require that evaluation function is \emph{consistent}.\\
 
 To achieve consistency we need to guarantee:
 $$
-  \forall a \in A \text{, } \forall x \in X \text{, } \left[ \hat{f}_{t, a}(x) - f_a(x) \right] \xrightarrow{\mathbb{P}} 0 \text{ as } n_{t,a} \rightarrow \infty
+  \forall a \in A \text{, } \forall x \in X \text{, } \left[ \hat{f}_{t, a}(x) - f_a(x) \right] \xrightarrow{\mathbb{P}} 0 \text{ as } n_{t,a} \rightarrow \infty \text{ .}
 $$
-in this scenario consistency means that by improving our function of the regressor after each selection and information gain we will finally get the true function.\\
+Here consistency means that by improving our estimate of regressor function after each selection and information gain we will finally get really close to the true function.\\
 
-Even though we guarantee consistent estimator it is possible that optimal action will never be selected. This feature of solution requires as to make sure that arms seen as sum-optimal will also be explored. The solution is ensuring infinite exploration.\\
-
-So we need:
+Even though we guarantee consistent estimator it is possible that optimal action will never be selected. This feature of solution requires as to make sure that arms seen as sum-optimal will also be explored. The solution is to ensure infinite exploration:
 $$
-  \mathbb{P} \left( \bigcap_{a \in A} \left\{ n_{t,a} \rightarrow \infty \text{ as } t \rightarrow \infty \right\} \right) = 1
+  \mathbb{P} \left( \bigcap_{a \in A} \left\{ n_{t,a} \rightarrow \infty \text{ as } t \rightarrow \infty \right\} \right) = 1 \text{ .}
 $$
+The above equation tells us that the number of times each action is selected tends to infinity as the process continues in time.\\ 
 
-Finally, we want the action (arm) selection process to exploit obtained information. We want this process to be greedy\footnote{Locally optimal choice at each stage.} in the limit. This assumption leads to:\\
+Finally, we want the action(arm) selection process to exploit obtained information. We want it to be greedy \footnote{Locally optimal choice at each stage.} in the limit. This assumption leads to:
 $$
   \mathbb{P} \left( a_t = \hat{a}_t^\star | \mathscr{L}_t, x_t \right) \xrightarrow{\text{a.s.\ }} 1 \text{ as } t \rightarrow \infty \text{ ,}
 $$
-Where $\hat{a}_t^\star$ is defined as in equation~\ref{eqn:optsol}.\\
+where $\hat{a}_t^\star$ is defined as in equation~\ref{eqn:optsol}. The above equation means that the action that our policy estimate as optimal will be truly optimal in the time limit.\\
 
 If all above conditions hold we call the policy \emph{GLIE}---greedy in the limit with infinite exploration.\\
 
 
 \subsubsection{Exploration and exploitation}
-Chosen approach uses earlier mentioned \emph{exploitative} and \emph{exploratory} values to make a greedy decision based on sum of these estimates at each time step. The first value corresponds to immediate reward---expected value of posterior distribution for each action at given time---and we define it as:
+Action selection mechanism uses sum of \emph{exploitative} and \emph{exploratory} values to make a greedy decision at each time step. The first quantity corresponds to immediate reward---expected value of posterior distribution for each action at given time---and we define it as:
 \begin{equation}
   \label{eqn:exploitative} \hat{f}_{t,a} (x_t) = \mathbb{E} ( f_a(x_t) | \mathscr{L}_t, x_t ) \text{ .}
 \end{equation}
-The exploratory parameter can be expressed in many different ways reviewed by~\citep{meuleau:exploration}. This value in general describes how keen we should be on exploring other actions and in general can be defined as:
+The exploratory parameter can be expressed in many different ways reviewed by~\citep{meuleau:exploration}. Broadly speaking, this value describes how keen we should be on exploring other than optimal actions; it can be defined as:
 $$
   \delta_{t,a} \myeq
     \begin{cases}
@@ -692,20 +690,31 @@ $$
 $$
 where $\delta_0(n)$ is some positive decreasing function of \emph{history} called \emph{unit exploration bonus}.\\
 
-$\delta_0$ for instance can be dependent on discount sequence: decreasing the importance of exploration later in the experiment or giving the same priority to exploration independently of time. Moreover, the \emph{exploratory bonus} can be calculated simply as standard deviation of the expected reward(posterior distribution of each action). Such approach favours actions which are uncertain about their prediction hence, improve their estimation of true reward.\\
+$\delta_0$ for instance can be dependent on discount sequence: decreasing the importance of exploration later in the experiment or giving the same priority to exploration independently of time. Moreover, the \emph{exploratory bonus} can be calculated simply as standard deviation of the expected reward(of posterior distribution of each action). Such approach favours actions which predictions are uncertain hence, improve their true reward estimation.\\
 
 \subsubsection{Approach development}
-We now refine described above approach and present \emph{Local Thompson Sampling}(LTS). To begin with, we design exploratory value in a way that will guarantee non-sticking\footnote{Avoid focusing on one action hence under-explore all the rest(sub-optimal solution).}. One solution is to randomize the value. It can be achieved by sampling a value from the posterior distribution and using it as an error in exploitative value estimate for current regressor; we denote $\tilde{f}_{t,a}^{\text{ Th}} (x_t)$ as sample from posterior distribution of $f_a(x_t) - \hat{f}_{t,a}(x_t)$, given $\mathscr{L}_t$ and $x_t$.
+We now refine described above approach and present \emph{Local Thompson Sampling}(LTS). To begin with, we design exploratory value in a way that will guarantee non-sticking~\footnote{Avoid focusing on one action hence under-explore all the other(sub-optimal solution).}. One solution is to randomize it. Such behavior can be achieved by sampling from the posterior distribution and using acquired quantities as an error in exploitative value estimate for current regressor; we denote $\tilde{f}_{t,a}^{\text{ Th}} (x_t)$ as sample from posterior distribution of $f_a(x_t) - \hat{f}_{t,a}(x_t)$, given $\mathscr{L}_t$ and $x_t$:
 \begin{equation}
-  \label{eqn:exploratory} \tilde{f}_{t,a}^{\text{ Th}} (x_t) \sim \{ f_a(x_t) - \hat{f}_{t,a}(x_t) \} | \mathscr{L}_t,x_t 
+  \label{eqn:exploratory} \tilde{f}_{t,a}^{\text{ Th}} (x_t) \sim \{ f_a(x_t) - \hat{f}_{t,a}(x_t) \} | \mathscr{L}_t,x_t \text{ .}
 \end{equation}
-Intuitively, $\hat{f}_{t,a}(x_t)$ is our estimate of the mean of true function based on all the information and regressors that we observed so far; $f_a(x_t)$ is the function of the regressor. The sample value from the distribution given by difference of these two functions provides us estimate of uncertainty of given action which is random.\\
+Intuitively, $\hat{f}_{t,a}(x_t)$ is our estimate of the mean of true function based on all the information and regressors that we observed so far; $f_a(x_t)$ is the true function of the regressor. The sampled value from the distribution given by difference of these two functions provides us with estimate of uncertainty of given action which is random.\\
 
-Sum of both exploratory and exploitative values given in equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} is used in LTS to greedily decide on the next action; this process is equivalent to choosing an action with optimal posterior probability for current regressor. Such solution was proposed by Thompson~\citep{thompson:biom33}.\\
+Sum of both exploratory and exploitative values given in equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} is used in LTS to greedily decide on the next action; this process is equivalent to choosing an action with optimal posterior probability for current regressor. It can be expressed as sampling from:
+$$
+\{ f_a(x_t) - \hat{f}_{t,a}(x_t) \} +  \mathbb{E} ( f_a(x_t) | \mathscr{L}_t, x_t )
+=
+ \{ f_a(x_t) - \hat{f}_{t,a}(x_t) \}+ \hat{f}_{t,a} (x_t)
+ =
+ f_a(x_t) \text{ ,}
+$$
+which is just a posterior distribution of an action $a$. Such solution was first proposed by Thompson~\citep{thompson:biom33}.\\
 
-We call this approach \emph{local} as it uses greedy action selection---the choice is made based on probabilities calculated for current regressor. The original work of Thompson discussed only Bernoulli bandits but as shown above it can be generalised to sample from the posterior distribution of the expected reward of each action and then select the arm with highest value.\\
 
-Under mild assumptions\footnote{Assumptions that are expected to hold if the true posterior distributions and expectations are available.} it can be shown that LTS guarantees convergence given by equation~\ref{eqn:convg}.\\
+
+
+We call this approach \emph{local} as it uses greedy action selection---the choice is made based on probabilities calculated for current regressor. The original work by Thompson discussed only Bernoulli bandits but as shown above it can be generalized to sample from the posterior distribution of the expected reward of each action and then select the arm with highest value.\\
+
+Under mild assumptions~\footnote{Assumptions that are expected to hold if the true posterior distributions and expectations are available.} it can be shown that LTS guarantees convergence given by equation~\ref{eqn:convg}.\\
 
 \subsubsection{Correctness \& convergence}
 LTS and OBS are myopic methods.
@@ -736,7 +745,7 @@ We denote $p_a(\cdot | \mathscr{L}_t, x_t)$ the posterior distribution of $f_a(x
 
 
 \subsubsection{Drawbacks and possible improvements}
-One of cons of this approach is possibility of exploratory value can have zero expectation hence, can take negative values. The consequence may lead to probability of particular action being selected to decrease with the posterior variance of its exploratory value. This issue arises as we represent the samples as sum of exploratory and exploitative values therefore if actions with the highest exploitative value has a lot of uncertainty then it is less likely to be played then if the estimate had little uncertainty.\\
+Main disadvantage of this approach is possibility of exploratory value having zero expectation hence, it can take negative values. The consequence may lead to probability of particular action being selected to decrease with the posterior variance of its exploratory value. This issue arises as we represent the samples as sum of exploratory and exploitative values therefore if actions with the highest exploitative value has a lot of uncertainty then it is less likely to be played then if the estimate had little uncertainty.\\
 
 The approach which avoid such situation is called \emph{Optimistic Bayesian Sampling}(OBS) where exploratory value is given by:
 $$
