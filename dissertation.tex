@@ -186,9 +186,9 @@ Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, explor
 \end{abstract}
 
 \begin{dedication}
-I would like to thank my parents who support me both financially and mentally. For the guidance and advice they are providing so I can make right choices throughout life and fulfill my dream.\newline
+I would like to thank my parents who provides me with any kind of support. For their guidance and advice which helps me to make the right choices throughout the life and fulfill my dreams.\newline
 
-It would also be a painful journey without my supervisor Dr.~David~Leslie who always served me with an advice how to ``read'' and ``write'' all the maths and avoid unnecessary, overwhelming .\newline
+It would also be a painful journey without my supervisor Dr.~David~Leslie who always served me with an advice how to ``read'' and ``write'' all the maths and avoid unnecessary and overwhelming clutter in the books.\newline
 
 Finally, big thanks to Iza and Kuba who often take care of my leisure time even though it always lacks.\\[2cm]
 
@@ -707,29 +707,19 @@ $$
  =
  f_a(x_t) \text{ ,}
 $$
-which is just a posterior distribution of an action $a$. Such solution was first proposed by Thompson~\citep{thompson:biom33}.\\
-
-
-
+which is just a posterior distribution of an action $a$.\\
+As we do not have the true function $f$ for arm $a$ the closest approximation is posterior distribution. Therefore, the policy says to sample from the posterior distribution and choose the arm with highest sample.\\
+It is proved that in LTS algorithm probability of each action being selected is the posterior that the action is yielding the highest expected reward. Furthermore, we assume that posterior of all actions that have not been taken at round $t$ does not change.\\
 
 We call this approach \emph{local} as it uses greedy action selection---the choice is made based on probabilities calculated for current regressor. The original work by Thompson discussed only Bernoulli bandits but as shown above it can be generalized to sample from the posterior distribution of the expected reward of each action and then select the arm with highest value.\\
 
-Under mild assumptions~\footnote{Assumptions that are expected to hold if the true posterior distributions and expectations are available.} it can be shown that LTS guarantees convergence given by equation~\ref{eqn:convg}.\\
+Under mild assumptions~\footnote{Assumptions that are expected to hold if the true posterior distributions and expectations are available.} it can be shown that LTS guarantees convergence given by equation~\ref{eqn:convg}. Such solution was first proposed by Thompson~\citep{thompson:biom33}.\\
 
-\subsubsection{Correctness \& convergence}
-LTS and OBS are myopic methods.
-
-It is proved that in LTS algorithm then probability of each action being selected is the posterior that it is the action yielding the highest expected reward.\\
-
-Furthermore, we assume that posterior of all actions that have not been taken at round $t$ does not change.\\
-
-Sampling from sum of exploratory and exploitative values given in equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} yield:
-$$
-  \left[ f_a(x_t) - \hat{f}_{t,a}(x_t) \right] + \hat{f}_{t,a}(x_t) = f_a(x_t) \text{ .}
-$$
-As we do not have the true value of function $f$ for arm $a$ the closest approximation is posterior. Therefore it is just sampling from the posterior distribution and choosing highest sample.\\
-
-We denote $p_a(\cdot | \mathscr{L}_t, x_t)$ the posterior distribution of $f_a(x_t)$ given $\mathscr{L}_t$ and $x_t$. Therefore we denote $\mathscr{Q}^\text{Th}_{t,a}$ a random variable with distribution $p_a(\cdot | \mathscr{L}_t, x_t)$ which we draw our samples from.
+% \subsubsection{Correctness \& convergence} %LTS and OBS are myopic methods.
+% Sampling from sum of exploratory and exploitative values given in equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} yield:
+% $$
+  % \left[ f_a(x_t) - \hat{f}_{t,a}(x_t) \right] + \hat{f}_{t,a}(x_t) = f_a(x_t) \text{ .}
+% $$
 
 \RestyleAlgo{boxed}
 \vspace{2cm}
@@ -743,17 +733,20 @@ We denote $p_a(\cdot | \mathscr{L}_t, x_t)$ the posterior distribution of $f_a(x
 \end{algorithm}
 \vspace{2cm}
 
+We denote $p_a(\cdot | \mathscr{L}_t, x_t)$ the posterior distribution of $f_a(x_t)$ given $\mathscr{L}_t$ and $x_t$ and $\mathscr{Q}^\text{Th}_{t,a}$ a random variable with distribution $p_a(\cdot | \mathscr{L}_t, x_t)$ which we draw our samples from.\\
+
 
 \subsubsection{Drawbacks and possible improvements}
-Main disadvantage of this approach is possibility of exploratory value having zero expectation hence, it can take negative values. The consequence may lead to probability of particular action being selected to decrease with the posterior variance of its exploratory value. This issue arises as we represent the samples as sum of exploratory and exploitative values therefore if actions with the highest exploitative value has a lot of uncertainty then it is less likely to be played then if the estimate had little uncertainty.\\
+Main disadvantage of this approach is possibility of exploratory value having zero expectation hence, it can be negative. The consequence may lead to probability of particular action being selected to decrease with the posterior variance of its exploratory value.\\
+This issue arises as we represent the samples as sum of exploratory and exploitative values therefore if actions with the highest exploitative value has a lot of uncertainty then it is less likely to be played then if the estimate had little uncertainty.\\
 
-The approach which avoid such situation is called \emph{Optimistic Bayesian Sampling}(OBS) where exploratory value is given by:
+The approach which avoids such situations is called \emph{Optimistic Bayesian Sampling}(OBS) where exploratory value is given by:
 $$
   \tilde{f}_{t,a} (x_t) = max \left( 0, \tilde{f}_{t,a}^{\text{ Th}} (x_t) - \hat{f}_{t,a}(x_t) \right)
                         = \left [ \tilde{f}_{t,a}^{\text{ Th}} (x_t) - \hat{f}_{t,a}(x_t) \right]_+
                         \text{ .}
 $$
-Expressed in this way exploratory value has positive expectation and cannot take negative values. This feature yields increased selection of for uncertain actions---which seems desirable. It also can be shown that OBS satisfies convergence criterion(equation~\ref{eqn:convg}) and outperforms LTS~\citep{May:2012:OBS:2503308.2343711}.\\
+Expressed in this way exploratory value has positive expectation and cannot be negative. This feature yields increased selection of uncertain actions---what seems desirable. It also can be shown that OBS satisfies convergence criterion(equation~\ref{eqn:convg}) and outperforms LTS~\citep{May:2012:OBS:2503308.2343711}.\\
 
 \RestyleAlgo{boxed}
 \vspace{2cm}
@@ -770,7 +763,7 @@ Expressed in this way exploratory value has positive expectation and cannot take
 \vspace{2cm}
 
 \subsubsection{Conclusions}
-Presented class of algorithms is robust---convergence criterion is satisfied even if approximations of posteriors and expectations as long as relevant assumptions hold. Given algorithms are also easy to implement as long as posterior distribution of expected reward can be calculated. Furthermore, the method is computationally cheap in comparison with belief-lookahead approaches(such as Gittins indices) and not only/ limited to. Last but not least, LTS is widely used to address contextual bandit problem widely used by Microsoft, Google and Yahoo.\\
+Presented here class of algorithms is robust---as long as relevant assumptions hold, convergence criterion is satisfied even if approximations of posteriors and expectations are used. Above algorithms are also easy to implement given that posterior distribution of expected rewards can be calculated. Furthermore, the method is computationally cheap in comparison with belief-lookahead approaches such as Gittins index. Last but not least, LTS is widely used by Microsoft, Google and Yahoo to address contextual bandit problem.\\
 
 
 
