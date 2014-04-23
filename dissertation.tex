@@ -450,26 +450,26 @@ Thompson Sampling is a good example of Bayesian approach.\\
 
 
 \section{Thompson Sampling\label{sec:thompsonsampling}}
-To fully develop \emph{Thompson Sampling} approach to multi-armed bandit theory, two concepts need to be introduced:
+To fully understand \emph{Thompson Sampling} approach to multi-armed bandits theory, two concepts need to be introduced first:
 \begin{itemize}
-\item Bayesian statistics \emph{and}
+\item Bayesian statistics \textit{and}
 \item sampling theory.
 \end{itemize}
-It is possible to use any probability distribution with \emph{Thompson Sampling} but for the sake of simplicity we will focus in this paper only on \emph{normally} distributed data. This restriction does not mean that it is not possible to apply this technique with any other distribution but due to space constrains the theory will be presented with \emph{normal likelihood}. Furthermore, discussing other scenarios of Thompson Sampling would demand from reader to be familiar with analytic approach to Bayesian \emph{posteriors}, \emph{priors} and \emph{likelihoods}.
+It is possible to use any probability distribution with Thompson Sampling but for the sake of simplicity we will consider only normal distribution in this paper. Mentioned restriction does not mean that it is impossible to apply this technique with any other distribution but due to space constrains the theory will be presented with \emph{normal likelihood}. Furthermore, discussing other scenarios of Thompson Sampling would require reader to be familiar with analytic approach to Bayesian \emph{posteriors}, \emph{priors} and \emph{likelihoods}.
 
 \subsection{Bayesian statistics\label{sec:bayesian}}
 In this section we will shortly introduce normal distribution. Then we will discuss its aspects with regard to Bayesian statistics.
 
 \subsubsection{The normal distribution}
-The most common distribution in statistics with well known bell-shaped (see \emph{Figure~\ref{fig:normaldist}}) plot is the normal distribution also called \emph{Gaussian} distribution. If a random variable $\mathrm{X}$ follow such distribution parametrized by \emph{mean} $\mu$ and \emph{standard deviation} $\sigma$ we commonly write $\mathrm{X} \sim \mathcal{N}\left( \mu, \sigma^2 \right)$. Probability density function of $\mathrm{X})$ is:
+The most common distribution in statistics with well-known bell-shaped(see figure~\ref{fig:normaldist}) curve is the normal distribution also called \emph{Gaussian} distribution. If a random variable $\mathrm{X}$ follow such distribution parametrized by \emph{mean} $\mu$ and \emph{standard deviation} $\sigma$ we commonly write $\mathrm{X} \sim \mathcal{N}\left( \mu, \sigma^2 \right)$. Probability density function of $\mathrm{X})$ is then:
 $$
-f \left(x | \mu, \sigma \right) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ {\left (  x - \mu \right )}^2 }{2 \sigma^2} }
+f \left(x | \mu, \sigma \right) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ {\left (  x - \mu \right )}^2 }{2 \sigma^2} } \text{ ,}
 $$
-where the first part ${\left( \sigma \sqrt{2 \pi } \right)}^{-1}$ is a normalizing factor and the later part is a distribution ``kernel''.
+where the first part ${\left( \sigma \sqrt{2 \pi } \right)}^{-1}$ is a normalizing factor and the later part is a distribution ``kernel''.\\
+The area under the curve from $-\infty$ to $+\infty$ integrates to $1$~\citep{rice1995mathematical}:
 $$
-\int_{-\infty}^{+\infty} \! f \left(x | \mu, \sigma \right) \, \mathrm{d}x = 1
+\int_{-\infty}^{+\infty} \! f \left(x | \mu, \sigma \right) \, \mathrm{d}x = 1 \text{ .}
 $$
-with area under curve from $-\infty$ to $+\infty$ integrating to $1$~\citep{rice1995mathematical}.
 
 
 \begin{figure}[htbp]
@@ -487,7 +487,7 @@ with area under curve from $-\infty$ to $+\infty$ integrating to $1$~\citep{rice
 \subsubsection{\emph{prior}, \emph{posterior} and \emph{likelihood} distributions}
 The next concept that we introduce is the dependency between prior, posterior and likelihood of a particular distribution. To illustrate it the \emph{normal} distribution will be used for the reasons mentioned above. The generalization to other distributions is straight forward~\citep{gelman2003bayesian}.\\
 
-The basic theorem underlying all this section is called Bayes' theorem for point probabilities and states:
+The basic theorem underlying all the section is called Bayes' theorem for point probabilities and states:
 $$
 p \left( \mathrm{B} | \mathrm{A} \right) = \frac{  p \left( \mathrm{A} | \mathrm{B} \right) p \left( \mathrm{B} \right) }{ p \left( \mathrm{A} \right) }
 $$
@@ -495,53 +495,57 @@ $$
 or
 \end{center}
 $$
-p \left( \mathrm{B} | \mathrm{A} \right) \propto p \left( \mathrm{A} | \mathrm{B} \right) p \left( \mathrm{B} \right)
+p \left( \mathrm{B} | \mathrm{A} \right) \propto p \left( \mathrm{A} | \mathrm{B} \right) p \left( \mathrm{B} \right) \text{ ,}
 $$
 where:
 \begin{description}
-\item[$p \left( \mathrm{B} | \mathrm{A} \right)$] is \textbf{posterior}--- being conditional probability of event \textrm{B} given event \textrm{A},
-\item[$p \left( \mathrm{A} | \mathrm{B} \right)$] is \textbf{sampling density (``likelihood'')}--- being conditional probability of event \textrm{A} given event \textrm{B},
-\item[$p \left( \mathrm{B} \right)$] is \textbf{prior}--- being marginal probability of event \textrm{B} and
-\item[$p \left( \mathrm{A} \right)$] is \textbf{marginal} probability of event \textrm{A} (data) being normalizing factor.
+\item[$p \left( \mathrm{B} | \mathrm{A} \right)$] is \textbf{posterior}---being conditional probability of event \textrm{B} given event \textrm{A},
+\item[$p \left( \mathrm{A} | \mathrm{B} \right)$] is \textbf{sampling density (``likelihood'')}---being conditional probability of event \textrm{A} given event \textrm{B},
+\item[$p \left( \mathrm{B} \right)$] is \textbf{prior}---being marginal probability of event \textrm{B} and
+\item[$p \left( \mathrm{A} \right)$] is \textbf{marginal} probability of event \textrm{A}(data), being normalizing factor.
 \end{description}
 
-Now we will focus on general results of Bayesian statistics when our likelihood function is normally distributed. From this point onwards we can develop a couple of different scenarios described below.\\
+Now we will focus on general results of Bayesian statistics when our likelihood function is normally distributed. From this point onwards we can develop a couple of different scenarios described below.\\[2cm]
 
-\textbf{\textrm{Non-informative prior. }}If we are lacking information about prior distribution the best that can be done is to minimize its influence on the inference. According to \emph{principle of insufficient reason} proposed by Bayes and Laplace we should assume that prior is \emph{uniformly} distributed so all outcomes are equally likely. We also assume that it is distributed over the real line for both $\mu$ and $\log \sigma^2$ (transformation to $\log$ scale is performed because $\sigma^2$ is non-negative quantity and it results in stretch along real line). These operations result in joint probability $p \left( \mu, \sigma^2 \right) \propto \frac{1}{\sigma^2} $ leading to posterior distributions given by $p \left( \mu | \mathrm{X}, \sigma^2 \right) \sim \mathcal{N} \left( \bar{x}, \frac{\sigma^2}{n} \right) $ and $p \left( \sigma^2 | \mathrm{X}, \mu \right) \sim \mathrm{Inv}\text{-}\mathrm{Gamma} \left( \frac{n}{2} , \sum_{i} \frac{\left( x_i - \mu \right)^2}{2}  \right) $ (inverse gamma distribution). This approach is not perfect and its criticism is widely known but for our application it suffices~\citep{Syversveen98noninformativebayesian}.\\
+\textbf{\textrm{Non-informative prior. }}If we are lacking information about prior distribution the best that can be done is to minimize its influence on the inference. According to \emph{principle of insufficient reason} proposed by Bayes and Laplace we should assume that prior is \emph{uniformly} distributed so all outcomes are equally likely. We also assume that it is distributed over the real line for both $\mu$ and $\log \sigma^2$(transformation to $\log$ scale is performed because $\sigma^2$ is non-negative quantity and it results in stretch along the real line). These operations result in joint probability $p \left( \mu, \sigma^2 \right) \propto \frac{1}{\sigma^2} $ leading to posterior distributions given by $p \left( \mu | \mathrm{X}, \sigma^2 \right) \sim \mathcal{N} \left( \bar{x}, \frac{\sigma^2}{n} \right) $ and $p \left( \sigma^2 | \mathrm{X}, \mu \right) \sim \mathrm{Inv}\text{-}\mathrm{Gamma} \left( \frac{n}{2} , \sum_{i} \frac{\left( x_i - \mu \right)^2}{2}  \right) $(inverse gamma distribution). This approach is not perfect and its criticism is widely known but for our application it is sufficient~\citep{Syversveen98noninformativebayesian}.\\
 
 % give equation for normal likelihood --- uniform prior
 
-\textbf{\textrm{Informative prior. }}It is the opposite scenario to one described above. With known distribution of the prior the application of Bayesian statistics is straight forward. From this point onward we will assume that our prior is informative with normal distribution.\\
+\textbf{\textrm{Informative prior. }}It is the opposite scenario to the one described above. With known prior distributions the application of Bayesian statistics is as simple as finding corresponding posterior and calculating parameters.\\
+From this point onward we will assume that our prior is normally distributed and informative.\\[2cm]
 
-\textbf{\textrm{Known variance. }}Firstly we will consider \emph{normal prior--normal likelihood} with $\sigma^2$ known and $\mu$ unknown (our variable).
+
+
+
+\textbf{\textrm{Known variance. }}Firstly we will consider \emph{normal prior--normal likelihood} with $\sigma^2$ known and $\mu$ unknown(our variable).
 $$
-f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right)
+f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f \left( \mu \right) \text{ .}
 $$
-The $\sigma^2$ in the notation is omitted for clarity purposes. In this case out prior is defined as follows:
+The $\sigma^2$ in the notation is omitted for clarity purpose. In this case out prior is defined as follows:
 $$
-f \left( \mu \right)    \sim   \mathcal{N}\left( \mu, \tau^2 \right)
+f \left( \mu \right)    \sim   \mathcal{N}\left( \mu, \tau^2 \right) \text{ ,}
 %                        ~
 $$
 giving:
 $$
-f \left( \mu \right)    =     \frac{1}{\sqrt{2\pi} \tau} e^{- \frac{{\left( \mu - M \right)}^2}{2 \tau^2} }
+f \left( \mu \right)    =     \frac{1}{\sqrt{2\pi} \tau} e^{- \frac{{\left( \mu - M \right)}^2}{2 \tau^2} } \text{ ,}
 $$
 where $M$ is prior mean and $\tau^2$ is variance of $\mu$ round $M$; likelihood is given by:
 $$
-f \left( \mathrm{X} | \mu \right)     \sim    \mathcal{N}\left( \mu, \sigma^2 \right)
+f \left( \mathrm{X} | \mu \right)     \sim    \mathcal{N}\left( \mu, \sigma^2 \right) \text{ ,}
 $$
 resulting in:
 $$
-f \left( \mathrm{X} | \mu \right)    =     \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi} \sigma} e^{- \frac{{\left( \mu - x_i \right)}^2}{2 \sigma^2} }
+f \left( \mathrm{X} | \mu \right)    =     \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi} \sigma} e^{- \frac{{\left( \mu - x_i \right)}^2}{2 \sigma^2} } \text{ ,}
 $$
-where $x_i \in X$ are data points.\\
+where, $x_i \in X$ are data points.\\
 After plugging both of them into Bayes rule we get:
 $$
-f \left( \mu | \mathrm{X} \right)     \propto     \frac{1}{\sigma \tau} e^{ -\frac{ {\left( \mu - M \right)}^2 }{2 \tau^2} -\frac{ \sum_{i=1}^{n} {\left( \mu - x_i \right)}^2 }{2 \sigma^2} }
+f \left( \mu | \mathrm{X} \right)     \propto     \frac{1}{\sigma \tau} e^{ -\frac{ {\left( \mu - M \right)}^2 }{2 \tau^2} -\frac{ \sum_{i=1}^{n} {\left( \mu - x_i \right)}^2 }{2 \sigma^2} } \text{ ,}
 $$
-what clearly contains a kernel of normal distribution. After some algebraic transformation we finally get that posterior is \textbf{normally} distributed with mean $\epsilon$ and variance $\delta^2$ ( $f \left( \mu | \mathrm{X} \right) \sim \mathcal{N} \left( \epsilon, \delta^2 \right) $ ):
+what clearly contains a kernel of normal distributions. After some algebraic transformation we can derive that posterior is \textbf{normally} distributed with mean $\epsilon$ and variance $\delta^2$---$f \left( \mu | \mathrm{X} \right) \sim \mathcal{N} \left( \epsilon, \delta^2 \right) $:
 \begin{eqnarray*}
-\epsilon &=& \frac{\sigma^2 M + n \tau^2 \bar{x}}{n \tau^2 + \sigma^2} = \frac{ \frac{1}{\tau^2} }{ \frac{1}{\tau^2} + \frac{n}{\sigma^2} }M + \frac{ \frac{n}{\sigma^2} }{ \frac{1}{\tau^2} + \frac{n}{\sigma^2} } \bar{x} \\
+\epsilon &=& \frac{\sigma^2 M + n \tau^2 \bar{x}}{n \tau^2 + \sigma^2} = \frac{ \frac{1}{\tau^2} }{ \frac{1}{\tau^2} + \frac{n}{\sigma^2} }M + \frac{ \frac{n}{\sigma^2} }{ \frac{1}{\tau^2} + \frac{n}{\sigma^2} } \bar{x} \text{ ,} \\
 \delta^2 &=& \frac{\sigma^2 \tau^2}{n \tau^2 + \sigma^2} = \frac{ \frac{\sigma^2}{n} \tau^2 }{ \tau^2 + \frac{\sigma^2}{n} } \text{ .}
 \end{eqnarray*}
 \\
@@ -550,21 +554,21 @@ what clearly contains a kernel of normal distribution. After some algebraic tran
 $$
 p \left(  \mu, \sigma^2 | \mathrm{X} \right) \propto p \left( \mathrm{X} | \mu, \sigma^2 \right)    p \left( \mu, \sigma^2 \right) \text{ .}
 $$
-We now need to specify the details of prior distribution. One way is to assume independent distributions of both $\mu$ and $\sigma^2$ and establish separate priors for each with $p(\mu, \sigma^2) = p(\mu) p(\sigma^2)$ what is widely documented as a good technique~\citep{gelman2003bayesian}.\\
-With unknown variance one approach is to follow \emph{non-informative} prior scenario described above. The other one is to continue assumption that $\mu \sim \mathcal{N} \left( M, \tau^2 \right)$ with choice of parameters resulting in a flat distribution e.g. $M=0$, $\tau^2 = 10^4$. Furthermore, it is easy to spot that $\sigma^2$ follows \textrm{Inverse}-\textrm{Gamma} distribution with ... . Both these results leads to posterior distribution being ... .\\
+We now need to specify the details of prior distribution. One way is to assume independence of both $\mu$ and $\sigma^2$ and establish separate priors for each with $p(\mu, \sigma^2) = p(\mu) p(\sigma^2)$ what is documented as a good technique~\citep{gelman2003bayesian}.\\
+With unknown variance common approach is to follow \emph{non-informative} prior scenario described above. The other strategy is to assume that $\mu \sim \mathcal{N} \left( M, \tau^2 \right)$ with choice of parameters resulting in a flat distribution e.g. $M=0$, $\tau^2 = 10^4$. Furthermore, it is easy to spot that $\sigma^2$ follows \textrm{Inverse}-\textrm{Gamma} distribution.\\
 
-Basic results that yields from Bayesian statistics for normal likelihood are available in wide variety of books. For more details regarding normal and other distributions please refer to~\citep{lynch2007introduction}\citep{gelman2003bayesian}.\\
+Basic results of Bayesian statistics for normal distribution---likelihood are available in wide variety of books. For further reading please refer to~\citep{lynch2007introduction}\citep{gelman2003bayesian}.\\
 
 \subsection{Sampling}
-In general sampling is a technique used in statistics to select at random a subset of individuals or data points from a population of interest. To goal of such procedure is to gather representative group which holds the properties of original population. The main advantage of such approach is lowering the amount of data to process.\\
-In our approach we use sampling to draw at random from particular pool (\emph{arm}) with unknown distribution.
+In general, sampling is a technique used in statistics to select at random a subset of individuals or data points from a population of interest. The aim of such procedure is to gather representative group which holds the properties of the original population. The main advantage of this approach is lowering the amount of data needed to be processed.\\
+In our approach we use sampling to draw values from posterior distribution of each \emph{arm} to make an action choice and reduce uncertainty of parameters estimates.\\
 
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.7\textwidth]{graphics/sampling.png}
 \begin{tiny}
-\caption{Sampling and updating posterior probability density function of normal distribution $\mathcal{N}\left( \mu , \sigma^2 \right)$ (Figure taken from~\citep{Jacobs2008normalnormal}).\label{fig:sampling}}
+\caption{Sampling and updating posterior probability density function of a normal distribution $\mathcal{N}\left( \mu , \sigma^2 \right)$. Figure taken from~\citep{Jacobs2008normalnormal}.\label{fig:sampling}}
 \end{tiny}
 \vspace{1cm}
 \end{figure}
