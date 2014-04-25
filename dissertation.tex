@@ -1207,6 +1207,40 @@ To sum up, for tested dataset 10\% sample seems to be the minimum we should use 
 \end{figure}
 
 
+\section{LCB algorithm}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{graphics/convergence_LCB025.png}
+  \begin{tiny}
+    \caption{Change of hypothesis risk estimation along time with LCB selection mechanism. Experiment conducted with query budget of 20\% of dataset size. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:LCB_conv}}
+  \end{tiny}
+  \vspace{1cm}
+\end{figure}
+
+\lipsum[0-3]
+
+\begin{figure}[htbp]
+  \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence_LCB001.png}
+    \caption{1\%\label{fig:LCB_conv.ALL:01}}
+  \end{subfigure}
+  \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence_LCB005.png}
+    \caption{5\%\label{fig:LCB_conv.ALL:05}}
+  \end{subfigure}\\[1ex]
+
+    \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence_LCB010.png}
+    \caption{10\%\label{fig:LCB_conv.ALL:10}}
+  \end{subfigure}
+  \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence_LCB015.png}
+    \caption{15\%\label{fig:LCB_conv.ALL:15}}
+  \end{subfigure}
+
+  \caption{Change of hypothesis risk estimation along time with LCB selection mechanism. Each sub-figure presents different percentage of oracle queries with regard to the number of points in the dataset. Colours correspond to hypothesis shown in figure~\ref{fig:hyp}.\label{fig:LCB_conv.ALL}}
+\end{figure}
 
 
 
