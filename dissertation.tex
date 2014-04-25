@@ -1218,7 +1218,17 @@ To sum up, for tested dataset 10\% sample seems to be the minimum we should use 
   \vspace{1cm}
 \end{figure}
 
-\lipsum[0-3]
+In this section we compare results achieved above for Thompson Sampling policy against ones, achieved via \emph{Lower Confidence Bound} selection mechanism---straightforward application of algorithms~\ref{al:LCB-AL}. We conducted experiments for the same query budget as above: 1\%, 5\%, 10\%, 15\% and 20\%.\\
+
+The first striking feature of LCB while comparing to TS is higher number of queries made. LCB decides to ask already known points more often than TS.\\
+For 20\% sample the LCB converges in similarly to algorithm presented above. Optimal hypothesis is chosen at the end and is very close to second optimal. Above we have two ``75\% correct'' hypothesis, and at the top(the worst) two arms which assigned singleton class. The only advantage of LCB is \textcolor{red}{red} being in top rather than middle.\\
+Here, same as above 1\% sample behaves random and does not contain any informative content.\\
+The 5\% experiment also groups the answers into three pairs: \textcolor{blue}{blue}--\textcolor{Dandelion}{yellow}, \textcolor{cyan}{cyan}--\textcolor{magenta}{magenta}, \textcolor{green}{green}--\textcolor{red}{red} like in 20\% case. Here, the two 0-error-rate answers are predicted as sub-optimal in contrast to correct prediction in TS.\\
+10\% case yields similar behavior to corresponding experiment with TS approach. It does a bit worse as \textcolor{green}{green} hypothesis over-performs \textcolor{cyan}{cyan}---which is one of optimal hypothesis. Despite, this fact the the best---\textcolor{magenta}{magenta}---hypothesis is chosen.\\
+Finally, 15\% results in similar randomness of sub-optimal arms as corresponding TS trial. Nevertheless, two optimal hypothesis are indicated as the best with fine distance to all the other actions.\\
+
+To sum up, two approaches result in similar behavior. The best hypothesis converges the same in both cases---sub-optimal ones also follow comparable paths with a bit of randomness. While comparing both methods with results shown above we cannot unambiguously say which algorithm performs better. We plan to conduct additional experiments in the near future to address this uncertainty.\\
+
 
 \begin{figure}[htbp]
   \begin{subfigure}{.5\linewidth}\centering
