@@ -744,15 +744,15 @@ $$
 \subsubsection{\emph{prior}, \emph{posterior} and \emph{likelihood} 
 distributions}                               
 The next concept that we discuss is the dependency between prior, posterior 
-and likelihood of a particular distribution. The one needs to understand these connections to realize that once the agents have acquired new piece of information, they can use Bayesian statistics to improve their current estimates.\\
-To illustrate this dependencies the \emph{normal} 
-distribution will be used for the reasons mentioned above. The generalization 
+and likelihood of a particular distribution. The one needs to understand these connections to realise that once the agents have acquired new piece of information, they can use Bayesian statistics to improve their current estimates of mean reward of each action.\\
+To illustrate these dependencies the \emph{normal} 
+distribution is used for the reasons mentioned above. The generalisation 
 to other distributions is straight forward~\citep{gelman2003bayesian}.\\
 
 The basic theorem underlying the following discussion is called Bayes' theorem for point probabilities and states:
 $$
 p \left( \mathrm{B} | \mathrm{A} \right) = \frac{  p \left( \mathrm{A} | 
-\mathrm{B} \right) p \left( \mathrm{B} \right) }{ p \left( \mathrm{A} \right) }
+\mathrm{B} \right) p \left( \mathrm{B} \right) }{ p \left( \mathrm{A} \right) }  \text{ ,}
 $$
 \begin{center}
 or
@@ -763,22 +763,22 @@ p \left( \mathrm{B} | \mathrm{A} \right) \propto p \left( \mathrm{A} |
 $$
 where:
 \begin{description}
-\item[$p \left( \mathrm{B} | \mathrm{A} \right)$] is a \textbf{posterior} being a
+\item[$p \left( \mathrm{B} | \mathrm{A} \right)$] is a \textbf{posterior}---being a
 conditional probability of event \textrm{B} given event \textrm{A},
 \item[$p \left( \mathrm{A} | \mathrm{B} \right)$] is a \textbf{sampling density 
 (``likelihood'')}---being a conditional probability of event \textrm{A} given 
 event \textrm{B},
 \item[$p \left( \mathrm{B} \right)$] is a \textbf{prior}---being a marginal 
-probability of event \textrm{B} and
-\item[$p \left( \mathrm{A} \right)$] is a normalising factor---being a \textbf{marginal} probability of event 
+probability of event \textrm{B}, and,
+\item[$p \left( \mathrm{A} \right)$] is a \textbf{normalising factor}---being a \textbf{marginal} probability of event 
 \textrm{A}(data).
 \end{description}
 
 Now we will focus on general results of Bayesian statistics when our likelihood 
-function is normally distributed. From this point onwards, we can develop several different scenarios \emph{vide infra}.\\[2cm]
+function is normally distributed. From this point onwards, we can develop several different scenarios \emph{vide infra}.\\[1.5cm]
 
 \textbf{\textrm{Non-informative prior. }}In the face of lack of information about 
-prior distribution, the best that can be done is to minimize its influence on 
+prior distribution, the best that can be done is to minimise its influence on 
 the inference. According to the \emph{principle of insufficient reason} proposed by 
 Bayes and Laplace, we should assume that a prior is \emph{uniformly} distributed 
 so all our outcomes are equally likely. We also assume that it is distributed over 
@@ -789,10 +789,10 @@ stretch along the real line). These operations give the joint probability $p
 distributions given by $p \left( \mu | \mathrm{X}, \sigma^2 \right) \sim 
 \mathcal{N} \left( \bar{x}, \frac{\sigma^2}{n} \right) $ and $p \left( \sigma^2 
 | \mathrm{X}, \mu \right) \sim \mathrm{Inv}\text{-}\mathrm{Gamma} \left( 
-\frac{n}{2} , \sum_{i} \frac{\left( x_i - \mu \right)^2}{2}  \right) $(i.e. the inverse 
+\frac{n}{2} , \sum_{i} \frac{\left( x_i - \mu \right)^2}{2}  \right) $(i.e.\ the inverse 
 gamma distribution). This approach might not be perfect and its criticism is widely 
 known, nonetheless, it is sufficient for the application of this project ~\citep{Syversveen98noninformativebayesian}.\\
-We could use above approach if we would not be able to acquire any information regarding arms prior to arm the game.\\
+We could use above approach if prior to the game we would not be able to acquire any information regarding available arms.\\
 % give equation for normal likelihood --- uniform prior
 
 \textbf{\textrm{Informative prior. }}It is the opposite scenario to the one 
@@ -801,13 +801,12 @@ statistics is as simple as finding corresponding posterior and calculating
 parameters.\\
 From this point onwards, we will assume that our prior is normally distributed
 and informative. \\
-In MAB context this means that all arms are normally distributed.\\[2cm]
+In our MAB context this means that all arms are normally distributed.\\[1.5cm]
 
 
 
 
-\textbf{\textrm{Known variance. }}Firstly we will consider \emph{normal prior--
-normal likelihood} with $\sigma^2$ known and $\mu$ unknown (i.e. our variable).
+\textbf{\textrm{Known variance. }}Firstly we consider \emph{normal prior--normal likelihood} with $\sigma^2$ known and $\mu$ unknown (i.e.\ our variable).
 $$
 f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f 
 \left( \mu \right) \text{ .}
@@ -843,8 +842,8 @@ f \left( \mu | \mathrm{X} \right)     \propto     \frac{1}{\sigma \tau} e^{ -
 $$
 which clearly contains a kernel of normal distributions. After an algebraic 
 transformation, we can conclude
-that posterior is also\textbf{normally} distributed 
-with the mean $\epsilon$ and the variance $\delta^2$---$f \left( \mu | \mathrm{X} 
+that posterior is also \textbf{normally} distributed 
+with the mean $\epsilon$ and the variance $\delta^2$ --- $f \left( \mu | \mathrm{X} 
 \right) \sim \mathcal{N} \left( \epsilon, \delta^2 \right) $:
 \begin{eqnarray*}
 \epsilon &=& \frac{\sigma^2 M + n \tau^2 \bar{x}}{n \tau^2 + \sigma^2} = \frac{ 
@@ -855,7 +854,8 @@ with the mean $\epsilon$ and the variance $\delta^2$---$f \left( \mu | \mathrm{X
 \frac{\sigma^2}{n} \tau^2 }{ \tau^2 + \frac{\sigma^2}{n} } \text{ .}
 \end{eqnarray*}
 \\
-This scenario corresponds to MAB with all actions normally distributed with known variance---in our application such scheme is very unlikely\\
+This scenario corresponds to MAB with all actions normally distributed with known variance---in our application such scheme is very unlikely.\\[1.5cm]
+
 \textbf{\textrm{Unknown variance. }}This is a presentation of a more realistic case with the 
 posterior model:
 $$
@@ -869,24 +869,26 @@ technique, nevertheless, it is also common to follow \emph{non-informative} prio
 scenario described above.~\citep{gelman2003bayesian}.\\
 The later strategy is to assume that $\mu \sim 
 \mathcal{N} \left( M, \tau^2 \right)$ and choose the parameters resulting in a 
-flat distribution e.g. $M=0$, $\tau^2 = 10^4$. Furthermore, it is easy to spot 
-that $\sigma^2$ follows \textrm{Inverse}-\textrm{Gamma} distribution.\\
+flat distribution e.g. $M=0$, $\tau^2 = 10^4$. Furthermore, it is easy to notice 
+that $\sigma^2$ follows again \textrm{Inverse}-\textrm{Gamma} distribution.\\
 
-Basic results of Bayesian statistics for normal distribution--- normal likelihood are 
+\noindent Basic results of Bayesian statistics for normal distribution are 
 available in wide variety of books. For further reading please refer 
 to~\citep{lynch2007introduction, gelman2003bayesian}.\\
+
 With the scenario described above our MAB has normally distributed arms with unknown mean reward and its variance. This setting is of our interest and will be developed throughout the following sections.\\
 \subsection{Sampling}
 In general, sampling is a technique used in statistics to select at random a 
 subset of individuals or data points from a population of interest. The aim of 
 such a procedure is to gather a representative group which holds the properties of 
-the original population. The main advantage of this approach is lowering the 
+the original population. The main advantage of this technique is lowering the 
 amount of data that needs to be processed.\\
 In the approach of this study
 we use sampling to draw values from posterior distribution of 
 each \emph{arm} to make an action choice and reduce the uncertainty of parameters' 
 estimates.\\
-In MAB once we decided which arm to pull we acquire a feedback, which in our case is a sample from a distribution of chosen arm. We use this piece of information to improve our estimate of the parameters characterising arm's distribution before making a decision in the next round.\\
+
+In MAB once we decide which arm to pull we acquire a feedback, which in our case is a sample from a distribution of chosen arm. We use this piece of information to improve our estimate of the parameters characterising arm's distribution before making a decision in the next round.\\
 
 \begin{figure}[htbp]
 \centering
@@ -901,10 +903,8 @@ from~\citep{Jacobs2008normalnormal}.\label{fig:sampling}}
 
 
 \subsection{Introduction to Thompson Sampling\label{sec:thompson}}
-Thompson Sampling was first proposed in 1933 by William R.\ 
-Thompson~\citep{thompson:biom33} and mainly concerned Bernoulli processes. In 
-the following section we explain Thompson Sampling approach and discuss related work, extending the
-originally proposed methodology and proving, it can be proved that under presented below assumptions the 
+In the following section we explain Thompson Sampling approach and discuss related work, extending the
+originally proposed methodology and proving that under presented below assumptions the 
 approach behaves optimally~\citep{May:2012:OBS:2503308.2343711}.\\
 The solution described here is widely used in on-line advertising by the IT giants 
 like Microsoft, Google and Yahoo due to its simplicity, flexibility and 
@@ -919,25 +919,27 @@ of Thompson Sampling over all competitors~\citep{May:simulation}.\\
 \subsubsection{Intuition}
 With the aim of better understanding how presented above concepts are used to build complete strategy we present the following case studies. \\
 
-With a view to clarifying, we assume that at each stage of MAB process we are able to 
+With a view to clarifying this example, we assume that at each stage of MAB process we are able to 
 obtain a sample from posterior distribution with a mean $\mu_a$ and a variance 
-$\sigma_a$ for each action $a$. If our goal is to maximize the reward we simply 
-select the arm with the highest local reward (i.e. highest sample). If all assumptions 
-about our process hold by selecting the given action, we acquire a sample from unknown distribution $a$ and use Bayesian statistics to improve our estimate of its 
-parameters. It is desirable to incorporate the obtained sample and update both mean and 
-variance estimates this way our posterior becomes a prior for the next round.\\
+$\sigma^2_a$ for each action $a$. If our goal is to maximise the overall reward we simply 
+select the arm with the highest local reward (i.e.\ highest current sample).\\
 
-In order to visualise this we assume that we have 2 arms; the deterministic reward of the
+If all assumptions 
+about our process hold by selecting the given action, we acquire a sample from unknown distribution of $a$ and use Bayesian statistics to improve our estimate of its 
+parameters. It is desirable to incorporate the obtained sample and update both mean and 
+variance estimates---this action guarantees that our posterior becomes a prior for the next round yielding more accurate approximation.\\
+
+In order to visualise this process we assume that we are given 2 arms; the deterministic reward of the
 first one is always less than the value sampled from posterior of the second one and the latter behaves as shown 
 in figure~\ref{fig:sampling}. We can see that as we sample and update the 
 posterior, it converges to true mean and simultaneously the variance of our 
 estimate decreases.\\
-It also should be clear now that we can only update---improve---the estimate of 
+It also should be clear that we can only update---improve---the estimate of 
 selected at given stage action and no other.\\
 
-Usually, a drawn sample will be quite close to mean of a normal distribution~\ref{fig:sim1} yielding choice of an action with the highest true mean. Occasionally, it will 
+Usually, a drawn sample will be quite close to mean of a normal distribution(fig.\ \ref{fig:sim1}) yielding choice of an action with the highest true mean. Occasionally, it will 
 lie in the distribution tail leading to exploration of suboptimal at a given time 
-action~\ref{fig:sim2}. In other words, the higher the variance of action, the 
+action(fig.\ \ref{fig:sim2}). In other words, the higher the variance of action, the 
 greater the probability of exploring a particular arm. This argument intuitively 
 guarantees infinite exploration of environment, thus convergence to overall 
 optimal solution.
@@ -957,7 +959,7 @@ optimal solution.
   \end{subfigure}
 \begin{tiny}
 \caption{Sampling from two posteriors of normally distributed 
-arm.\label{fig:sim}}
+arms.\label{fig:sim}}
 \end{tiny}
 \vspace{1cm}
 \end{figure}
@@ -968,13 +970,13 @@ Let's assume we are given a uniform prior and we model each arm as normally
 distributed with the unknown mean $\mu_a$ and a known variance $\sigma^2_a$. Ties are 
 broken randomly; we choose any action in the first round.\\
 
-We generate normal posterior according to theory presented in 
+\noindent We generate normal posteriors according to theory presented in 
 section~\ref{sec:bayesian}.\\
 
-After we have obtained posteriors we draw a sample for each arm $\mathit{s}_a 
+\noindent After we have obtained posteriors we draw a sample from each arm $\mathit{s}_a 
 \leftarrow \mathcal{N}(\mu_a^{\texttt{ pos}}, \sigma^{2\texttt{ pos}}_a)$.\\
 
-Our selection procedure is $\mathit{a}_{t+1} = \operatorname{arg\,max}_{a \in 
+\noindent Our selection procedure is $\mathit{a}_{t+1} = \operatorname{arg\,max}_{a \in 
 \mathscr{A}} \mathit{s}_a$. So we play an arm $s$ with highest current sample in round $t+1$ and update the posterior distribution of chosen action with the feedback we acquired after pulling selected arms. We repeat 
 previous steps until the optimal arm has converged.\\ 
 We place all outcomes and selected samples in the history vector, which is used by policy at each stage to select an action.\\
@@ -985,7 +987,7 @@ Presented above policy is simple and can be proved optimal under certain assumpt
 steps}, $t \in \mathscr{T} = \{ 1,2,3... \}$; at each step we observe a
 \emph{regressor}, $x_t \in \mathscr{X}$ (compact set); an \emph{action} choice 
 at time $t$ is $a_t \in \mathscr{A} = \{ 1,2...A \}$ and $A<\infty$.\\
-Furthermore action selection is based on \emph{information sequence}(history 
+Furthermore, action selection is based on \emph{information sequence}(history 
 vector) defined as:
 $$
   \tilde{\mathscr{L}}_t = \left( \text{  } (x_1,a_1,r_1);...(x_{t-1},a_{t-
@@ -1003,7 +1005,7 @@ function of the regressor specific to the action $a$.\\
 
 
 
-We can therefore define the optimal action, i.e. the one with the highest expected reward; at 
+We can therefore define the optimal action, i.e.\ the one with the highest expected reward at 
 time $t$ by:
 \begin{equation}
   a_t^\star = \argmax_{a \in A} f_a (x_t) \text{ ,}
@@ -1042,7 +1044,7 @@ the true function.\\
 
 Even though we guarantee a consistent estimator it is possible that an optimal 
 action will never be selected. This feature of the solution requires us to ascertain
-that arms seen as sum-optimal will also be explored, That is we have to ensure 
+that arms seen as sub-optimal will also be explored, that is we have to ensure 
 infinite exploration:
 $$
   \mathbb{P} \left( \bigcap_{a \in A} \left\{ n_{t,a} \rightarrow \infty \text{ 
@@ -1063,13 +1065,13 @@ formula means that the action which our policy estimates as optimal will be
 truly optimal in the time limit.\\
 
 If all the above conditions hold, we call the policy \emph{GLIE}---greedy in the 
-limit with infinite exploration. Such algorithms are safe to use once all the assumptions hold as we are guaranteed to arrive at global optimal arm.\\
+limit with infinite exploration. Such algorithms are safe to use once all the assumptions hold as we are guaranteed to arrive at globally optimal arm.\\
 
 
 \subsubsection{Exploration and exploitation}
 The action selection mechanism uses sum of \emph{exploitative} and 
 \emph{exploratory} values to make a greedy decision at each time step. The 
-first quantity corresponds to immediate reward, i.e. the expected value of posterior 
+first quantity corresponds to immediate reward, i.e.\ the expected value of posterior 
 distribution for an action at a given time and we define it as:
 \begin{equation}
   \label{eqn:exploitative} \hat{f}_{t,a} (x_t) = \mathbb{E} ( f_a(x_t) | 
@@ -1090,14 +1092,13 @@ called \emph{unit exploration bonus}.\\
 
 $\delta_0$ for instance can be dependent on a discount sequence, decreasing the 
 importance of exploration later in the experiment. Moreover, the \emph{exploratory bonus} can 
-be calculated simply as a standard deviation of the expected reward (i.e. of posterior 
+be calculated simply as a standard deviation of the expected reward (i.e.\ of posterior 
 distribution). Such an approach favours actions which have uncertain predictions and thus improve their reward estimation.\\
 
 \subsubsection{Approach development}
 We now refine the above described approach and present \emph{Local Thompson 
 Sampling}(LTS). To begin with, we design exploratory value in a way that will 
-guarantee non-sticking~\footnote{Avoid focusing on one action hence under-
-explore all the other(selecting sub-optimal solution).}. One solution is to randomize it. 
+guarantee non-sticking~\footnote{Avoid focusing on one action hence under-explore all the other(selecting sub-optimal solution).}. One solution is to randomise it. 
 Such a behavior can be achieved by sampling from the posterior distribution and 
 using acquired quantities as an error in an exploitative value estimate for 
 current regressor; we denote $\tilde{f}_{t,a}^{\text{ Th}} (x_t)$ as sample from 
@@ -1130,7 +1131,7 @@ which occures to be a posterior distribution of an action $a$.\\
 As we do not have the true function $f$ for arm $a$, the closest approximation 
 is a posterior distribution. In such cases, the policy says to sample from the 
 posterior distribution and choose the arm with the highest sample.\\
-It is proved that in LTS algorithm the posterior that the action is yielding the highest expected reward is equivalent the probability that this particular action is selected. 
+It is proved that in LTS algorithm the posterior that the action is yielding the highest expected reward is equivalent to the probability that this particular action is selected. 
 Furthermore, we assume that the posterior of every action that has not been taken 
 at round $t$ does not change.\\
 
@@ -1147,11 +1148,11 @@ solution was first proposed by Thompson~\citep{thompson:biom33}.\\
 
 % \subsubsection{Correctness \& convergence} %LTS and OBS are myopic methods.
 % Sampling from sum of exploratory and exploitative values given in 
-equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} yield:
-$$
-  \left[ f_a(x_t) - \hat{f}_{t,a}(x_t) \right] + \hat{f}_{t,a}(x_t) = 
-f_a(x_t) \text{ .}
-$$
+% equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} yield:
+% $$
+  % \left[ f_a(x_t) - \hat{f}_{t,a}(x_t) \right] + \hat{f}_{t,a}(x_t) = 
+% f_a(x_t) \text{ .}
+% $$
 
 \RestyleAlgo{boxed}
 \vspace{2cm}
