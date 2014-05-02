@@ -190,7 +190,7 @@ information.\\
 Reader does not require any prior knowledge in this field, for only the basics of 
 statistics and probability theory are necessary to smoothly follow the text.\\
 \begin{center}
-Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, 
+Keywords: \textbf{multi-armed bandits, active learning, semi-supervised learning, 
 exploration, exploitation, Thompson Sampling}
 
 \let\thefootnote\relax\footnote{\noindent This paper together with all 
@@ -254,8 +254,7 @@ allocation dilemma. They were defined during Second World War and quickly
 reached the fame of being too difficult to solve and were abandoned for 
 decades thus. The first general solution was constructed by John Gittins(section~\ref{sec:gitind}) 
 in late 
-60's, nevertheless, his work was overlooked for almost 20 years until it was revived in the early 80's.~\citep{gittins+
-glazebrook+weber}
+60's, nevertheless, his work was overlooked for almost 20 years until it was revived in the early 80's.~\citep{gittins+glazebrook+weber}
 
 \noindent The main reference for this chapter is~\citep{berry+firstedt}.\\
 
@@ -1783,8 +1782,7 @@ L(z(\mathbf{x}_n))}$ \;
 \lambda_t \mathscr{R}(h)$\;\label{al:LCB-AL:LCB}
   $t \leftarrow t + 1$\;
  }
- \caption{LCB-AL presented in~\citep{DBLP:journals/corr/GantiG13}.\label{al:LCB-
-AL}}
+ \caption{LCB-AL presented in~\citep{DBLP:journals/corr/GantiG13}.\label{al:LCB-AL}}
 \end{algorithm}
 \vspace{2cm}
 
@@ -1796,8 +1794,7 @@ in-depth analysis of presented reasoning, we decided to enhance
 algorithm~\ref{al:LCB-AL} by replacing LCB minimization with Thompson Sampling presented in section~\ref{sec:thompson}. 
 We motivate our decision with the simplicity of the latter solution and the ease of its adaptation.\\
 
-To begin with, no other steps  but line~\ref{al:LCB-
-AL:LCB} of the algorithm  ~\ref{al:LCB-AL} will change. As it was mentioned above, line~\ref{al:LCB-AL:LCB} is 
+To begin with, no other steps  but line~\ref{al:LCB-AL:LCB} of the algorithm  ~\ref{al:LCB-AL} will change. As it was mentioned above, line~\ref{al:LCB-AL:LCB} is 
 responsible for choosing the most suitable hypothesis to try out during next 
 round. The main concept behind this improvement is to model each hypothesis as a 
 normal distribution $\mathcal{N}\left( \mu, \sigma^2 \right)$. To do so we need 
@@ -1847,8 +1844,7 @@ hypothesis we check which hypothesis minimizes this vector and try it in the nex
 
 
 \chapter{The experiment}
-To test and evaluate our version of active learning MAB algorithm(\ref{al:LCB-
-AL} \& \ref{al:TS-AL}) presented in chapter~\ref{ch:MAB-AL} we conducted an 
+To test and evaluate our version of active learning MAB algorithm(\ref{al:LCB-AL} \& \ref{al:TS-AL}) presented in chapter~\ref{ch:MAB-AL} we conducted an 
 experiment described through the following sections. The purpose of the results 
 presented below, is simply to visualize the algorithm and confirm its correctness. 
 Both the algorithms: Thompson Sampling inspired and LCB based have been implemented and their performance is compared and contrasted on a sample dataset. \\
@@ -2141,7 +2137,7 @@ learning problems in the future world of machine learning.\\
 % \chapter{Code snippets}
 
 % \label{snip:normaldist}PDF of normal distribution with mean $0$ and standard 
-deviation $5$.
+% deviation $5$.
 % \begin{lstlisting}
 % x   <- seq(-30,30,length=10000)
 % y   <- dnorm(x,mean=0, sd=5)
@@ -2149,7 +2145,7 @@ deviation $5$.
 % \end{lstlisting}
 
 % \label{snip:thompsonsampling}Creating multiple normal distributions to 
-visualize Thompson sampling.
+% visualize Thompson sampling.
 % \begin{lstlisting}
 %  x   <- seq(5,15,length=1000)
 %  y   <- dnorm(x,mean=10, sd=30)
