@@ -1846,20 +1846,20 @@ hypothesis we check which hypothesis minimizes this vector and try it in the nex
 
 
 \chapter{The experiment}
-To test and evaluate our version of active learning MAB algorithm(\ref{al:LCB-AL} \& \ref{al:TS-AL}) presented in chapter~\ref{ch:MAB-AL} we conducted an 
+To test and evaluate our version of active learning MAB algorithm(algorithms \ref{al:LCB-AL} \& \ref{al:TS-AL}) presented in chapter~\ref{ch:MAB-AL} we conducted an 
 experiment described through the following sections. The purpose of the results 
 presented below, is simply to visualize the algorithm and confirm its correctness. 
 Both the algorithms: Thompson Sampling inspired and LCB based have been implemented and their performance is compared and contrasted on a sample dataset. \\
 
 \section{Introduction}
-The experiment was conducted only on one dataset:\texttt{iris}\footnote{Used 
+The experiment was conducted only on one dataset: \texttt{iris}\footnote{Used 
 dataset was preprocessed to contain only two attributes(2D) and two 
 classes(binary classification). The \texttt{iris} set can be found at 
 \url{http://archive.ics.uci.edu/ml/datasets/Iris}.}, which is linearly 
 separable. This data package is well-known in machine learning experiments and 
 provides two dense cluster of points. For the purpose of simplicity we 
 predefined 6 different linear classifiers from which the algorithm chooses the 
-best one. The dataset, together with selected hypothesis (arms, actions, classifiers), is presented in 
+best one. The dataset, together with selected hypothesis(also know as: arms, actions, classifiers), is presented in 
 figure~\ref{fig:hyp}.\\
 
 \begin{figure}[htbp]
@@ -1896,7 +1896,7 @@ With the adjustment given above we implemented our solution in \texttt{Python}
 programming language(formatted as \texttt{iPython notebook}). We ran the 
 experiment with different querying budgets: 1\%, 5\%, 10\%, 15\% and 20\% of 
 the initial dataset size. Figures~\ref{fig:conv} and~\ref{fig:conv.ALL} show change 
-of risk estimate (y axis) with numerous queries made (x axis) for the above listed allowances.\\
+of risk estimate(y axis) with numerous queries made(x axis) for the above listed allowances.\\
 
 
 \begin{figure}[htbp]
@@ -1930,13 +1930,13 @@ which confirms our intuition. On contrary, the first one outperforms
 treated as an error. Still, such a behavior is possible and can be justified by algorithm 
 querying more true negatives than positives.\\
 
-Figures~\ref{fig:conv.ALL} present performance of the algorithms for graphs for four other query budgets in figure. 
+Figure~\ref{fig:conv.ALL} presents performance of the algorithm for four other query budgets.\\ 
 In sub-plot~\ref{fig:conv.ALL:01}(the smallest querying 
 budget) the algorithm sent only 1 exemplar to oracle, which yields random 
 behavior. It seems like this particular point belonged to $+$ class placing 
 \textcolor{blue}{blue} and \textcolor{Dandelion}{yellow} as the worst 
-classifiers. Intuitively \textcolor{Dandelion}{yellow} treats all exemplars 
-as $-$'s, so any query revealing $+$ ($-$)point evaluates it as the worst (best) hypothesis. \textcolor{red}{red} hypothesis which was estimated as the best confirms preceding description. \\
+classifiers. Intuitively, \textcolor{Dandelion}{yellow} treats all exemplars 
+as $-$'s, so any query revealing $+$($-$) point evaluates it as the worst(best) hypothesis. \textcolor{red}{red} hypothesis which was estimated as the best confirms preceding description. \\
 Figure \ref{fig:conv.ALL:05}, corresponding to 5\% budget gives the correct 
 answer by selecting \textcolor{magenta}{magenta} hypothesis. The second best 
 prediction---\textcolor{cyan}{cyan}---is also correct, but the distance between 
@@ -2022,7 +2022,7 @@ The first striking feature of LCB while comparing to TS is a higher number of
 queries made. LCB decides to ask already known points more often than TS.\\
 For 20\% sample the LCB converges similarly to algorithm presented above. 
 Optimal hypothesis is chosen at the end and it lies very close to the second 
-optimal arm. Above the optimal actions, we have two ``75\% correct'' hypothesis, 
+optimal arm. Above the optimal actions, we have two ``75\% correct'' hypotheses, 
 and at the top(the worst) two arms which assigned to all exemplars singleton 
 class. The only advantage of LCB over TS is \textcolor{red}{red} hypothesis 
 being at the top rather than middle.\\
@@ -2031,8 +2031,7 @@ informative content.\\
 The 5\% experiment also groups the answers into three pairs: 
 \textcolor{blue}{blue}--\textcolor{Dandelion}{yellow}, \textcolor{cyan}{cyan}--
 \textcolor{magenta}{magenta}, \textcolor{green}{green}--\textcolor{red}{red} 
-like in 20\% case. Here, the two 0-error-rate answers are predicted as sub-
-optimal in contrast to correct prediction in TS.\\
+like in 20\% case. Here, the two 0-error-rate answers are predicted as sub-optimal in contrast to correct prediction in TS.\\
 10\% case yields behavior that is similar to the corresponding experiment with TS approach. 
 It does a bit worse as \textcolor{green}{green} hypothesis over-performs 
 \textcolor{cyan}{cyan}---which is one of the optimal hypotheses. Despite this fact, 
@@ -2069,7 +2068,7 @@ additional experiments in the near future to address this uncertainty.\\
 
   \caption{Change of hypothesis risk estimation along time with LCB selection 
 mechanism. Each sub-figure presents different percentage of oracle queries with 
-regard to the number of points in the dataset. Colours correspond to hypothesis 
+regard to the number of points in the dataset. Colours correspond to hypotheses 
 shown in figure~\ref{fig:hyp}.\label{fig:LCB_conv.ALL}}
 \end{figure}
 
@@ -2081,19 +2080,19 @@ Presented in section~\ref{sec:thompsonimprovement} solution uses estimate of
 risk of a given hypothesis and value representing uncertainty about this 
 estimate. Both of these quantities are updated after each oracle query is done. We 
 can change this process by assuming a uniform prior over all hypotheses and 
-updating the distributions by Bayes rule when new information is revealed (i.e. when a 
+updating the distributions by Bayes rule when new information is revealed (i.e.\ when a 
 point is queried).\\
 This method would demand a posterior to estimate the fitting of a given hypothesis for both 
 known and unknown data. Queried point would either support hypothesis by 
 agreeing with its predictions or discourage this choice by not agreeing.\\
 The point to query would be chosen based on being the most informative for 
-the current hypothesis, for instance: a point laying closest to boundary (i.e. having 
+the current hypothesis, for instance: a point lying closest to boundary(i.e.\ having 
 largest contribution to variance estimate).\\
 
 
 Another possible improvement could be significantly reducing hypotheses
-space so it only contains the ones that are most probably a good match. It can be achieved by
-first doing unsupervised learning on a dataset (clustering, U-SVM) with a number of 
+space so it only contains the classifiers that are most probably a good match. It can be achieved by
+first doing unsupervised learning on a dataset(clustering, U-SVM) with a number of 
 threshold parameters to produce range of linear classifiers. The output of such a 
 process can be incorporated as a subset of our hypothesis space.\\
 
@@ -2101,9 +2100,9 @@ process can be incorporated as a subset of our hypothesis space.\\
 \section{Lookahead}
 The work presented in this project covers only a brief introduction to the multi-armed bandits' world with the primary
 stress put on Thompson Sampling approach. It also explains thoroughly the possible 
-application of MAB in machine learning (active learning) by presenting a one of 
+application of MAB in machine learning(active learning) by presenting a one of 
 a kind~\citep{DBLP:journals/corr/GantiG13} research work. We took a step ahead by 
-proposing Thompson inspired approach to the problem i.e. replacing the lower confidence bound 
+proposing Thompson inspired approach to the problem i.e.\ replacing the lower confidence bound 
 method with Thompson Sampling hypothesis selection 
 mechanism. Finally we planned, coded and carried out the experiment to examine 
 results of our methodological change in the algorithm. The outcomes seem promising 
