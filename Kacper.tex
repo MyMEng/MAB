@@ -299,19 +299,19 @@ which is usually said to be an \emph{exploration} step.\\
 
 \section{Applications} % emphasized underlying
 Multi-armed bandits are not just a theory that one reads from a book and tries to 
-memorize, for they extend to many real life applications. This section is devoted 
-to a simple case study in which it seems natural to use the ``bandit approach''. 
-Applications are versatile ranging from drug testing and maximizing income from 
+memorise, for they extend to many real life applications. This section is devoted 
+to a simple case study in which it seems natural to use the ``bandits approach''. 
+Applications are versatile ranging from drug testing and maximising income from 
 web advertisement through semi-supervised machine learning in modern computer 
 science, to time and budget management of research projects.\\
 
 To begin with, we will imagine a hospital testing two new medicines for a certain 
 disease. Patients are queuing up to receive a treatment. Assuming that doctor 
-cannot refuse to treat anyone, each person suffering from a disease(each 
-\emph{play}) can be given two possible drugs(two \emph{arms}). The key 
+cannot refuse to treat anyone, each person(each 
+\emph{play}) suffering from a disease can be given two possible drugs(two \emph{arms}). The key 
 assumption here is that the effect of a chosen action occurs immediately. In other 
-words, a treated person either remains ill or is cured (immediate \emph{payoff}). 
-The goal of a doctor is always to maximize the number of healed people. This model 
+words, a treated person either remains ill or is cured(immediate \emph{payoff}). 
+The goal of a doctor is always to maximise the number of healed people. This model 
 defines the two-armed bandit.\\
 
 The second mentioned approach is nowadays widely incorporated by companies such 
@@ -326,21 +326,21 @@ campaign.}, improve recommendation systems or enhance performance of semi-superv
 The bandits theory also plays a key role in experiment allocation with 
 restricted resources like time and budget~\citep{gittins+glazebrook+weber}. 
 While considering bandits' \emph{arms} as research projects that are pending to be conducted 
-with the limited amount of scientists, time, or funding; the goal is to maximize the number of 
+with the limited amount of scientists, time, or funding; the goal is to maximise the number of 
 accomplished tasks(\emph{payoff}) before distributing the money among them.\\
 
 With the scenarios presented above, though they are barely scratching the tip of an iceberg, we 
 are now focusing on foundations of multi-armed bandits theory, for one needs to 
 precisely describe the processes happening ``behind the scene'' to completely understand optimal strategies introduced in chapter~\ref{ch:exploration}.\\
 We begin with introducing the reader with necessary notation and nomenclature. 
-Then, we are moving to basic process description.   
+Then, we are moving to basic processes description.   
 
 
 \section{Terminology}
 Statistical decision theory defines ``simple multi-armed bandit" as a 
 sequential selection from $N \geq 2$ stochastic processes---generally called 
 \emph{arms}, where both time and processes may be discrete or continuous. The 
-goal is typically to recover unknown parameters that characterize stochastic 
+goal is typically to recover unknown parameters that characterise stochastic 
 processes---the \emph{arms}---to maximize expected \emph{payoff}.\\
 
 Knowing the most common terms present in MAB literature will certainly help the reader in understanding 
@@ -369,33 +369,32 @@ outcome counts with regard to the overall expected \emph{payoff}.
 \end{description}                                      
 
 \section{Player's dilemma}
-The goal of agent is to maximize the overall reward from a game by following an optimal strategy...
+The goal of an agent is to maximise the overall reward from a game by following an optimal strategy. The player needs to memorise previous outcomes---feedback acquired after pulling an arm---to make the action selection process efficient. Optimally, the agent should choose a strategy that requires the least memory and computations.\\
 
 \section{General assumptions}
 With basic terminology in our minds we present limitations of MAB theory and restrictions that need to hold to apply bandits strategies.
 Multi-armed bandit setting can be used to solve a variety of problems, therefore, 
 some non-trivial environments are also present.\\
+
 Two fundamental assumptions with regard to the benefits from selecting an arm in vast majority of bandits problems are:
 \begin{itemize}
-\item the immediate \emph{payoff} i.e. the\ \emph{agent} knows the result of a taken 
+\item the immediate \emph{payoff} i.e.\ the \emph{agent} knows the result of a taken 
 action immediately and,
-\item the information exploitation i.e.  
-
-information gathered after a \emph{play} can be used to modify chosen 
-\emph{strategy}.
-We generally consider discrete bandits with processes described by random variables. Nevertheless, real time random bandits are usually present when a decision needs to be made 
-for an event occurring in non-deterministic intervals  
-and information about the event can only be acquired during its occurrence.
-\\
+\item the information exploitation i.e.\ the information gathered after a \emph{play} can be used to modify chosen \emph{strategy}.\\
 \end{itemize}
+
+We generally consider discrete bandits with processes described by random variables. Nevertheless, real time random bandits are usually present when a decision needs to be made 
+for an event occurring in non-deterministic intervals of time and information about the event can only be acquired during its occurrence.\\
+
 Moreover, in some cases we may restrict the memory of an \emph{agent} to the last 
 $s$ outcomes. In this way, a selected \emph{strategy} $\tau$ can rely on up to $s$ 
-previous \emph{plays}; these bandits approaches are called the \emph{finite 
-memory}.\\
-We also assume that \emph{arms} are independent. This premise has recently been revised by~\citep{Pandey:2007:MBP:1273496.1273587}. 
-MABs with dependent arms grow in popularity owing to the Internet advertising 
+previous \emph{plays}; these approaches are called the \emph{finite 
+memory bandits}.\\
+
+Furthermore, we assume that \emph{arms} are independent. This premise has recently been revised by~\citep{Pandey:2007:MBP:1273496.1273587}.\\
+MAB with dependent arms grow in popularity owing to the Internet advertising 
 applications. In such a scenario, the ads displayed to the user are usually
-dependent on each other (one manufacturer---different products; or one class of products made by 
+dependent on each other(one manufacturer---different products; or one class of products made by 
 different companies) and very often they  can be easily grouped. Policies for 
 such scenarios are made to consider these connections between actions and to 
 exploit the underlying information.\\
@@ -411,7 +410,7 @@ To specify the rules governing the ``significance'' of outcome revealed after a 
 play at stage $m$, the \emph{discount sequence} is introduced. It is a vector 
 $\mathbf{A}$ of specified length, which can also be infinite.
 $$
-\mathbf{A} = \left( \alpha_1, \alpha_2, \alpha_3, ... \right)
+\mathbf{A} = \left( \alpha_1, \alpha_2, \alpha_3, ... \right) \text{ .}
 $$
 When an \emph{arm} is selected the discount sequence is modified by a unit left shift:
 $$
@@ -431,7 +430,7 @@ The $h$-horizon uniform discount sequence is defined as:
 $$
  \alpha_i =
   \begin{cases}
-   1 & \text{for } i \leq n \\
+   1 & \text{for } i \leq n \text{ ,}\\
    0 & \text{for } i > n \text{ ,}
   \end{cases}
 $$
@@ -452,15 +451,15 @@ $$
 $$
 where $\alpha_1 = a^0$ is always equal to $1$. The characteristic feature of 
 this series is that after an \emph{arm} selection step, the discount sequence is still 
-proportional to the original sequence.\\
+proportional to the original sequence. It is often used when agent's interest in outcomes decreases with time.\\
 
 It can also be shown that when the discounting is geometric, a bandit problem 
 involving $k$ independent arms can be solved by transforming it into $k$ different two-armed 
-bandits, each involving one known and one unknown arm.\\[2cm]
+bandits, each involving one known and one unknown arm~\citep{gittins+glazebrook+weber}.\\[1.5cm]
 
 
 
-In the case of both sequences, the decision problem and the optimal strategy are 
+In the case of both: uniform and geometric sequences, the decision problem and the optimal strategy are 
 unchanged if a discount series is multiplied by some constant. Furthermore, the 
 geometric sequence remains effectively the same throughout the game.
 
@@ -474,15 +473,15 @@ experiment has not been terminated so far, $\alpha_m = \sum_{i=m}^\infty
 \nu_i$. Clearly, discount series that arises in the presented scenario is a mixture 
 of uniforms. This case is identical to a deterministic sequence, where the average of 
 uniforms is weighed by the $\nu_m$'s.\\
-An example of such sequence lets consider a $\gamma$ probability of terminating at each stage; therefore, 
-the factor at each reached stage is: $\nu_m = (1-\gamma)\gamma^{m-1}, 
-m=1,2,3,...$, leading to a geometric discount sequence.
+To clarify, let's consider $\gamma$ to be a probability of terminating at each stage; therefore, 
+the factor at each reached stage is: $\nu_m = (1-\gamma)\gamma^{m-1}$, 
+$m=1,2,3,...$, leading to a geometric discount sequence.
 
 \subsubsection{Random discounting}
 The random discounting is one of the most complex. 
 In the mixture of uniforms we do not obtain any advantage conditioning on the past, in two cases:
 \begin{itemize}
-\item as long as we get $1$ the process continues and there is no possibility that previous factors were $0$ 
+\item as long as we get $1$ the process continues and there is no possibility that previous factors were $0$,
 \item once we get $0$ the process is no more of interest. 
 \end{itemize}
 Generally speaking, in a random discount sequence we 
@@ -494,47 +493,51 @@ Sometimes the discount sequence cannot be observed, for it is either blended wit
 reward as a single value, or it is not given to us together with the reward. In 
 such cases we need to estimate it. Like in the random scenario, given the 
 distribution over all possible discount sequences, we can estimate it by: 
-$\hat{\alpha}_m = \mathbb{E}(\alpha_m | \text{``probability distribution over 
-all discount sequences''})$.\\
+$$
+\hat{\alpha}_m = \mathbb{E}(\alpha_m | \text{``probability distribution over 
+all discount sequences''}) \text{ .}
+$$~\\
 
-We may observe a discount sequence when we obtain both a reward and a value of the discount at a given stage. 
-These cases may be harder to solve as we cannot replace random with a non-random sequences in random sequences without significantly altering the problem.
-\\
-In the scenarios presented above, the strategies tend to depend on deterministic, observable 
-discount factors.\\
+On the other hand, we may observe a discount sequence when we obtain both: a reward and a value of the discount at a given stage. 
+These cases may be harder to solve when the discounting is random as we cannot replace it with a non-random sequence without significantly altering the problem.\\
+% 
+% In the scenarios presented above, the strategies tend to depend on deterministic, observable 
+% discount factors.\\
 
 \subsubsection{Real-time sequences}
 In the real-time sequences the intervals between events are random and therefore 
-directly influence the decision making process. To visualize this scenario we should
+directly influence the decision making process. To visualise this scenario we should
 consider a clinical trial with patients arriving at random. In 
 such cases we usually use discount sequence described by: $\mathbf{A} = ( \exp(-\beta 
 t_1), \exp(-\beta t_2), \exp(-\beta t_3),... )$, where $\beta$ is a weight 
 coefficient and $t_i$ are known arrival times.\\
-more complicated situation for real-time discounting can be described as:
+More complicated situation for real-time discounting can be described as:
 $$
   \alpha_t =
     \begin{cases}
-      1 & \text{for } t \in [0,1] \text{ ,} \\
+      1 & \text{for } t \in [0,1) \text{ ,} \\
       0 & \text{for } t \in [1,\infty) \text{ .}
     \end{cases}
 $$
-Such sequence can express interest in maximizing the response of patients 
+Such sequence can express interest in maximising the response of patients 
 arriving in first unit interval. It is worth noting that the action choice may 
 be significantly different if the first event occurs at time $0.01$---then if it 
 would occur at time $0.99$. In short, a risky arm could be appropriate in the first 
-case, wheareas a mean maximizing action can be a good choice in the second case.\\
+case, whereas a mean maximising action can be a good choice in the second case.\\
 
 \subsubsection{Non-monotone sequences\label{sec:nonmonotone}}
 The majority of discount sequences considered in literature are monotone increasing 
 or decreasing. This fact is motivated by real life applications where our 
-interest in process decreases, i.e. the player is interested in a quick reward; or 
-increases, i.e. the player is interested in a high reward in the future by first 
+interest in process decreases, i.e.\ the player is interested in a quick reward; or 
+increases, i.e.\ the player is interested in a high reward in the future by first 
 learning about the environment.\\
 The most popular and one of a few non-monotone sequences is defined by: 
 $\alpha_n = 1$ and $\alpha_m = 0$ for $m \neq n$. This structure of discount 
-sequence indicates that the first $n-1$ stages are played for a sole purpose of 
+sequence indicates that the first $n-1$ rounds are played for a sole purpose of 
 obtaining information to make the best possible choice at stage $n$ and all the 
 other rounds do not matter thus.\\
+
+
 
 \chapter{Optimal Policy \texttt{\textbf{Exploration}}\label{ch:exploration}}
 In this chapter we present a number of approaches to find an optimal 
