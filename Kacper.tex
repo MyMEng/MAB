@@ -1,0 +1,2164 @@
+%  
+%  in CH1 give an real life example at the begining as a BACKGROOUND
+%  describe bacis concepts
+%  and go into more details? obvious
+%  
+%  
+%  
+%  in CH2 active learning or web optimization
+%  
+%  
+%  
+\documentclass[12pt, a4paper, pdflatex, leqno]{report}
+%  notitlepage - abstract on the same page
+\usepackage{indentfirst} % indent frst paragraph of section
+% \usepackage{fullpage}    % full A4 page
+\usepackage[left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm]{geometry}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}    % fancy maths font
+\usepackage{mathrsfs}    % fancy maths font
+\usepackage{dsfont}      % indocator finction
+\usepackage{mathtools}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{cite} % BiTeX
+\usepackage{lipsum}
+\newcommand{\ts}{\textsuperscript}
+\usepackage[usenames,dvipsnames]{color}
+
+% for multi figures
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage[]{algorithm2e}
+
+% \usepackage{polski}
+% \usepackage[polish,english]{babel}
+% \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % polsih
+
+\usepackage{hyperref}
+
+% Harvard citation
+\usepackage[square]{natbib}
+
+% argmax with commands
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+
+% equality from definition | =^{\text{def}}
+\newcommand{\myeq}{\stackrel{\mathclap{\normalfont\scriptsize\mbox{def}}}{=}}
+
+% Code snippets
+\usepackage{listings}
+% \usepackage{color}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=R,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+% END Code snippets
+
+% $\backsim\ \sim\ \thicksim$
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\newenvironment{dedication}
+  {\clearpage           % we want a new page
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top 
+   \itshape             % the text is in italics
+   % \raggedleft          % flush to the right margin
+   \raggedright          % flush to the right margin
+   \par\setlength{\leftskip}{0.3\textwidth}\noindent\ignorespaces
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{3}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+% Upper part of the page. The '~' is needed because \\
+% only works if a paragraph has started.
+\includegraphics[width=0.5\textwidth]{graphics/UOB-logo.png}~\\[2.5cm] % was 1cm
+
+% \textsc{\LARGE University of Bristol}\\[1.5cm]
+
+%\textsc{\Large Final year project}\\[0.5cm]
+
+% \colorbox{magenta}{problem}
+
+% Title
+\HRule \\[0.4cm]
+{ \huge \bfseries %\\[0.5cm]
+	Comprehensive introduction to \emph{\textbf{Multi-armed bandits}}:\\[.5cm]
+  \emph{Thompson Sampling}\\
+  \&\\
+  Active Learning in the bandits scenario\\[0.4cm] }
+\HRule \\[1.5cm]
+
+% Author and supervisor
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Kacper B. \textsc{\textbf{Sokol}}
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+Dr.~David \textsc{\textbf{Leslie}}
+\end{flushright}
+\end{minipage}
+
+\let\thefootnote\relax\footnote{Level H/6 $|$ MATH 32200---20cp Project}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+\end{center}
+\end{titlepage}
+
+
+
+%Acknowledgment
+\begin{center}Acknowledgement of Sources\\[2cm]\end{center}
+For all ideas taken from other sources (books, articles, Internet), the source 
+of the ideas is mentioned in the main text and fully referenced at the end of 
+the report.\\[0.5cm]
+All material which is quoted essentially word-for-word from other sources is 
+given in quotation marks and referenced.\\[.5cm]
+Pictures and diagrams copied from the Internet or other sources are labelled 
+with a reference to the web page, book, article etc.\\[2cm]
+Signed:\\[1cm]
+Dated:~~~~~~~~~~~~\today
+
+% \thispagestyle{empty}% no header and footer
+\thispagestyle{empty}
+\cleardoublepage
+\pagestyle{plain}
+\vfill
+
+
+
+% \title{\emph{Multi-armed bandits} problem.\\
+% 	Practical introduction to the problem for everyone.\\
+% 	Real life application.}
+% \author{Kacper Sokol\\University of Bristol, UK}
+% \date{\today}
+% \maketitle
+% \begin{flushright}
+% Supervised by:\\
+% \textbf{David Leslie}
+% \end{flushright}
+% \begin{center}
+% \line(1,0){250}
+% \end{center}
+
+\begin{abstract}
+\thispagestyle{empty}% no header and footer
+This project covers two main topics: the multi-armed bandits theory with extensive 
+treatment of the Thompson Sampling approach, as well as the application of multi-armed bandits in active 
+learning. The comprehensive introduction to the theory underlying multi-armed 
+bandits is gradually developed in the project to cover the concepts necessary for understanding 
+the basic bandits strategies. The latter part of the paper presents the first of its 
+kind (to the best of our knowledge) application of the Thompson Sampling-inspired multi-armed bandits algorithm 
+to solve computer science task of learning in the environment of insufficient 
+information.\\
+Reader does not require any prior knowledge in this field, for only the basics of 
+statistics and probability theory are necessary to smoothly follow the text.\\
+\begin{center}
+Keywords: \textbf{multi-armed, bandit, active, semi-supervised, learning, 
+exploration, exploitation, Thompson Sampling}
+
+\let\thefootnote\relax\footnote{\noindent This paper together with all 
+figures and experiment source code is available as \texttt{GitHub} repository 
+at: \url{https://github.com/So-Cool/MAB}.}
+
+\end{center}
+\end{abstract}
+
+\begin{dedication}
+I would like to thank my parents who provide me with any kind of support. For 
+their guidance and advice which help me make the right choices throughout 
+my life and realize my dreams.\newline
+
+It would also be a painful journey without my supervisor Dr.~David~Leslie who 
+always served me with advice on how to ``read'' and ``write'' all the maths and 
+avoid the unnecessary and overwhelming clutter in the books.\newline
+
+Finally, big thanks to Iza and Kuba who often take care of my leisure time, even 
+though it is always lacking.\\[2cm]
+
+
+% \foreignlanguage{polish}{}
+\begin{flushright}
+Dzi\k{e}kuj\k{e}, mamo.\\
+Dzi\k{e}kuj\k{e}, Tomek.
+\end{flushright}
+
+
+
+% I was lost now I'm found
+\textcolor{white}{found me!}
+
+
+
+\end{dedication}
+
+
+\newpage
+\thispagestyle{empty}
+\cleardoublepage
+\pagestyle{plain}
+\setcounter{page}{1}
+
+\tableofcontents
+% \newpage
+
+
+
+\chapter{Introduction\label{chap:intro}}
+The \emph{multi-armed bandits} (MAB) theory is a set of problems that has been rapidly developing as a field of 
+statistics and probability since early 20\ts{th} century. With a vastly 
+growing number of tasks that could be framed as a bandit scenario, the field has 
+become a topic of research for many scientists, economists, not to mention 
+the companies looking for efficiency improvements and savings. All things 
+considered, these problems can be solved with ease by finding a balance between 
+\emph{exploration} and \emph{exploitation}.\\
+
+Multi-armed bandits are a class of problems originating from a sequential 
+allocation dilemma. They were defined during Second World War and quickly 
+reached the fame of being too difficult to solve and were abandoned for 
+decades thus. The first general solution was constructed by John Gittins(section~\ref{sec:gitind}) 
+in late 
+60's, nevertheless, his work was overlooked for almost 20 years until it was revived in the early 80's.~\citep{gittins+
+glazebrook+weber}
+
+\noindent The main reference for this chapter is~\citep{berry+firstedt}.\\
+
+
+\section{Background}
+It is often believed that statistics and probability are static sciences---they define a set of tools to analyse various aspects of a process or data which have already been collected.  
+Less often we are interested in continuously developing events, that we went to discover or that require interaction. Simple statistics or probability might not be advanced enough to 
+handle such cases as good as the bandits theory.\\
+
+To begin with, we shall discuss the \emph{fruit machine}, as it is the first thing that 
+comes to the reader's mind after hearing about multi-armed bandits. Imagine a row of 
+slot machines in front of you. Pulling an arm of each of these automata will result in a different 
+outcome determined by some unknown probability distribution. For the simplicity 
+we will consider the result as various reels' combinations and we will assume that each automaton results in binary 
+outcome: \emph{win} with probability $p$ and \emph{lose} with probability $p-1$. Without loss of generality, 
+row of such machines can be transformed into only one automation but with multiple arms or buttons each corresponding 
+to a single machine in aforementioned row.\\
+
+A natural example that follows binary bandits is a row of coins, where some 
+of them may be unfair. In a presented scenario each coin corresponds to an 
+\emph{Arm} of a bandit and tossing one of them for several times can be 
+considered the realization of a Bernoulli process with unknown parameters.\\
+If a player is rewarded when the outcome of a trial is \textbf{H}ead then the 
+goal is to find the coin which is biased with maximum probability of \textbf{H} 
+and play it forever.\\
+
+If gamblers do not want to lose all their money really quickly, it would probably
+be a good idea to employ some kind of a strategy that maximizes chances of 
+winning. It is assumed that gamblers are visiting a given casino for the first time, 
+so any prior information regarding the expected return from each arm is also assumed to 
+be unknown. Initially, a random arm is chosen for all of them might look alike. On 
+contrary, during the second turn selecting \emph{optimal} arm to be played 
+becomes a serious dilemma that one might not have yet realized. The gambler 
+faces a choice between the arm that has already been pulled with known sample expected return and any other arm which for now on remains a mystery, since there is no 
+information about a potential reward.\\
+If the gambler decides to take advantage of the already known arm and pulls it again, we 
+call this an \emph{exploitation}---that is taking advantage of already 
+checked possibilities. On the other hand, taking a risk and choosing one of the 
+unknown arms will result in gathering more information about the system, 
+which is usually said to be an \emph{exploration} step.\\
+
+
+\section{Applications} % emphasized underlying
+Multi-armed bandits are not just a theory that one reads from a book and tries to 
+memorize, for they extend to many real life applications. This section is devoted 
+to a simple case study in which it seems natural to use the ``bandit approach''. 
+Applications are versatile ranging from drug testing and maximizing income from 
+web advertisement through semi-supervised machine learning in modern computer 
+science, to time and budget management of research projects.\\
+
+To begin with, we will imagine a hospital testing two new medicines for a certain 
+disease. Patients are queuing up to receive a treatment. Assuming that doctor 
+cannot refuse to treat anyone, each person suffering from a disease(each 
+\emph{play}) can be given two possible drugs(two \emph{arms}). The key 
+assumption here is that the effect of a chosen action occurs immediately. In other 
+words, a treated person either remains ill or is cured (immediate \emph{payoff}). 
+The goal of a doctor is always to maximize the number of healed people. This model 
+defines the two-armed bandit.\\
+
+The second mentioned approach is nowadays widely incorporated by companies such 
+as Google~\citep{AYPSze12, ASMB:ASMB874}, 
+LinkedIn~\citep{Tang:2013:AAF:2505515.2514700}, 
+Microsoft~\citep{graepel2010web}, Yahoo~\citep{Li:2010:CAP:1772690.1772758} to facilitate
+their services. Research groups of these companies are using bandits algorithms 
+to choose the best website layout and advertisements' locations to increase 
+the click-through rate(CTR)\footnote{Measure of success of an on-line advertising 
+campaign.}, improve recommendation systems or enhance performance of semi-supervised and active learning algorithms.\\
+
+The bandits theory also plays a key role in experiment allocation with 
+restricted resources like time and budget~\citep{gittins+glazebrook+weber}. 
+While considering bandits' \emph{arms} as research projects that are pending to be conducted 
+with the limited amount of scientists, time, or funding; the goal is to maximize the number of 
+accomplished tasks(\emph{payoff}) before distributing the money among them.\\
+
+With the scenarios presented above, though they are barely scratching the tip of an iceberg, we 
+are now focusing on foundations of multi-armed bandits theory, for one needs to 
+precisely describe the processes happening ``behind the scene'' to completely understand optimal strategies introduced in chapter~\ref{ch:exploration}.\\
+We begin with introducing the reader with necessary notation and nomenclature. 
+Then, we are moving to basic process description.   
+
+
+\section{Terminology}
+Statistical decision theory defines ``simple multi-armed bandit" as a 
+sequential selection from $N \geq 2$ stochastic processes---generally called 
+\emph{arms}, where both time and processes may be discrete or continuous. The 
+goal is typically to recover unknown parameters that characterize stochastic 
+processes---the \emph{arms}---to maximize expected \emph{payoff}.\\
+
+Knowing the most common terms present in MAB literature will certainly help the reader in understanding 
+the content of this project therefore, the basic concepts are:
+\begin{description}
+\item[Multi-armed bandit ($N$)]--- a ``device'' with $N \geq 2$ possible choices 
+of action(\emph{arms}).
+\item[Agent]--- a person who decides which \emph{arm} to pull based on a chosen 
+\emph{strategy} $\tau$.
+\item[Strategy ($\tau$)]--- tells the \emph{agent} which \emph{arm} to pull at a 
+given stage of the \emph{game}. A strategy is \emph{optimal} if it yields 
+maximal expected \emph{payoff}.
+\item[Arm]--- one of $N$ actions that may be taken by the \emph{agent}. An 
+\emph{arm} is \emph{optimal} if it is the best selection when following an 
+\emph{optimal} strategy.
+\item[Play]--- an \emph{arm} pulled at a stage $m$ of the \emph{game} (i.e.\ one 
+turn).
+\item[Game]--- a sequence of \emph{arms'} pulling, based on a chosen \emph{strategy} 
+$\tau$.
+\item[Payoff]--- a return of a game such as \emph{win--lose} or the \emph{amount} 
+of money gained.
+\item[Discount series]--- factors that define how valuable is each of  the
+\emph{payoffs}. For example only the first $m$ outcomes may count and all the rest 
+is neglected; or: the longer the \emph{game} is played, the less a particular 
+outcome counts with regard to the overall expected \emph{payoff}.
+\end{description}                                      
+
+\section{Player's dilemma}
+The goal of agent is to maximize the overall reward from a game by following an optimal strategy...
+
+\section{General assumptions}
+With basic terminology in our minds we present limitations of MAB theory and restrictions that need to hold to apply bandits strategies.
+Multi-armed bandit setting can be used to solve a variety of problems, therefore, 
+some non-trivial environments are also present.\\
+Two fundamental assumptions with regard to the benefits from selecting an arm in vast majority of bandits problems are:
+\begin{itemize}
+\item the immediate \emph{payoff} i.e. the\ \emph{agent} knows the result of a taken 
+action immediately and,
+\item the information exploitation i.e.  
+
+information gathered after a \emph{play} can be used to modify chosen 
+\emph{strategy}.
+We generally consider discrete bandits with processes described by random variables. Nevertheless, real time random bandits are usually present when a decision needs to be made 
+for an event occurring in non-deterministic intervals  
+and information about the event can only be acquired during its occurrence.
+\\
+\end{itemize}
+Moreover, in some cases we may restrict the memory of an \emph{agent} to the last 
+$s$ outcomes. In this way, a selected \emph{strategy} $\tau$ can rely on up to $s$ 
+previous \emph{plays}; these bandits approaches are called the \emph{finite 
+memory}.\\
+We also assume that \emph{arms} are independent. This premise has recently been revised by~\citep{Pandey:2007:MBP:1273496.1273587}. 
+MABs with dependent arms grow in popularity owing to the Internet advertising 
+applications. In such a scenario, the ads displayed to the user are usually
+dependent on each other (one manufacturer---different products; or one class of products made by 
+different companies) and very often they  can be easily grouped. Policies for 
+such scenarios are made to consider these connections between actions and to 
+exploit the underlying information.\\
+
+
+Sometimes, the agent's goal is to gather information about available choices. If such learning needs to be done in an 
+efficient manner, MAB is often a good choice. An example presented in the \emph{non-monotone} section(\S~\ref{sec:nonmonotone}) also fits here; at the beginning, a number of rounds is used to learn 
+some information about the environment to make the best possible choice at given time. 
+\\
+
+\section{Discount Sequence}
+To specify the rules governing the ``significance'' of outcome revealed after a single 
+play at stage $m$, the \emph{discount sequence} is introduced. It is a vector 
+$\mathbf{A}$ of specified length, which can also be infinite.
+$$
+\mathbf{A} = \left( \alpha_1, \alpha_2, \alpha_3, ... \right)
+$$
+When an \emph{arm} is selected the discount sequence is modified by a unit left shift:
+$$
+\left( \alpha_1, \alpha_2, \alpha_3, ... \right)
+\rightarrow
+\left( \alpha_2, \alpha_3, \alpha_4, ... \right) \text{ .}
+$$
+
+There are many different discount sequences used with multi-armed bandits each 
+with numerous features and assumptions. In the literature only two of them are described in 
+great detail and both are presented below.
+
+\subsubsection{Uniform sequence}
+This discount sequence is most commonly used when a player wants to maximize 
+the payoff in the first $h$ rounds.
+The $h$-horizon uniform discount sequence is defined as:
+$$
+ \alpha_i =
+  \begin{cases}
+   1 & \text{for } i \leq n \\
+   0 & \text{for } i > n \text{ ,}
+  \end{cases}
+$$
+leading to:
+$$
+  \mathbf{A} = ( \underbrace{ 1, 1, 1, ..., 1}_{h\text{ elements}}, 0, 0, 0, 
+... ) \text{ .}
+$$
+
+After an \emph{arm} selection step, the horizon of discount sequence is decreased by $1$.
+
+
+\subsubsection{Geometric sequence}
+The geometric discount sequence is expressed with components $\alpha_i = a^{i-
+1}$ for some $a \in ( 0, 1 )$ resulting in:
+$$
+\mathbf{A} = \left( a^0, a^1, a^2, ... \right) \text{ ,}
+$$
+where $\alpha_1 = a^0$ is always equal to $1$. The characteristic feature of 
+this series is that after an \emph{arm} selection step, the discount sequence is still 
+proportional to the original sequence.\\
+
+It can also be shown that when the discounting is geometric, a bandit problem 
+involving $k$ independent arms can be solved by transforming it into $k$ different two-armed 
+bandits, each involving one known and one unknown arm.\\[2cm]
+
+
+
+In the case of both sequences, the decision problem and the optimal strategy are 
+unchanged if a discount series is multiplied by some constant. Furthermore, the 
+geometric sequence remains effectively the same throughout the game.
+
+
+\subsubsection{Mixture of uniform sequences}
+If we consider Bernoulli trials(with success worth $1$) of a clinical test, the 
+experiment can terminate with positive probability $\nu_m$ at any stage $m$ as 
+we do not know the exact number of incoming patients. In such cases, we may form 
+a discount sequence where factor at given stage is the probability that the 
+experiment has not been terminated so far, $\alpha_m = \sum_{i=m}^\infty 
+\nu_i$. Clearly, discount series that arises in the presented scenario is a mixture 
+of uniforms. This case is identical to a deterministic sequence, where the average of 
+uniforms is weighed by the $\nu_m$'s.\\
+An example of such sequence lets consider a $\gamma$ probability of terminating at each stage; therefore, 
+the factor at each reached stage is: $\nu_m = (1-\gamma)\gamma^{m-1}, 
+m=1,2,3,...$, leading to a geometric discount sequence.
+
+\subsubsection{Random discounting}
+The random discounting is one of the most complex. 
+In the mixture of uniforms we do not obtain any advantage conditioning on the past, in two cases:
+\begin{itemize}
+\item as long as we get $1$ the process continues and there is no possibility that previous factors were $0$ 
+\item once we get $0$ the process is no more of interest. 
+\end{itemize}
+Generally speaking, in a random discount sequence we 
+are only provided with some prior probability distribution over the space of all 
+possible discount sequences.\\
+
+\subsubsection{Observable and non-observable sequences}
+Sometimes the discount sequence cannot be observed, for it is either blended with a 
+reward as a single value, or it is not given to us together with the reward. In 
+such cases we need to estimate it. Like in the random scenario, given the 
+distribution over all possible discount sequences, we can estimate it by: 
+$\hat{\alpha}_m = \mathbb{E}(\alpha_m | \text{``probability distribution over 
+all discount sequences''})$.\\
+
+We may observe a discount sequence when we obtain both a reward and a value of the discount at a given stage. 
+These cases may be harder to solve as we cannot replace random with a non-random sequences in random sequences without significantly altering the problem.
+\\
+In the scenarios presented above, the strategies tend to depend on deterministic, observable 
+discount factors.\\
+
+\subsubsection{Real-time sequences}
+In the real-time sequences the intervals between events are random and therefore 
+directly influence the decision making process. To visualize this scenario we should
+consider a clinical trial with patients arriving at random. In 
+such cases we usually use discount sequence described by: $\mathbf{A} = ( \exp(-\beta 
+t_1), \exp(-\beta t_2), \exp(-\beta t_3),... )$, where $\beta$ is a weight 
+coefficient and $t_i$ are known arrival times.\\
+more complicated situation for real-time discounting can be described as:
+$$
+  \alpha_t =
+    \begin{cases}
+      1 & \text{for } t \in [0,1] \text{ ,} \\
+      0 & \text{for } t \in [1,\infty) \text{ .}
+    \end{cases}
+$$
+Such sequence can express interest in maximizing the response of patients 
+arriving in first unit interval. It is worth noting that the action choice may 
+be significantly different if the first event occurs at time $0.01$---then if it 
+would occur at time $0.99$. In short, a risky arm could be appropriate in the first 
+case, wheareas a mean maximizing action can be a good choice in the second case.\\
+
+\subsubsection{Non-monotone sequences\label{sec:nonmonotone}}
+The majority of discount sequences considered in literature are monotone increasing 
+or decreasing. This fact is motivated by real life applications where our 
+interest in process decreases, i.e. the player is interested in a quick reward; or 
+increases, i.e. the player is interested in a high reward in the future by first 
+learning about the environment.\\
+The most popular and one of a few non-monotone sequences is defined by: 
+$\alpha_n = 1$ and $\alpha_m = 0$ for $m \neq n$. This structure of discount 
+sequence indicates that the first $n-1$ stages are played for a sole purpose of 
+obtaining information to make the best possible choice at stage $n$ and all the 
+other rounds do not matter thus.\\
+
+\chapter{Optimal Policy \texttt{\textbf{Exploration}}\label{ch:exploration}}
+In this chapter we present a number of approaches to find an optimal 
+solution to MAB problem. First of all, we briefly describe methodologies that have been well-known for several of decades; then we give extensive description of one of the most recent approach called \emph{Thompson Sampling}. Finally, we form conclusions and highlight the ongoing research.\\
+
+\section{Introduction}
+Once we can formally define the MAB problem we are in the position to start seeking an optimal strategy. There are numerous different approaches available all with different pros and cons.\\
+\section{Seeking an optimal solution}
+Strategies presented below are used to balance exploration and exploitation to 
+find an optimal solution, i.e. to determine an equilibrium between acquiring information which can benefit in future choices
+and the immediate payoff.\\
+Let's now recall the hospital example: we have to decide whether it is worth to sacrifice 
+the wellbeing of the early coming patients to learn more about a particular condition by means of experimenting. 
+Such a choice would lead to treatment improvement over time and 
+yielding better results on future patients. This phenomenon could be referred to as sacrificing early payoff 
+to gain more information about the system and maximize the future return.\\
+We could also democratize such a dramatic scenario by using a geometric sequence---in this way, the health of current patients 
+would carry equal value to the future patients' health.\\
+
+According to MAB literature a strategy is considered as optimal if it chooses an optimal arm infinitely many times, i.e. if it converges to optimal selection within 
+the limit of time. We usually consider \emph{preemptive} case, where arbitrary switching between actions 
+is allowed and takes negligible time.\\
+
+\subsection{Examples}
+
+\subsubsection{Index approach (Gittins Index)\label{sec:gitind}}
+
+The pioneering index approach introduced by John C. Gittins is one the oldest optimal solutions. It did not only move the multi-armed bandits concept significantly 
+forward but it also accelerated the growth in 
+the whole wide class of sequential allocation problems.\\
+
+The motivation" behind this approach is to assign \emph{priority indices} 
+to each action, where the index of a particular arm should only depend on the history 
+and outcomes for this action and no other. The decision process then is dependent on choosing an action with highest current index. \\
+
+The theory of indices allocation is based on calibrating actions at a given 
+state against some standardized actions with simple properties. The main 
+advantage of such an approach is restricting \emph{state function} of an action, so it depends only 
+on its history; and consequently, reducing its complexity~\citep{gittins+glazebrook+weber}.\\
+
+Indices are described as real---valued functions (dynamic allocation index) on the 
+set of all available alternatives; the selection process is then maximizing this 
+function.\\
+With such indeces we can specify optimal policy for particular problem(which 
+has any set of possible alternatives of a given type) with regard to so called 
+\emph{standard bandit problem}.\\
+
+The index theorem says that a policy for bandit process is optimal if it is an 
+index policy with respect to $\nu(B_1, \cdot), \nu(B_2, \cdot),..., \nu(B_n, 
+\cdot)$ where $\nu$ is index function and $B_i$ is given bandit process.\\
+
+The significant drawback of the index strategy is requirement of a vast amount of 
+resources such as computational power and memory storage. Moreover, the 
+following assumptions need to hold:\\
+\begin{itemize}
+\item rewards are accumulated up to an infinite time horizon,
+\item there is constant and strict exponential discounting,
+\item unless an arm is pulled, no rewards are collected and the state of the arm remains unchanged,
+\item there is only one processor (server).\\
+\end{itemize}
+
+In the simplest case we consider a multi-armed bandit as a number of semi---Markov 
+decision processes. The \emph{index theorem} states advocates the existence of an optimal \emph{index policy}, 
+which on the other hand confirms the existence of a real---valued index, say $\nu ( B_i , \xi_i(t) )$, where $B_i$ is i-\ts{th} bandit 
+process and $\xi_i$ is a state of i-\ts{th} process (dependent on history), in another words, each index depends 
+only on its current state and no other processes' state. \\
+
+\subsubsection{Upper Confidence Bound(UCB) and Lower Confidence Bound(LCB)}
+Upper Confidence Bound and Lower Confidence Bound policies are based on UCB and LCB for the mean reward of each arm, where 
+the selection process is based on correspondingly largest and lowest bound.In the simplest scenario, in order to determine UCB and LCB we first compute the sample mean and the sample variance. Then we choose our confidence interval (e.g. 90\%, 95\%) and calculate corresponding $z$ volume. We calculate our bounds as $UCB = \mu + z{\cdot} \sigma$ and $LCB = \mu - z{\cdot} \sigma$.\\
+Sometimes instead of simple values Bayesian Infrence is used to get $\mu$ and $\sigma$ estimates.\\
+Under certain assumptions the policy only is proved to select suboptimal 
+arms for only a finite number of times, which means that the optimal arm will be played exponentially more 
+often than any other arm within the time limit. Certain algorithms of this family require 
+just the knowledge of the sample mean for each arm, hence being simple and 
+computationally inexpensive~\citep{Scott:2010:MBL:1944422.1944432}.\\
+
+\subsubsection{'Stay on a winner'}
+'Stay on a winner'---a well-known strategy very often used by gamblers---is a myopic policy 
+where arm $a$ is selected in round $t+1$ if it was considered successful at 
+time $t$. On contrary, if the selected arm failed, we either select another one at random or 
+according to some deterministic policy.\\
+
+Even though, continuation on a successful arm is a good strategy, the undesirable "failure switch" might occur~\citep{berry+firstedt}. The policy performs near optimally when the best arm is characterized by high. The strategy tends toward equal allocation, which leads to over---exploration---success rate of optimal arm tends to 0~\citep{Scott:2010:MBL:1944422.1944432}.\\ 
+
+
+% \subsubsection{Minimax approach}
+% ~\citep{Scott:2010:MBL:1944422.1944432}.\\
+
+\subsubsection{Thompson Sampling approach}
+Thompson Sampling was first proposed in 1933 by William R.\ Thompson~\citep{thompson:biom33} and mainly concerned Bernoulli processes. Recently, the approach was revised and made its way with  simplicity and a low 
+computational cost. The basic idea of it is to sample from posterior distribution of 
+each action and select the arm with the highest sample. The more uncertain we are about 
+particular action, the higher variance estimate we have yielding more sparse 
+samples--- (to nastêpne zdanie bym oderwa³a od poprzedniego i rozwinê³a krótko mysl) 
+this natural mechanism (usunê³am "s", bo nie wiem, czy to ma byæ plural, czy singular) guarantees infinite exploration of all 
+actions.\\
+The method is extensively described in section~\ref{sec:thompsonsampling}; we 
+motivate our choice by relatively few undergraduate level texts available. 
+Furthermore, Thompson Sampling is a cutting edge approach with a lot of ongoing 
+research.\\   (zmieni³abym tu porz¹dek:  Thompson Sampling is a cutting edge approach with a lot of ongoing 
+research and relatively few undergraduate level texts available. The method is extensively described in section~\ref{sec:thompsonsampling}.  
+
+
+\subsection{Policy classes}
+
+
+\subsubsection{Finite memory strategy}
+It is a class of strategies, where the decision process has finite memory thus, the policy can only rely on specified number of recent outcomes. This restriction can be set to $w$ last rounds; 
+as a consequence some policies can suffer large loss while others will work great.\\
+
+\subsubsection{Myopic strategies}
+The myopic strategies are widely considered to be suboptimal for they try to maximize the expected 
+reward during the next infinitesimal interval of time. They are called myopic 
+because they neglect eventualities future occurrences or sacrifice a long-range 
+vision to maximize the current payoff. Sometimes uncertainty (here understood as the exploratory value) is taken 
+into account although it displays limited lookahead, as it only focuses on a current choice.\\
+
+For some class of problems a short term optimum can
+simultaneously be a long term one, so for these problems myopic solution
+seems the best as it does not involve complex computation or expensive 
+lookahead. This approach can be applied to many strategies but it is very frequently 
+used with index methods.\\
+% is thompson samplkng one of myoptic methods? intead of taking longe ranfe 
+view it ties to minimize current vaiance of hypothesis to decide on best one.\\
+% local not global solution with respect to time intervals.
+
+\subsubsection{Undirected policy}    
+In this class of strategies we make our choice by considering only the exploitative 
+value we focus on local payoff e.g.\ $\epsilon$-greedy, $\epsilon$-decreasing, Boltzmann action 
+selection. We make a choice based on the currently highest reward estimate and
+do not include exploratory component.\\
+
+% \subsubsection{Belief-lookahead}
+
+\subsubsection{Bayesian approach}
+This set of policies uses Bayesian inference---combines the prior belief with the
+likelihood estimate---to produce current approximation of the process. 
+Bayes' theorem allows a ``straight forward'' application to adaptive learning so it can be a great tool in sequential decision making processes 
+like MAB.\\
+A good example of the Bayesian approach is the Thompson Sampling. \\
+% It can be fully Bayesian approach where---here the chosen action is supposed 
+to maximise the expected cumulative reward for the rest of the process. Drawback 
+of such approach is hard to guarantee infinite exploration.\\
+
+
+
+
+
+
+
+
+\section{Thompson Sampling\label{sec:thompsonsampling}}
+In order to fully understand
+\emph{Thompson Sampling} approach to the multi-armed bandits 
+theory, two concepts need to be introduced first: the Bayesian statistics and
+the sampling theory.
+It is possible to use any probability distribution with Thompson Sampling but 
+for the sake of simplicity, we will consider only a the \emph{normal} distribution in this 
+paper. The aforementioned restriction does not mean that it is impossible to apply this 
+technique with any other distribution but due to space constrains the theory 
+will be presented with \emph{normal likelihood}. Apart from that, discussing other 
+scenarios of Thompson Sampling would require reader to be familiar with 
+analytic approach to Bayesian \emph{posteriors}, \emph{priors} and 
+\emph{likelihoods}.
+
+\subsection{Bayesian statistics\label{sec:bayesian}}
+In this section we briefly introduce normal distribution, far we can
+discuss its aspects with regard to Bayesian statistics.\\
+Once we presented concept we show is applications in Thompson Sampling.\\
+
+\subsubsection{The normal distribution}
+The most common distribution in statistics with the well-known bell-shaped(see 
+figure~\ref{fig:normaldist}) curve is the normal distribution also called 
+\emph{Gaussian} distribution. If a random variable $\mathrm{X}$ follows such 
+distribution parametrized by a \emph{mean} $\mu$ and a \emph{standard deviation} 
+$\sigma$, we commonly write $\mathrm{X} \sim \mathcal{N}\left( \mu, \sigma^2 
+\right)$. Probability density function of $\mathrm{X})$ is then:
+$$
+f \left(x | \mu, \sigma \right) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ 
+{\left (  x - \mu \right )}^2 }{2 \sigma^2} } \text{ ,}
+$$
+where the first part ${\left( \sigma \sqrt{2 \pi } \right)}^{-1}$ is a 
+normalizing factor and the latter part is a distribution ``kernel''.\\
+The area under the curve from $-\infty$ to $+\infty$ integrates to 
+$1$~\citep{rice1995mathematical}:
+$$
+\int_{-\infty}^{+\infty} \! f \left(x | \mu, \sigma \right) \, \mathrm{d}x = 1 
+\text{ .}
+$$
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{graphics/normalpdf.pdf}
+\begin{tiny}
+\caption{Probability density function of normal the distribution $\mathcal{N}\left( 
+0, 5 \right)$ in characteristic bell shape.\label{fig:normaldist}}
+% created in \texttt{R} (Snippet in \emph{Appendix~\ref{snip:normaldist}})
+\end{tiny}
+\vspace{1cm}
+\end{figure}
+
+
+
+\subsubsection{\emph{prior}, \emph{posterior} and \emph{likelihood} 
+distributions}                               
+The next concept that we discuss is the dependency between prior, posterior 
+and likelihood of a particular distribution. The one needs to understand these connections to realize that once the agents have acquired new piece of information, they can use Bayesian statistics to improve their current estimates.\\
+To illustrate this dependencies the \emph{normal} 
+distribution will be used for the reasons mentioned above. The generalization 
+to other distributions is straight forward~\citep{gelman2003bayesian}.\\
+
+The basic theorem underlying the following discussion is called Bayes' theorem for point probabilities and states:
+$$
+p \left( \mathrm{B} | \mathrm{A} \right) = \frac{  p \left( \mathrm{A} | 
+\mathrm{B} \right) p \left( \mathrm{B} \right) }{ p \left( \mathrm{A} \right) }
+$$
+\begin{center}
+or
+\end{center}
+$$
+p \left( \mathrm{B} | \mathrm{A} \right) \propto p \left( \mathrm{A} | 
+\mathrm{B} \right) p \left( \mathrm{B} \right) \text{ ,}
+$$
+where:
+\begin{description}
+\item[$p \left( \mathrm{B} | \mathrm{A} \right)$] is a \textbf{posterior} being a
+conditional probability of event \textrm{B} given event \textrm{A},
+\item[$p \left( \mathrm{A} | \mathrm{B} \right)$] is a \textbf{sampling density 
+(``likelihood'')}---being a conditional probability of event \textrm{A} given 
+event \textrm{B},
+\item[$p \left( \mathrm{B} \right)$] is a \textbf{prior}---being a marginal 
+probability of event \textrm{B} and
+\item[$p \left( \mathrm{A} \right)$] is a normalising factor---being a \textbf{marginal} probability of event 
+\textrm{A}(data).
+\end{description}
+
+Now we will focus on general results of Bayesian statistics when our likelihood 
+function is normally distributed. From this point onwards, we can develop several different scenarios \emph{vide infra}.\\[2cm]
+
+\textbf{\textrm{Non-informative prior. }}In the face of lack of information about 
+prior distribution, the best that can be done is to minimize its influence on 
+the inference. According to the \emph{principle of insufficient reason} proposed by 
+Bayes and Laplace, we should assume that a prior is \emph{uniformly} distributed 
+so all our outcomes are equally likely. We also assume that it is distributed over 
+the real line for both $\mu$ and $\log \sigma^2$(transformation to $\log$ scale 
+is performed because $\sigma^2$ is a non-negative quantity and it results in a
+stretch along the real line). These operations give the joint probability $p 
+\left( \mu, \sigma^2 \right) \propto \frac{1}{\sigma^2} $ leading to posterior 
+distributions given by $p \left( \mu | \mathrm{X}, \sigma^2 \right) \sim 
+\mathcal{N} \left( \bar{x}, \frac{\sigma^2}{n} \right) $ and $p \left( \sigma^2 
+| \mathrm{X}, \mu \right) \sim \mathrm{Inv}\text{-}\mathrm{Gamma} \left( 
+\frac{n}{2} , \sum_{i} \frac{\left( x_i - \mu \right)^2}{2}  \right) $(i.e. the inverse 
+gamma distribution). This approach might not be perfect and its criticism is widely 
+known, nonetheless, it is sufficient for the application of this project ~\citep{Syversveen98noninformativebayesian}.\\
+We could use above approach if we would not be able to acquire any information regarding arms prior to arm the game.\\
+% give equation for normal likelihood --- uniform prior
+
+\textbf{\textrm{Informative prior. }}It is the opposite scenario to the one 
+described above. Knowing the prior distributions, the application of Bayesian 
+statistics is as simple as finding corresponding posterior and calculating 
+parameters.\\
+From this point onwards, we will assume that our prior is normally distributed
+and informative. \\
+In MAB context this means that all arms are normally distributed.\\[2cm]
+
+
+
+
+\textbf{\textrm{Known variance. }}Firstly we will consider \emph{normal prior--
+normal likelihood} with $\sigma^2$ known and $\mu$ unknown (i.e. our variable).
+$$
+f \left( \mu | \mathrm{X} \right) \propto f \left( \mathrm{X} | \mu \right) f 
+\left( \mu \right) \text{ .}
+$$
+The $\sigma^2$ in the notation is omitted for the purposes of clarity. In this case our
+prior is defined as follows:
+$$
+f \left( \mu \right)    \sim   \mathcal{N}\left( \mu, \tau^2 \right) \text{ ,}
+%                        ~
+$$
+giving:
+$$
+f \left( \mu \right)    =     \frac{1}{\sqrt{2\pi} \tau} e^{- \frac{{\left( \mu 
+- M \right)}^2}{2 \tau^2} } \text{ ,}
+$$
+where $M$ is prior mean and $\tau^2$ is a variance of $\mu$ round $M$; the likelihood 
+is given by:
+$$
+f \left( \mathrm{X} | \mu \right)     \sim    \mathcal{N}\left( \mu, \sigma^2 
+\right) \text{ ,}
+$$
+resulting in:
+$$
+f \left( \mathrm{X} | \mu \right)    =     \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi} 
+\sigma} e^{- \frac{{\left( \mu - x_i \right)}^2}{2 \sigma^2} } \text{ ,}
+$$
+where, $x_i \in X$ are data points.\\
+We use above concepts together with Bayes rule what results in: 
+$$
+f \left( \mu | \mathrm{X} \right)     \propto     \frac{1}{\sigma \tau} e^{ -
+\frac{ {\left( \mu - M \right)}^2 }{2 \tau^2} -\frac{ \sum_{i=1}^{n} {\left( 
+\mu - x_i \right)}^2 }{2 \sigma^2} } \text{ ,}
+$$
+which clearly contains a kernel of normal distributions. After an algebraic 
+transformation, we can conclude
+that posterior is also\textbf{normally} distributed 
+with the mean $\epsilon$ and the variance $\delta^2$---$f \left( \mu | \mathrm{X} 
+\right) \sim \mathcal{N} \left( \epsilon, \delta^2 \right) $:
+\begin{eqnarray*}
+\epsilon &=& \frac{\sigma^2 M + n \tau^2 \bar{x}}{n \tau^2 + \sigma^2} = \frac{ 
+\frac{1}{\tau^2} }{ \frac{1}{\tau^2} + \frac{n}{\sigma^2} }M + \frac{ 
+\frac{n}{\sigma^2} }{ \frac{1}{\tau^2} + \frac{n}{\sigma^2} } \bar{x} \text{ ,} 
+\\
+\delta^2 &=& \frac{\sigma^2 \tau^2}{n \tau^2 + \sigma^2} = \frac{ 
+\frac{\sigma^2}{n} \tau^2 }{ \tau^2 + \frac{\sigma^2}{n} } \text{ .}
+\end{eqnarray*}
+\\
+This scenario corresponds to MAB with all actions normally distributed with known variance---in our application such scheme is very unlikely\\
+\textbf{\textrm{Unknown variance. }}This is a presentation of a more realistic case with the 
+posterior model:
+$$
+p \left(  \mu, \sigma^2 | \mathrm{X} \right) \propto p \left( \mathrm{X} | \mu, 
+\sigma^2 \right)    p \left( \mu, \sigma^2 \right) \text{ .}
+$$
+We now need to specify the details of prior distribution. One way is to assume 
+independence of both $\mu$ and $\sigma^2$ and establish separate priors for 
+each with $p(\mu, \sigma^2) = p(\mu) p(\sigma^2)$ what is documented as a good 
+technique, nevertheless, it is also common to follow \emph{non-informative} prior 
+scenario described above.~\citep{gelman2003bayesian}.\\
+The later strategy is to assume that $\mu \sim 
+\mathcal{N} \left( M, \tau^2 \right)$ and choose the parameters resulting in a 
+flat distribution e.g. $M=0$, $\tau^2 = 10^4$. Furthermore, it is easy to spot 
+that $\sigma^2$ follows \textrm{Inverse}-\textrm{Gamma} distribution.\\
+
+Basic results of Bayesian statistics for normal distribution--- normal likelihood are 
+available in wide variety of books. For further reading please refer 
+to~\citep{lynch2007introduction, gelman2003bayesian}.\\
+With the scenario described above our MAB has normally distributed arms with unknown mean reward and its variance. This setting is of our interest and will be developed throughout the following sections.\\
+\subsection{Sampling}
+In general, sampling is a technique used in statistics to select at random a 
+subset of individuals or data points from a population of interest. The aim of 
+such a procedure is to gather a representative group which holds the properties of 
+the original population. The main advantage of this approach is lowering the 
+amount of data that needs to be processed.\\
+In the approach of this study
+we use sampling to draw values from posterior distribution of 
+each \emph{arm} to make an action choice and reduce the uncertainty of parameters' 
+estimates.\\
+In MAB once we decided which arm to pull we acquire a feedback, which in our case is a sample from a distribution of chosen arm. We use this piece of information to improve our estimate of the parameters characterising arm's distribution before making a decision in the next round.\\
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{graphics/sampling.png}
+\begin{tiny}
+\caption{Sampling and updating posterior probability density function of a 
+normal distribution $\mathcal{N}\left( \mu , \sigma^2 \right)$. Figure taken 
+from~\citep{Jacobs2008normalnormal}.\label{fig:sampling}}
+\end{tiny}
+\vspace{1cm}
+\end{figure}
+
+
+\subsection{Introduction to Thompson Sampling\label{sec:thompson}}
+Thompson Sampling was first proposed in 1933 by William R.\ 
+Thompson~\citep{thompson:biom33} and mainly concerned Bernoulli processes. In 
+the following section we explain Thompson Sampling approach and discuss related work, extending the
+originally proposed methodology and proving, it can be proved that under presented below assumptions the 
+approach behaves optimally~\citep{May:2012:OBS:2503308.2343711}.\\
+The solution described here is widely used in on-line advertising by the IT giants 
+like Microsoft, Google and Yahoo due to its simplicity, flexibility and 
+scalability~\citep{graepel2010web}. Moreover, simulations indicate superiority 
+of Thompson Sampling over all competitors~\citep{May:simulation}.\\
+
+
+% \subsubsection*{Introduction}
+% Firstly the general idea is presented. 
+
+
+\subsubsection{Intuition}
+With the aim of better understanding how presented above concepts are used to build complete strategy we present the following case studies. \\
+
+With a view to clarifying, we assume that at each stage of MAB process we are able to 
+obtain a sample from posterior distribution with a mean $\mu_a$ and a variance 
+$\sigma_a$ for each action $a$. If our goal is to maximize the reward we simply 
+select the arm with the highest local reward (i.e. highest sample). If all assumptions 
+about our process hold by selecting the given action, we acquire a sample from unknown distribution $a$ and use Bayesian statistics to improve our estimate of its 
+parameters. It is desirable to incorporate the obtained sample and update both mean and 
+variance estimates this way our posterior becomes a prior for the next round.\\
+
+In order to visualise this we assume that we have 2 arms; the deterministic reward of the
+first one is always less than the value sampled from posterior of the second one and the latter behaves as shown 
+in figure~\ref{fig:sampling}. We can see that as we sample and update the 
+posterior, it converges to true mean and simultaneously the variance of our 
+estimate decreases.\\
+It also should be clear now that we can only update---improve---the estimate of 
+selected at given stage action and no other.\\
+
+Usually, a drawn sample will be quite close to mean of a normal distribution~\ref{fig:sim1} yielding choice of an action with the highest true mean. Occasionally, it will 
+lie in the distribution tail leading to exploration of suboptimal at a given time 
+action~\ref{fig:sim2}. In other words, the higher the variance of action, the 
+greater the probability of exploring a particular arm. This argument intuitively 
+guarantees infinite exploration of environment, thus convergence to overall 
+optimal solution.
+
+
+\begin{figure}[htbp]
+\centering
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{graphics/sim1.png}
+    \caption{\label{fig:sim1}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \centering
+    \includegraphics[width=0.99\linewidth]{graphics/sim2.png}
+    \caption{\label{fig:sim2}}
+  \end{subfigure}
+\begin{tiny}
+\caption{Sampling from two posteriors of normally distributed 
+arm.\label{fig:sim}}
+\end{tiny}
+\vspace{1cm}
+\end{figure}
+
+
+\subsubsection{Example}
+Let's assume we are given a uniform prior and we model each arm as normally 
+distributed with the unknown mean $\mu_a$ and a known variance $\sigma^2_a$. Ties are 
+broken randomly; we choose any action in the first round.\\
+
+We generate normal posterior according to theory presented in 
+section~\ref{sec:bayesian}.\\
+
+After we have obtained posteriors we draw a sample for each arm $\mathit{s}_a 
+\leftarrow \mathcal{N}(\mu_a^{\texttt{ pos}}, \sigma^{2\texttt{ pos}}_a)$.\\
+
+Our selection procedure is $\mathit{a}_{t+1} = \operatorname{arg\,max}_{a \in 
+\mathscr{A}} \mathit{s}_a$. So we play an arm $s$ with highest current sample in round $t+1$ and update the posterior distribution of chosen action with the feedback we acquired after pulling selected arms. We repeat 
+previous steps until the optimal arm has converged.\\ 
+We place all outcomes and selected samples in the history vector, which is used by policy at each stage to select an action.\\
+
+
+\subsubsection{Assumptions}
+Presented above policy is simple and can be proved optimal under certain assumptions. In our considerations the process runs for an infinite number of \emph{time 
+steps}, $t \in \mathscr{T} = \{ 1,2,3... \}$; at each step we observe a
+\emph{regressor}, $x_t \in \mathscr{X}$ (compact set); an \emph{action} choice 
+at time $t$ is $a_t \in \mathscr{A} = \{ 1,2...A \}$ and $A<\infty$.\\
+Furthermore action selection is based on \emph{information sequence}(history 
+vector) defined as:
+$$
+  \tilde{\mathscr{L}}_t = \left( \text{  } (x_1,a_1,r_1);...(x_{t-1},a_{t-
+1},r_{t-1}) \text{  } \right) \text{ ,}
+$$
+where $x$ and $a$ are defined as above, $r$ is a reward which results from the
+action at a given time and $r_t = f_{a_t}(x) + z_{t,a_t}$; the latter value in the 
+sum is independent and identically distributed random 
+variable with unknown distribution, zero mean and finite variance. We also 
+denote information available prior to an experiment as $\mathscr{L}_0$ and 
+information at time $t$ as $\mathscr{L}_t = \left( \mathscr{L}_0 \cup 
+\tilde{\mathscr{L}}_t \right)$.\\
+Finally, $f_a : \mathscr{X} \rightarrow \mathbb{R}$ is an unknown continuous 
+function of the regressor specific to the action $a$.\\
+
+
+
+We can therefore define the optimal action, i.e. the one with the highest expected reward; at 
+time $t$ by:
+\begin{equation}
+  a_t^\star = \argmax_{a \in A} f_a (x_t) \text{ ,}
+\end{equation}
+and its approximation by:
+\begin{equation}
+  \label{eqn:optsol} \hat{a}_t^\star = \argmax_{a \in A} \hat{f}_a (x_t) \text{ 
+.}
+\end{equation}
+
+We can prove that Thompson Sampling converges with time to the best possible 
+policy. That is, it guarantees infinite selection of the arm with highest reward, hence, it satisfies the \emph{convergence 
+criterion}:
+\begin{equation}
+  \label{eqn:convg}
+  \frac
+    {\sum_{s=1}^t f_{a_s} (x_s)}
+    {\sum_{s=1}^t f^\star (x_s)}
+  \xrightarrow{\text{ a.s.\ }} 1 \text{ as } t \rightarrow \infty \text{ .}
+\end{equation}
+The above formula states that in an infinite process we will finally discover the 
+optimal arm and we will be playing it forever.\\
+
+
+We need to consider two major steps of constructing such a policy: action 
+evaluation and selection schemes. We also require that evaluation function is 
+\emph{consistent}:
+
+$$
+  \forall a \in A \text{, } \forall x \in X \text{, } \left[ \hat{f}_{t, a}(x) -
+ f_a(x) \right] \xrightarrow{\mathbb{P}} 0 \text{ as } n_{t,a} \rightarrow 
+\infty \text{ .}
+$$
+Here consistency means that by improving our estimate of a regressor function with information gained after each arm selection, we will finally get close to 
+the true function.\\
+
+Even though we guarantee a consistent estimator it is possible that an optimal 
+action will never be selected. This feature of the solution requires us to ascertain
+that arms seen as sum-optimal will also be explored, That is we have to ensure 
+infinite exploration:
+$$
+  \mathbb{P} \left( \bigcap_{a \in A} \left\{ n_{t,a} \rightarrow \infty \text{ 
+as } t \rightarrow \infty \right\} \right) = 1 \text{ .}
+$$
+The above equation tells us that the number of times each action is selected 
+tends to infinity as the process continues in time.\\ 
+
+Finally, we want the arm selection process to exploit obtained 
+information.  To put it another way, we want to use the feedback obtained after pulling an arm to improve it's estimate. We want the action selection mechanism to be greedy \footnote{Locally optimal choice at each 
+stage.} in the limit. This assumption leads to:
+$$
+  \mathbb{P} \left( a_t = \hat{a}_t^\star | \mathscr{L}_t, x_t \right) 
+\xrightarrow{\text{a.s.\ }} 1 \text{ as } t \rightarrow \infty \text{ ,}
+$$
+where $\hat{a}_t^\star$ is defined as in equation~\ref{eqn:optsol}. The above 
+formula means that the action which our policy estimates as optimal will be 
+truly optimal in the time limit.\\
+
+If all the above conditions hold, we call the policy \emph{GLIE}---greedy in the 
+limit with infinite exploration. Such algorithms are safe to use once all the assumptions hold as we are guaranteed to arrive at global optimal arm.\\
+
+
+\subsubsection{Exploration and exploitation}
+The action selection mechanism uses sum of \emph{exploitative} and 
+\emph{exploratory} values to make a greedy decision at each time step. The 
+first quantity corresponds to immediate reward, i.e. the expected value of posterior 
+distribution for an action at a given time and we define it as:
+\begin{equation}
+  \label{eqn:exploitative} \hat{f}_{t,a} (x_t) = \mathbb{E} ( f_a(x_t) | 
+\mathscr{L}_t, x_t ) \text{ .}
+\end{equation}
+The exploratory parameter can be expressed in many different ways reviewed 
+by~\citep{meuleau:exploration}. Broadly speaking, this value describes how keen 
+we should be on exploring other than optimal actions; it can be defined as:
+$$
+  \delta_{t,a} \myeq
+    \begin{cases}
+     \sigma_{t,a} \delta_0(\mathscr{L}_t) & \text{for known variance,}\\
+     s_{t,a}      \delta_0(\mathscr{L}_t) & \text{for unknown variance,}
+    \end{cases}
+$$
+where $\delta_0(n)$ is a certain positive decreasing function of \emph{history} 
+called \emph{unit exploration bonus}.\\
+
+$\delta_0$ for instance can be dependent on a discount sequence, decreasing the 
+importance of exploration later in the experiment. Moreover, the \emph{exploratory bonus} can 
+be calculated simply as a standard deviation of the expected reward (i.e. of posterior 
+distribution). Such an approach favours actions which have uncertain predictions and thus improve their reward estimation.\\
+
+\subsubsection{Approach development}
+We now refine the above described approach and present \emph{Local Thompson 
+Sampling}(LTS). To begin with, we design exploratory value in a way that will 
+guarantee non-sticking~\footnote{Avoid focusing on one action hence under-
+explore all the other(selecting sub-optimal solution).}. One solution is to randomize it. 
+Such a behavior can be achieved by sampling from the posterior distribution and 
+using acquired quantities as an error in an exploitative value estimate for 
+current regressor; we denote $\tilde{f}_{t,a}^{\text{ Th}} (x_t)$ as sample from 
+posterior distribution of $f_a(x_t) - \hat{f}_{t,a}(x_t)$, given 
+$\mathscr{L}_t$ and $x_t$:
+\begin{equation}
+  \label{eqn:exploratory} \tilde{f}_{t,a}^{\text{ Th}} (x_t) \sim \{ f_a(x_t) - 
+\hat{f}_{t,a}(x_t) \} | \mathscr{L}_t,x_t \text{ .}
+\end{equation}
+Intuitively, $\hat{f}_{t,a}(x_t)$ is our estimate of the true mean of the function, 
+based on all the information and regressors that we have observed so far; $f_a(x_t)$ 
+is the true function of the regressor. The sampled value from the distribution 
+given by the difference between these two functions, provides us with the random estimate of 
+uncertainty of a given action.\\
+
+The sum of both exploratory and exploitative values given in 
+equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} is used in LTS to 
+greedily decide on the next action. This process is equivalent to choosing an 
+arm with optimal posterior probability for current regressor. It can be 
+expressed as sampling from:
+$$
+\{ f_a(x_t) - \hat{f}_{t,a}(x_t) \} +  \mathbb{E} ( f_a(x_t) | \mathscr{L}_t, 
+x_t )
+=
+ \{ f_a(x_t) - \hat{f}_{t,a}(x_t) \}+ \hat{f}_{t,a} (x_t)
+ =
+ f_a(x_t) \text{ ,}
+$$
+which occures to be a posterior distribution of an action $a$.\\
+As we do not have the true function $f$ for arm $a$, the closest approximation 
+is a posterior distribution. In such cases, the policy says to sample from the 
+posterior distribution and choose the arm with the highest sample.\\
+It is proved that in LTS algorithm the posterior that the action is yielding the highest expected reward is equivalent the probability that this particular action is selected. 
+Furthermore, we assume that the posterior of every action that has not been taken 
+at round $t$ does not change.\\
+
+We call this approach \emph{local} as it uses the greedy action selection, where the 
+choice is made based on probabilities calculated for current regressor. The 
+original work by Thompson discussed only Bernoulli bandits but, as shown above, 
+it can be generalized to the posterior distribution of the expected 
+reward with action selection maximizing sampled values.\\
+
+Under mild assumptions~\footnote{Assumptions that are expected to hold if the 
+true posterior distributions and expectations are available.} it can be shown 
+that LTS guarantees convergence given by equation~\ref{eqn:convg}. Such 
+solution was first proposed by Thompson~\citep{thompson:biom33}.\\
+
+% \subsubsection{Correctness \& convergence} %LTS and OBS are myopic methods.
+% Sampling from sum of exploratory and exploitative values given in 
+equations~\ref{eqn:exploratory}~and~\ref{eqn:exploitative} yield:
+$$
+  \left[ f_a(x_t) - \hat{f}_{t,a}(x_t) \right] + \hat{f}_{t,a}(x_t) = 
+f_a(x_t) \text{ .}
+$$
+
+\RestyleAlgo{boxed}
+\vspace{2cm}
+\begin{algorithm}[H]
+  \KwData{Posterior distributions for each action---$\left\{ 
+p_a(\cdot|\mathscr{L}_t,x_t) : a \in \mathscr{A} \right\}$}
+  \For{$a \in \mathscr{A}$}{
+    \text{sample: }$\mathscr{Q}^\text{Th}_{t,a} \leftarrow 
+p_a(\cdot|\mathscr{L}_t,x_t)$ \;
+  }
+  sample $a_t$ uniformly from $\operatorname{arg\,max}_{a \in \mathscr{A}} 
+\mathscr{Q}^\text{Th}_{t,a}$ \;
+ \caption{Local Thompson Sampling(LTS).\label{al:LTS}}
+\end{algorithm}
+\vspace{2cm}
+
+We denote $p_a(\cdot | \mathscr{L}_t, x_t)$ the posterior distribution of 
+$f_a(x_t)$ given $\mathscr{L}_t$ and $x_t$ furthemore, $\mathscr{Q}^\text{Th}_{t,a}$ is a  
+random variable with distribution $p_a(\cdot | \mathscr{L}_t, x_t)$ from which we 
+draw samples.\\
+
+
+\subsubsection{Drawbacks and possible improvements}
+The main disadvantage of this approach is a possibility of the exploratory value having 
+zero expectation, hence, it can be negative. The consequence may lead to 
+probability of selecting particular action to decrease with the posterior 
+variance of its exploratory value.\\
+This issue arises as we represent the samples as a sum of exploratory and 
+exploitative values. If an action with the highest exploitative value 
+has a lot of uncertainty then it is less likely to be played, then if the 
+estimate had little uncertainty.\\
+
+The approach which helps to avoid such situations is called \emph{Optimistic Bayesian 
+Sampling}(OBS) where exploratory value is given by:
+$$
+  \tilde{f}_{t,a} (x_t) = max \left( 0, \tilde{f}_{t,a}^{\text{ Th}} (x_t) - 
+\hat{f}_{t,a}(x_t) \right)
+                        = \left [ \tilde{f}_{t,a}^{\text{ Th}} (x_t) - 
+\hat{f}_{t,a}(x_t) \right]_+
+                        \text{ .}
+$$
+Expressed in this way, exploratory value has a positive expectation and cannot be 
+negative. This feature yields increased selection of uncertain actions, which 
+seems desirable. It can be observed that OBS satisfies convergence 
+criterion(equation~\ref{eqn:convg}) and outperforms 
+LTS~\citep{May:2012:OBS:2503308.2343711}.\\
+
+\RestyleAlgo{boxed}
+\vspace{2cm}
+\begin{algorithm}[H]
+  \KwData{Posterior distributions for each action---$\left\{ 
+p_a(\cdot|\mathscr{L}_t,x_t) : a \in \mathscr{A} \right\}$}
+  \For{$a \in \mathscr{A}$}{
+    \text{sample: }$\mathscr{Q}^\text{Th}_{t,a} \leftarrow 
+p_a(\cdot|\mathscr{L}_t,x_t)$ \;
+    $\hat{f}_{t,a} (x_t) \leftarrow \mathbb{E}( \mathscr{Q}^\text{Th}_{t,a} | 
+\mathscr{L}_t,x_t )$ \;
+    $\mathscr{Q}_{t,a} \leftarrow 
+\operatorname{max}(\mathscr{Q}^\text{Th}_{t,a}, \hat{f}_{t,a} (x_t))$ \;
+  }
+  sample $a_t$ uniformly from $\operatorname{arg\,max}_{a \in \mathscr{A}} 
+\mathscr{Q}_{t,a}$ \;
+ \caption{Optimistic Bayesian Sampling(OBS).\label{al:OBS}}
+\end{algorithm}
+\vspace{2cm}
+
+\subsubsection{Conclusions}
+The class of algorithms presented in this sections is robust, and as long as relevant assumptions 
+hold, convergence criterion is satisfied---even if approximations of posteriors 
+and expectations are used. The above algorithms are also easy to implement, given 
+that posterior distribution of expected rewards can be calculated. Furthermore, 
+the method is computationally cheap when juxtaposed with belief-lookahead 
+approaches such as Gittins index. Last but not least, LTS is widely used by 
+Microsoft, Google and Yahoo to address contextual bandit problem, hence, increase the revenue gained by displaying advertisements.\\
+
+
+
+
+\chapter{Practical application---\texttt{\textbf{Exploitation}}\label{ch:MAB-AL}}
+
+There is a number of historical applications of multi-armed bandits 
+mainly concerned with research time management, general job-scheduling, 
+economics and military~\citep{gittins+glazebrook+weber}.
+Nowadays, one of the main uses is found in contextual bandits which are a
+foundation for optimizing online advertising income. The general idea behind 
+this concept is to present different advertisements' layout variations,
+which are suited to each user of a given website by inspecting his/her history. This technique is 
+widely used by IT giants like Google, Yahoo, Facebook, LinkedIn or Microsoft.
+ For the majority of these companies the theory is of high interest as a lion's 
+share of their revenue flows from the click-through rate in online 
+advertising.~\citep{graepel2010web, Scott:2010:MBL:1944422.1944432} (bardzo ³adnie to po³¹czy³es)\\
+
+Another application of MAB presented in~\citep{Antos09activelearning} describes how to apply it to solve \emph{active learning} problem; to estimate the mean of a finite number of arms to achieve equally good estimation of 
+these values. The authors of this project claim that the described problem is of high interest while 
+considering quality control with multiple production lines.\\
+
+Other, most recent application of MAB theory in computer science is concerned 
+with classification issue in the environment of insufficient information. This 
+approach to machine learning field seems to be under-explored and needs more 
+attention from the research world, for to the best of our knowledge, it has 
+been addressed so far in only one scientific publication, 
+namely~\citep{DBLP:journals/corr/GantiG13}.\\
+Our decision was to pursue research theme described in above paper by deeply analysing the topic. After a broad description which follows, we seek potential improvements and alternatives of the presented 
+algorithm.
+
+In this chapter, we firstly introduce foundations of machine learning needed to develop the concepts 
+of semi-supervised (SSL) and active (AL) learning. Next, we introduce the entire 
+family of active learning scenarios and give a detailed description of the one 
+needed for understanding~\citep{DBLP:journals/corr/GantiG13}. Then, we present a
+possible connection between processes of MAB and AL (the "bridge" connecting both these worlds). This interface, will allow us 
+to frame active learning as a bandit process.\\
+Finally, we explore any potential improvements that can be introduced to the algorithm discussed earlier.
+%explore in great detail
+
+\section{Classification}
+\subsection{General Learning}
+Machine Learning is a field of Computer Science which is mainly concerned with 
+building a model for a given data. Classification problem is of the form 
+$\mathit{l} : \mathscr{X} \rightarrow \mathscr{Y}$, where $\mathscr{X}$ is 
+called \emph{instance space} and $\mathscr{Y}$ is \emph{output space} --- in 
+supervised scenario often replaced with $\mathscr{L}$ and called \emph{label 
+space}.\\
+Such function $\mathit{l}$ is called \emph{model}, which we try to approximate. 
+The instances (exemplars, data) which are supplied to the model are preprocessed to extract 
+\emph{attributes}, which represent each instance in a form of a vector. Based on feature vector given model assigns the exemplar to 
+particular region in output space; or in case where $\mathscr{Y} = \mathscr{L}$,it 
+gives the instance a chosen label.\\
+
+In classical scenario called \emph{supervised learning} the approximation of 
+model(~$\mathit{\hat{l}}$~) is generated by examining dependencies in \emph{training set}. Such set consists of pairs: $(\mathit{\mathbf{x}}, \mathit{y})$, where $\mathit{\mathbf{x}}$ is feature vector and $\mathit{y}$ is target class (label).\\
+In general, supervised learning is one of the most common scenarios and is 
+concerned with finding a label for a given exemplar. An example widely used in literature 
+is to build a model which predicts whether a particular e-mail is spam or non-spam, based on extracted features i.e. the  keywords contained in the message.\\
+
+Another important building block of the machine learning theory is the 
+evaluating accuracy or performance of a trained model. The most popular measure 
+supervised scenario is the so called \emph{error rate}. It is 
+calculated supplying \emph{test set} (which is disjoint with the training set i.e.\ 
+unseen by the model) to previously trained model. Typically, the value is calculated as $\mathtt{Err} = 
+\frac{\text{incorrectly classified instances}}{\text{all instances}}$.\\
+
+To recapitulate, the main goal of machine learning is to choose some 
+\emph{hypothesis} from \emph{hypothesis space} which best ``fits'' a given data 
+sample. The example of hypothesis space can be a set of all 
+possible assignments of classes to training dataset.\\
+For instance, if we are given three data points in a fixed order $(x_1, x_2, 
+x_3)$ and our task is a binary classification i.e.\ we either predict $+$ or $-$, 
+our hypothesis space becomes $H = {(+, +, +), (+, +, -), (+, -, +), (-, +, +), 
+(+, -, -), (-, +, -), (-, -, +), (-, -, -)}$.\\
+
+If we discuss performance of a given hypothesis, a more sophisticated measure of 
+uncertainty is \emph{loss function} $L : \mathbb{R} \rightarrow [0, \infty)$. 
+It is primarily used in scoring and ranking 
+classifiers because it tells how well particular exemplars fits into chosen hypothesis.\\
+To calculate a loss associated with particular exemplar we first need to calculate its \emph{margin}.The later value is constructed by utilising true class of the exemplars and its ranking value, which describes how well it fits a model. The higher positive value the margin has, the better the model fits the exemplar and \emph{vice versa}.\\
+The loss function rewards large positive margins and penalises large negative 
+values. We often assume $L(0) = 1$ which gives a loss of an exemplar which prediction is the most uncertain, $L(z) \geq 1$ for $z < 0$ and $0 \leq L(z) < 1$ for $z > 0$.\\
+To clarify these concepts we consider a point (boundary) on the real line dividing it into two regions. With such classifier we define ranking value as the distance of given point to the boundary with "t" sign to the right and "-" sign to the left of the boundary. This leads to margin being positive if... 
+Sometimes, however, the quantity of interest is the average loss over test set \texttt{Te} 
+calculate as $\mathtt{Te} = \frac{1}{|\mathtt{Te}|} \sum_{x \in \mathtt{Te}} 
+L(z(\mathbf{x}))$.\\
+The simplest loss function called \emph{0--1 loss} is defined as:
+\[
+ L_{\text{0--1}} (z) =
+  \begin{cases}
+   1 & \text{for } z \leq 0 \\
+   0 & \text{for } z > 0 \text{.}
+  \end{cases}
+\]~\\
+We have already seen 0--1 average loss as an error rate \texttt{Err}:
+\[ \frac{1}{|\mathtt{Te}|} \sum_{x \in \mathtt{Te}} L_{\text{0--
+1}}(z(\mathbf{x})) = 
+   \frac{1}{|\mathtt{Te}|} \sum_{x \in \mathtt{Te}} \mathds{1} \left[ 
+z(\mathbf{x}) \leq 0 \right] =
+   \frac{1}{|\mathtt{Te}|} \sum_{x \in \mathtt{Te}} \mathds{1} \left[ 
+\text{incorrectly classified instance?} \right] =
+   \mathtt{Err}\text{.}
+\]~\\
+
+Some other popular loss functions are:
+\begin{description}
+\item[hinge loss] --- $L_{\text{h}} (z) = 1 - z$ for $z \leq 1$ and $L_{\text{h}} 
+(z) = 0$ for $z > 1$,
+\item[logistic loss] --- $L_{\text{log}} (z) = \log_2 (1 + \exp(-z))$,
+\item[exponential loss] --- $L_{\text{exp}} (z) = \exp(-z)$,
+\item[squared loss] --- $L_{\text{sq}} (z) = (1 - z)^2$; which sometimes is equated 
+to $0$ for $z>1$.\\
+\end{description}
+                      
+One way of categorizing classification in predictive scenarios is based on task:
+\begin{description}
+\item[Classification] --- finding a label to describe instance(e.g.\ spam / non-
+spam),
+\item[Scoring and ranking] ---  outputs score vector over all 
+classes for each instance,
+\item[Probability estimation] --- outputs calculating probability vector over 
+all classes for each instance,
+\item[Regression] --- learning approximation to the true labeling function.\\
+\end{description}
+
+As it was mentioned earlier, there are a few scenarios used in ML. The main settings of 
+machine learning can be divided by two criteria. Namely, the form of the supplied 
+training data: whether it is labelled
+ --- \emph{supervised} learning or 
+unlabelled --- \emph{unsupervised} learning; and the goal of classification: whether a 
+process aims at predicting a target variable (most often class) --- 
+\emph{predictive} model or discovers the structure of the data (i.e. describes the 
+underlying format) --- \emph{descriptive} model.\\
+
+\begin{table}[htbp]
+  \begin{tabular}{ r | c p{5cm} }
+                         & Predictive models          & Descriptive models \\
+    \hline
+    Supervised learning   & classification, regression & subgroup discovery \\
+    Unsupervised learning & predictive clustering      & descriptive 
+clustering, association rule discovery \\
+  \end{tabular}~\\[0.1cm]
+  \caption{Main learning models in ML.\label{fig:learning_models}}
+\end{table}~\\
+
+The main reference for further reading is~\citep{flach2012machine} offering a 
+comprehensive introduction to machine learning.
+
+
+\subsection{Semi-supervised Learning}
+There is a missing link in the chain, which connects supervised and 
+unsupervised scenarios called \emph{semi-supervised} learning 
+(Table~\ref{fig:learning_models}). The goal of such a classification is to train a
+classifier on a relatively small sample of labelled data, in a way that model 
+performance on the unseen data is close to the one that we could achieve with a 
+supervised algorithm, using huge sample of labelled data. The general strategy is 
+to use the most informative points (e.g. lying close to decision boundary) which best describe distribution underlying 
+classes in the data.\\
+The problem with this kind of an approach might be the difficulty of acquiring such points. Provided 
+data can be noisy, i.e. contain outliers due to measurement errors; therefore, we 
+need to have enough of them to estimate distribution parameters from a sample.\\
+There are many algorithms which build models based on a small sample of labelled 
+data but not many of them measure and utilize information about exemplars being 
+maximally informative in order to improve the model they output.\\
+
+The main application area of semi-supervised learning is natural language, 
+video or audio processing as well as in other fields, where data are relatively easy to 
+acquire but hard to label. For instance, by placing a camera in a public place hours of material 
+can be recorded, but the process of labelling the gathered data to find a well 
+fitting supervised model is expensive, time consuming or demand hours of manual 
+labour.\\
+The hidden concept is to describe a small fraction of data by hand to train a semi-
+supervised model which performs similarly to the supervised algorithm in terms of the
+error rate on data.
+
+\subsection{Active Learning}
+AL approach is considered a special case of semi-supervised learning. What 
+differentiates these two models is the way initial training sample is 
+organised. In SSL algorithm is supplied with labeled data and does not have 
+influence on what these data are and how they were chosen from the whole pool. On 
+contrary, in AL the learner can choose whether it wants to know the label of 
+a particular instance that it has access to. If an algorithm is interested in the label 
+of a chosen exemplar, it queries the so called \emph{label oracle} denoted by 
+$\mathscr{O}$ to acquire it. We assume that if one point is queried more than 
+once, $\mathscr{O}$ will always return the answer it provided for the first query. 
+Mostly often, to produce a good oracle output, the average label assigned by some 
+expert population is chosen.\\
+
+The major advantage of this approach is its selectiveness of the label information. The 
+learner is not fed with fixed data, where there are no possibilities of 
+investigating potentially interesting hypotheses, which are lacking relevant evidence to be 
+supported. It has free will which is most frequently managed via  
+hypothesis risk minimisation techniques.\\
+
+Within the concept of active learning we can name different scenarios of querying 
+$\mathscr{O}$. We can distinguish algorithms based on:
+\begin{description}
+\item[Membership Query]--- where the learner can query $\mathscr{O}$ for any point in 
+input space $\mathscr{X}$ where $x$ does not necessarily belong to the support of 
+marginal distribution i.e.\ it is not in our training set,
+\item[Stream Query] --- where the learner sample points from marginal distribution one 
+after another and decides instantly whether to acquire its label or not,
+\item[Pool Query] --- where the learner has access to the unlabelled \emph{pool} $\mathscr{P} 
+= \left\{ \mathbf{x}_1, \mathbf{x}_2, \dots \mathbf{x}_{n-1}, \mathbf{x}_n 
+\right\}$ of exemplars sampled from some marginal distribution. The learner is 
+allowed to query $\mathscr{O}$ for a label of chosen point i.e.\ acquire $y 
+\sim P_{Y|\mathscr{X} = \mathbf{x}}$.\\
+\end{description}
+
+We also need to decide on the strategy of finding the best hypothesis. 
+There are two main approaches: exploiting (cluster) structure in data, and 
+efficient search through hypotheses space. The first one amounts to
+clustering exemplars based on some distance measure between them and sampling a 
+number of points from each cluster to arrive at the label (see 
+Figure~\ref{fig:cluster}). The latter one is organised in a systematic manner 
+search algorithm that outputs hypothesis (or: hypothesES?) fitted to given data (see 
+Figure~\ref{fig:hypsearch}).\\
+
+From this point onward, we are narrowing our focus to active learning algorithms based on pool queries with hypothesis space search.\\
+
+\begin{figure}[htbp]
+\centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/cluster1.png}
+    \caption{\label{fig:cluster_a}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/cluster2.png}
+    \caption{\label{fig:cluster_b}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/cluster3.png}
+    \caption{\label{fig:cluster_c}}
+  \end{subfigure}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster1.png}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster2.png}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster3.png}
+\begin{tiny}
+\caption{The process of exploiting cluster structure in data within active 
+learning algorithm. In \ref{fig:cluster_a} we are supplied with some unlabeled 
+data with obvious structure --- 2 clusters. In \ref{fig:cluster_b} we query for 
+labels of some points from each cluster --- clusters are not pure, collected 
+sample is noisy. In \ref{fig:cluster_c} we assign majority class to each 
+cluster and arrive at presented model.\label{fig:cluster}}
+\end{tiny}
+\vspace{1cm}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch1.png}
+    \caption{\label{fig:hypsearch_a}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch2.png}
+    \caption{\label{fig:hypsearch_b}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch3.png}
+    \caption{\label{fig:hypsearch_c}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch4.png}
+    \caption{\label{fig:hypsearch_d}}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.5\linewidth]{graphics/hypsearch5.png}
+    \caption{\label{fig:hypsearch_e}}
+  \end{subfigure}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster1.png}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster2.png}
+% \includegraphics[width=0.3\textwidth]{graphics/cluster3.png}
+\begin{tiny}
+\caption{The process of search through hypothesis space within active learning 
+algorithm. In \ref{fig:hypsearch_a} we select some hypotheses (~$h_i$~) that 
+are potentially the best. To eliminate first we ask for a labels of points on 
+both sides of $h_1$ and disregard it as on both sides we spot the same class 
+(Figure \ref{fig:hypsearch_b}). In \ref{fig:hypsearch_c} and 
+\ref{fig:hypsearch_d} we do the same for $h_2$ and $h_3$. We reject both of 
+them with similar to previous observation. Finally, we arrive at hypothesis 
+$h_5$ which agrees on all queried points and become output of our learning 
+algorithm --- we assign to the rest of points majority class on given side of 
+$h_5$.\label{fig:hypsearch}}
+\end{tiny}
+\vspace{1cm}
+\end{figure}
+
+
+
+\section{Active Learning in a view of Multi-Armed Bandits}
+To build a connection between MAB and AL we first need to describe settings of 
+such a scenario. For the sake of simplicity we focus on pool based, binary active 
+learning with an approach of search through \emph{hypothesis space} 
+$\mathscr{H}$, restricted by a query budget $B$. Moreover, we restrict our 
+hypothesis space to linear classifiers (see the following 
+section~\ref{sec:linearclassifiers}). The key point is to view learning problem 
+as exploration-exploitation trade-off. We first focus on finding 
+correspondence between characteristic features of MAB and AL.\\
+
+To begin with, we frame a learning problem as $B$ querying game, where in each round the agent is faced with pulling one 
+of the given arms (chooses hypothesis) and suffering some loss $L_t$ on the chosen action. For convenience, in 
+this scenario we change reward for a loss, which leads to an optimal strategy being 
+the one that minimizes loss instead of maximizing reward over $B$ querying.\\
+
+It is worth noting that if $B \rightarrow \infty$ then this becomes a supervised 
+algorithm which is fed by data stream.\\
+
+To be more precise, we define equivalence between arms of a bandit and 
+hypothesis $\mathit{h} \in \mathscr{H}$. We also need to find a proxy of MAB 
+loss signal in our active learning scenario, but first of all, we should clarify the goals of 
+our strategy.\\
+The main aim is to estimate the optimal hypothesis i.e.\ the one with the lowest risk 
+(overall loss) and with the use of as little labelled (oracle queries) points as possible. Knowing the best 
+$\mathit{h}$ (i.e. the one with minimal cumulative loss), the optimal strategy 
+would be to pull this arm in each round of our experiment. This leads to the 
+goal of finding the optimal strategy as quickly as possible. Now we are left with: 
+defining a strategy that would be telling us which arm to pull in each round; and a dilemma how 
+to transform feedback --- in our case ground truth (genuine label) --- of a
+queried point $x$ into a loss signal.\\
+
+\subsection{Linear classifier\label{sec:linearclassifiers}}
+To begin with, we define a linear classifier as:
+$$
+c(x) = \mathbf{w} \cdot \mathbf{x} - t \text{~,~}
+$$
+where for binary classification we have:
+$$
+c(x) \geq 0 \rightarrow \text{ $x$ is assigned to $+$}
+$$
+$$
+c(x) < 0 \rightarrow \text{ $x$ is assigned to $-$.}
+$$\\
+
+Where $\mathbf{w}$ is weight vector and $\mathbf{x}$ is data point with 
+$\mathbf{x} \in \mathbb{R}^n$.\\
+In general, the linear model (hypothesis class) is concerned with finding such a 
+weight vector $\mathbf{w}$ that our classifier is of the form given above. 
+We can transform the above equation to express decision boundary $t = \mathbf{w} 
+\cdot \mathbf{x}$. This result tells us that decision boundary is a plane in 
+the space spanned by $x_i \in \mathbf{x}$ variables. Where vector $\mathbf{w}$ 
+is perpendicular to boundary and points in the direction of $+$ class.\\
+The notation of classifier can be simplified by extending both vectors 
+$\mathbf{x}$ and $\mathbf{w}$ with $x_0 = 1$ and $w_0 = -t$ leading to decision 
+boundary $c(x) = \mathbf{w}^{\circ} \cdot \mathbf{x}^{\circ} = 0$. In this form 
+for the expense of one extra dimension we get decision boundary passing through 
+origin of our coordinate system.\\
+For visual example please see figure~\ref{fig:binclas}.\\
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{graphics/binclas.png}
+  \begin{tiny}
+    \caption{Visualization of binary, linear classifier in two 
+dimensions.\label{fig:binclas}}
+  \end{tiny}
+  \vspace{1cm}
+\end{figure}
+
+\subsection{Choosing best hypothesis\label{sec:risk}}
+To address the issue first mentioned above, we refer 
+to~\citep{DBLP:journals/corr/GantiG13} where an unbiased estimator of the risk 
+of hypothesis is defined as:\\
+\begin{equation}\label{eq:mean}
+\hat{L}_t(h) = \frac{1}{Nt} \sum_{n=1}^{N} \sum_{\tau = 1}^{t} 
+\frac{Q^{\tau}_n}{p^{\tau}_n} L(y_n h(\mathbf{x}_n)) \text{~,}
+\end{equation}
+where $p^t_n$ is probability of querying $\mathbf{x}_n$ in round $t$ extracted 
+from vector $p^t$ described in section~\ref{sec:pointtoquery}.\\
+Furthermore, $Q^t_n$ is a function which takes values $\{0,1\}$; $1$ if 
+$\mathbf{x}_n$ was queried in round $t$ and $0$ otherwise.\\
+
+We also need to decide on a loss function to employ in our model. All loss 
+functions which are convex w.r.t.\ margin and which are upper bounded by 
+$L_{\text{max}} < \infty$ will be suitable. For example we could use logistic 
+loss, squared loss or exponential loss.\\
+
+To sum up, each hypothesis in group of linear classifiers can be fully describe 
+by the weight vector $\mathbf{w}$. This observation allows us to notationally unify 
+output of hypothesis $h_j$ on point $\mathbf{x}_n$ as $h_j(\mathbf{x}_n) = 
+\hat{c}(\mathbf{x}_n)$.\\
+
+
+\subsection{Choosing a point to query---Constructing loss 
+signal\label{sec:pointtoquery}}
+To iteratively improve our guess of the best hypothesis, we query one, possibly most 
+informative point in each round. Intuitively such information allows us to tell 
+apart good hypotheses which agree with the acquired label and the wrong ones, which mis-classify a given point. To make the best possible choice we construct sampling 
+distribution which minimizes the variance of the risk estimate $\hat{L}_t(h)$ 
+defined above. We construct it by using labels which we have already acquired from the oracle and labels that our current hypothesis assigns to points 
+that have not been queried yet. To guarantee infinite exploration of all 
+hypotheses and avoid $0$ probabilities, we introduce parameter $p_{min}$, which 
+is arbitrarily set by user and denotes minimum probability of each point being 
+queried.\\
+
+Let's define $\mathscr{Q}_t$ as a set of labels $y_n$ acquired by queering $\mathscr{O}$ for labels of $\mathbf{x}_n$ up to time $t$.\\
+Just to recall we handle a binary classification which for data point 
+$\mathbf{x}_n$ outputs the result $c(\mathbf{x}_n)$. This result can be any real 
+number, which is translated into class by the following rule: $c(\mathbf{x}_n) > 
+0 \rightarrow +$ and $c(\mathbf{x}_n) < 0 \rightarrow -$. As a notation 
+shorthand, the following formula is often used $\textit{sign}(c(\mathbf{x}_n)) = y_n \in \{+, -\}$.\\
+
+For each data point $\mathbf{x}_n \in \mathscr{P}$ in our pool we have:
+$$
+\hat{y}_n = \begin{cases}
+                                    y_n = c(\mathbf{x}_n)  & \text{if } 
+\mathbf{x}_n \in \mathscr{Q}_{t-1} \\
+                                    \textit{sign}(h_t(\mathbf{x}_n)) & 
+\text{otherwise.}
+                                  \end{cases} 
+$$
+
+To decide which point to query, we use the loss and margin 
+function introduced earlier; therefore setting $z(\mathbf{x}_n) = \hat{y}_n h_t(\mathbf{x}_n)$. 
+Let's also note that the cardinality of pool is: $|\mathscr{P}| = N$.\\
+This leads to probability vector underlying sampling distribution being defined 
+as:
+$$
+p_n^t = p_{\text{min}} + (1-Np_{\text{min}}) 
+\frac{L(z(\mathbf{x}_n))}{\sum_{\mathbf{x}_n \in \mathscr{P}} L(z(\mathbf{x}_n))}
+$$
+
+Calculating $\hat{c}_t = h_t$ and $\\hat{y}$ for each $\mathbf{x}_n$ during the 
+arbitrary round $t$, allows us to utilize this information to calculate 
+corresponding loss. The next stage is to create a vector $\mathbf{p}_t$ 
+containing at n\ts{th} position $L(z(\mathbf{x}_n))$. Finally, we use it to 
+construct sampling distribution with the aim of choosing a point to query. Such an approach has 
+the advantage of being more prone to query points with a small margin (large loss) 
+w.r.t\ current hypothesis $h_t$ or points which have already been queried for a 
+label but on which $h_t$ suffers a large loss (to put it simply, does not agree).\\
+
+After sampling $\mathbf{x}_n$ we check whether it was already queried in the 
+past. If so, we reuse the already gained label. On contrary, if $\mathbf{x}_n$ has 
+not been queried yet, we do so and increase our budget counter.
+
+
+\subsection{Uncertainty of hypothesis\label{sec:uncertanity}}
+The variance---measure of uncertainty---for risk (loss) of our hypothesis 
+is calculated with help of given above vector for sampling distribution 
+over pool instances as:
+\begin{equation}\label{eq:variance}
+U(\hat{L}_t(h)) = \frac{4}{Nt} \sqrt{\log\frac{1}{\delta}V_t}
+\end{equation}
+and
+$$
+V_t = \left[
+\sum_{n = 1:N \\ \tau = 1:t} \frac{Q^\tau_n}{(p^\tau_n)^2} L^2(z(\mathbf{x}_n))
+-
+\left( \sum_{\mathscr{Q}_t} L(z(\mathbf{x}_n)) \right)^2
++
+\frac{L^2_{\text{max}}  \sqrt{2t \log(\frac{1}{\delta}) (N-1)} } 
+{\sqrt{p_{\text{min}}}}
+\right]_+ \text{~,~}
+$$
+
+where $\delta$ is a parameter which is bounded by $\delta < \frac{1}{e}$.\\
+
+This quantity together with the previously defined estimator of the hypothesis risk 
+was first defined in~\citep{DBLP:journals/corr/GantiG13}.\\
+This quantity intuitively determines the difference between weighed by squared sampling probability average of squared loss of queried points up to given time and squared sum of loss of all queried points.\\
+
+\subsection{Dealing with infinite hypothesis space}
+Modelling huge or even infinite hypothesis space would suffer from the existence of 
+many arms in our bandit model, leading to a serious efficiency issue. Also, 
+optimizing infinite space is not an easy task, therefore, we choose a subset of 
+hypothesis space defined as:
+$$
+\mathscr{H} = \{ h : \|h\| \leq R \} \text{~,~}
+$$
+where $R$ is fixed so that $R > 0$ and $\| \cdot \|$ is Euclidean $L_2$ norm.\\
+Furthermore, based on the observation described in~\citep{Abernethy08competingin} 
+we have a self-concordant barrier $\mathscr{R}(h)$ on $\mathscr{H}$ defined as:
+$$
+\mathscr{R}(h) = - \log(R^2 - \|h\|^2) \text{~.~}
+$$
+The restrictions discussed above allow us to significantly reduce dimensionality of 
+hypothesis space by choosing hypotheses which differ.\\
+
+
+\section{MAB-AL Algorithm}
+
+In this section we will briefly discuss \texttt{MAB-AL} algorithm proposed 
+in~\citep{DBLP:journals/corr/GantiG13} to familiarize the reader with the general 
+concept which was built upon the milestones presented in previous sections of this project (see 
+algorithm~\ref{al:LCB-AL}). 
+\\Prior to classification, the decision needs to be 
+made on loss function; query budget and lower bound on probability of each 
+point being sent to oracle.\\
+
+First of all, we initialise time and oracle queries counter variables and set 
+our hypothesis to $0$ for each point --- classifier is maximally uncertain 
+about label of each exemplar.\\
+
+At the beginning of each round we construct label ($\{+, -\}$) for each point 
+in our pool. If the point has already been queried we use its true label; otherwise, 
+ we assign label in agreement with the current hypothesis. Then based on 
+margin and loss we assign querying probability for each exemplar contributing 
+to vector $\mathbf{p}^t$. We use $\mathbf{p}^t$ to create a sampling 
+distribution and choose a new point to query. For the sake of simplicity we allow 
+exemplars to be re-queried so if the sampled point has already been sent to 
+oracle, we re-use the previous label; otherwise---we query oracle and increase our 
+counter.\\
+
+The heart of the algorithm is stated in line~\ref{al:LCB-AL:LCB} which performs 
+\emph{Lower Confidence Bounds} calculation for all the hypotheses in our 
+$\mathscr{H}$. With a newly chosen $h$, we repeat above steps until we meet 
+previously fixed querying budget, therefore picking hypotheses chosen during last 
+iteration.\\
+
+Details of the approach summarized above are presented 
+in~\citep{DBLP:journals/corr/GantiG13}.\\
+
+\RestyleAlgo{boxed}
+\vspace{2cm}
+\begin{algorithm}[H]
+ % \boxRuled
+ \LinesNumbered
+ \KwData{pool of points $\mathscr{P}$; loss function $L(\cdot)$; budget $B$; 
+parameter $p_{min}$; access to oracle $\mathscr{O}$}
+ \KwResult{optimal hypothesis $h_B$}
+ $oracleQuerries = 0$\;
+ $h_1 = 0$\;
+ $t = 1$\;
+ \While{oracleQuerries $\leq B$}{
+  \For{$\mathbf{x}_n \in \mathscr{P}$}{
+    $
+    \hat{y}_n = \begin{cases}
+      y_n = c(\mathbf{x}_n)  & \text{if } \mathbf{x}_n \in \mathscr{Q}_{t-1} \\
+      \textit{sign}(h_t(\mathbf{x}_n)) & \text{otherwise.}
+    \end{cases} 
+    $ \;
+    $p_n^t = p_{\text{min}} + (1-Np_{\text{min}}) 
+\frac{L(z(\mathbf{x}_n))}{\sum_{\mathbf{x}_n \in \mathscr{P}} 
+L(z(\mathbf{x}_n))}$ \;
+  }
+  sample point $\mathbf{x}$ from probability vector $\mathbf{p}^t$\;
+  \eIf{$\mathbf{x} \in \mathscr{Q}_{t-1}$ --- was already queried}{
+   reuse label of $\mathbf{x}$\;
+   }{
+   query oracle $\mathscr{O}$ for the label $y = c(\mathbf{x})$ of $\mathbf{x}$\;
+   $\mathscr{Q}_{t} \leftarrow \mathscr{Q}_{t-1} \cup y$\;
+   $oracleQuerries \leftarrow oracleQuerries + 1$\;
+  }
+  solve: $h_{t+1} \leftarrow \text{argmin}_{h \in \mathscr{H}} LCB_t(h) + 
+\lambda_t \mathscr{R}(h)$\;\label{al:LCB-AL:LCB}
+  $t \leftarrow t + 1$\;
+ }
+ \caption{LCB-AL presented in~\citep{DBLP:journals/corr/GantiG13}.\label{al:LCB-
+AL}}
+\end{algorithm}
+\vspace{2cm}
+
+
+\section{Employing Thompson Sampling\label{sec:thompsonimprovement}}
+According to the authors of presented above paper, the solution presented above behaves superior to many of its 
+rivals and still has room for improvement. Based on the authors' suggestions and 
+in-depth analysis of presented reasoning, we decided to enhance 
+algorithm~\ref{al:LCB-AL} by replacing LCB minimization with Thompson Sampling presented in section~\ref{sec:thompson}. 
+We motivate our decision with the simplicity of the latter solution and the ease of its adaptation.\\
+
+To begin with, no other steps  but line~\ref{al:LCB-
+AL:LCB} of the algorithm  ~\ref{al:LCB-AL} will change. As it was mentioned above, line~\ref{al:LCB-AL:LCB} is 
+responsible for choosing the most suitable hypothesis to try out during next 
+round. The main concept behind this improvement is to model each hypothesis as a 
+normal distribution $\mathcal{N}\left( \mu, \sigma^2 \right)$. To do so we need 
+some estimates of \emph{mean} and \emph{variance}. For each hypothesis we will 
+model $\mu$ as the risk of choosing particular $h$ described in 
+section~\ref{sec:risk} and calculated in equation~\ref{eq:mean}. Moreover, the 
+variance will be modelled as uncertainty of this risk measure (described in 
+section~\ref{sec:uncertanity} and given by equation~\ref{eq:variance}).\\
+
+Intuitive description of this process can be understood as trying to find a 
+hypothesis with minimal risk. Furthermore, variance of each risk estimate will 
+be decreased or increased by each label acquired from oracle. This process 
+guarantees infinite exploration assumed in the previous chapter of this paper.\\
+The striking flaw of such an approach is in the step of employing information 
+gained from oracle in each round. According to assumptions, the information 
+(feedback) gained by pulling particular arm (hypothesis) should only reveal 
+information about the given arm. Fortunately, we can loosen this restriction and 
+still get a perfectly valid solution.\\
+
+The above described reasoning leads to Algorithm Snippet~\ref{al:TS-AL} replacing 
+line~\ref{al:LCB-AL:LCB} in Algorithm~\ref{al:LCB-AL}.
+
+
+\RestyleAlgo{boxed}
+\vspace{2cm}
+\begin{algorithm}[H]
+  \For{$h_r \in \mathscr{H}$}{
+    $\mu_r^t \leftarrow \hat{L}_t(h_r)$ \;
+    ${\sigma^2}_r^t \leftarrow U(\hat{L}_t(h_r))$ \;
+    $X_r^t \sim \mathcal{N} \left( \mu_r^t, {\sigma^2}_r^t \right) $ \;
+    \text{sample: } $x_r^t \leftarrow X_r^t$ \;
+  }
+  solve: $h_{t+1} \leftarrow h_r \leftarrow \text{argmin}_{r} \text{~} 
+\mathbf{x}^t$\;
+ \caption{Thompson Sampling improvement.\label{al:TS-AL}}
+\end{algorithm}
+\vspace{2cm}
+
+To conclude, for each $h$ in our hypothesis space we calculate risk, i.e. mean; and 
+risk uncertainty, i.e. variance. We sample a value from normal distribution with 
+parameters calculated as above to create a sampling vector. To decide on 
+hypothesis we check which hypothesis minimizes this vector and try it in the next round.\\
+
+
+
+
+
+
+\chapter{The experiment}
+To test and evaluate our version of active learning MAB algorithm(\ref{al:LCB-
+AL} \& \ref{al:TS-AL}) presented in chapter~\ref{ch:MAB-AL} we conducted an 
+experiment described through the following sections. The purpose of the results 
+presented below, is simply to visualize the algorithm and confirm its correctness. 
+Both the algorithms: Thompson Sampling inspired and LCB based have been implemented and their performance is compared and contrasted on a sample dataset. \\
+
+\section{Introduction}
+The experiment was conducted only on one dataset:\texttt{iris}\footnote{Used 
+dataset was preprocessed to contain only two attributes(2D) and two 
+classes(binary classification). The \texttt{iris} set can be found at 
+\url{http://archive.ics.uci.edu/ml/datasets/Iris}.}, which is linearly 
+separable. This data package is well-known in machine learning experiments and 
+provides two dense cluster of points. For the purpose of simplicity we 
+predefined 6 different linear classifiers from which the algorithm chooses the 
+best one. The dataset, together with selected hypothesis (arms, actions, classifiers), is presented in 
+figure~\ref{fig:hyp}.\\
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{graphics/gypothesis.png}
+  \begin{tiny}
+    \caption{Visualisation of linearly separable \texttt{iris} dataset together 
+with selected hypothesis.\label{fig:hyp}}
+  \end{tiny}
+  \vspace{1cm}
+\end{figure}
+
+\section{Algorithm design and tuning}
+As suggested in~\citep{DBLP:journals/corr/GantiG13} we change our estimate of 
+hypothesis uncertainty from the one presented in equation~\ref{eq:variance} 
+to~\ref{eqn:expvar} given below.\\
+\begin{equation}
+\label{eqn:expvar}
+U(\hat{L}_t(h)) = \frac{ \sqrt{ \log(t) } }
+                       { 10 }
+                  \sqrt{ V^\prime_t }
+\end{equation}
+$$
+V^\prime_t = \left[
+  \sum_{i = 1:n \text{~} \tau = 1:t} \frac{Q^\tau_i}{(p^\tau_i)^2} L^2(z(x_i))
+  -
+  \left( \sum_{\mathscr{Q}_t} L(z(x_i)) \right)^2
+\right]_+
+$$
+This change is made solely to simplify the calculations and does not affect the variance 
+estimate in any way.\\
+
+With the adjustment given above we implemented our solution in \texttt{Python} 
+programming language(formatted as \texttt{iPython notebook}). We ran the 
+experiment with different querying budgets: 1\%, 5\%, 10\%, 15\% and 20\% of 
+the initial dataset size. Figures~\ref{fig:conv} and~\ref{fig:conv.ALL} show change 
+of risk estimate (y axis) with numerous queries made (x axis) for the above listed allowances.\\
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{graphics/convergence.png}
+  \begin{tiny}
+    \caption{Change of hypothesis risk estimation along time. Experiment 
+conducted with query budget of 20\% of dataset size. Colours correspond to 
+hypotheses shown in figure~\ref{fig:hyp}.\label{fig:conv}}
+  \end{tiny}
+  \vspace{1cm}
+\end{figure}
+
+\section{Results}
+Figure~\ref{fig:conv} illustrates the results for the experiment with the largest 
+querying budget. The outcome is reasonable as it predicts 
+\textcolor{magenta}{magenta} hypothesis as the best and \textcolor{cyan}{cyan} 
+one as the second best; risk estimates for both these classifiers lie very 
+close. Both these choices seem reasonable for a given dataset---they make no 
+error in classification.\\
+\textcolor{green}{green} and \textcolor{blue}{blue} hypotheses also result in  
+having close risk estimates and scoring 4\ts{th} and 5\ts{th} respectively. 
+This result can be justified; the first one cuts one of the clouds in half, 
+classifying approximately 75\% of exemplars correctly and the other hypothesis 
+does the same with the other cloud of points.\\
+
+\textcolor{red}{red} and \textcolor{Dandelion}{yellow} hypotheses classify all 
+points correspondingly as $+$'s and $-$'s. The latter one performs the worst, 
+which confirms our intuition. On contrary, the first one outperforms 
+\textcolor{blue}{blue} and \textcolor{green}{green} what in this case should be 
+treated as an error. Still, such a behavior is possible and can be justified by algorithm 
+querying more true negatives than positives.\\
+
+Figures~\ref{fig:conv.ALL} present performance of the algorithms for graphs for four other query budgets in figure. 
+In sub-plot~\ref{fig:conv.ALL:01}(the smallest querying 
+budget) the algorithm sent only 1 exemplar to oracle, which yields random 
+behavior. It seems like this particular point belonged to $+$ class placing 
+\textcolor{blue}{blue} and \textcolor{Dandelion}{yellow} as the worst 
+classifiers. Intuitively \textcolor{Dandelion}{yellow} treats all exemplars 
+as $-$'s, so any query revealing $+$ ($-$)point evaluates it as the worst (best) hypothesis. \textcolor{red}{red} hypothesis which was estimated as the best confirms preceding description. \\
+Figure \ref{fig:conv.ALL:05}, corresponding to 5\% budget gives the correct 
+answer by selecting \textcolor{magenta}{magenta} hypothesis. The second best 
+prediction---\textcolor{cyan}{cyan}---is also correct, but the distance between 
+these two optimal solutions and the two sub-optimal ones, namely: \textcolor{red}{red} 
+and \textcolor{green}{green}, seems to be really small. Due to this fact 5\% 
+size oracle queries is still pron to severe errors.\\
+Graph~\ref{fig:conv.ALL:10} provides good separation of optimal and the sub-optimal 
+hypotheses. Moreover, the predictions are still correct. For the given dataset we 
+can claim that 10\% sample is enough to give a \emph{safe} prediction of the 
+optimal hypothesis.\\
+The following figure~\ref{fig:conv.ALL:15} improves the results given above by 
+further separating optimal and sub-optimal answers. The experiment with 15\% sample 
+in contrast to 10\% one estimates \textcolor{cyan}{cyan} hypothesis as the best 
+and \textcolor{magenta}{magenta} one as the second best. Despite this 
+phenomenon, all exemplars of dataset are classified correctly by chosen 
+classifier. It seems that with more than one 0-error-rate hypothesis we need 
+a bigger number of oracle queries to choose the one with the largest distance to both 
+clouds of points. On the other hand, \textcolor{cyan}{cyan} hypothesis might be 
+better than \textcolor{magenta}{magenta} one in case we have not observed in 
+our data any negative exemplar situated between two clouds due to the fact that 
+they are rare.\\
+
+An interesting fact can be observed by comparing \textcolor{red}{red} and 
+\textcolor{Dandelion}{yellow} hypotheses throughout all experiments. As 
+\textcolor{red}{red} is always predicted to be better than 
+\textcolor{Dandelion}{yellow}, our algorithm appears to be querring more points 
+from top($+$) cloud than from the bottom($-$) one. This feature should be 
+investigated further to understand this phenomenon better.\\
+
+To sum up, for tested dataset 10\% sample seems to be the minimum we should use 
+to ensure the optimal hypothesis selection. All 0-error-rate hypothesis seems to 
+have indistinguishable outcomes while querying less than 30\% of dataset 
+volume. Finally, the risk estimate behavior is quite reasonable and further studies should be 
+carried out to examine properties of the suggested solution.\\
+
+\begin{figure}[htbp]
+  \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence01.png}
+    \caption{1\%\label{fig:conv.ALL:01}}
+  \end{subfigure}
+  \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence05.png}
+    \caption{5\%\label{fig:conv.ALL:05}}
+  \end{subfigure}\\[1ex]
+
+    \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence10.png}
+    \caption{10\%\label{fig:conv.ALL:10}}
+  \end{subfigure}
+  \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence15.png}
+    \caption{15\%\label{fig:conv.ALL:15}}
+  \end{subfigure}
+
+  \caption{Change of hypothesis risk estimation along time. Each sub-figure 
+presents different percentage of oracle queries with regard to the number of 
+points in the dataset. Colours correspond to hypotheses shown in 
+figure~\ref{fig:hyp}.\label{fig:conv.ALL}}
+\end{figure}
+
+
+\section{LCB algorithm}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\linewidth]{graphics/convergence_LCB025.png}
+  \begin{tiny}
+    \caption{Change of hypothesis risk estimation along time with LCB selection 
+mechanism. Experiment conducted with query budget of 20\% of dataset size. 
+Colours correspond to hypotheses shown in 
+figure~\ref{fig:hyp}.\label{fig:LCB_conv}}
+  \end{tiny}
+  \vspace{1cm}
+\end{figure}
+
+In this section we compare the results, obtained with the use of Thompson Sampling policy 
+against the ones obtained via \emph{Lower Confidence Bound} selection mechanism---
+a straightforward application of algorithm~\ref{al:LCB-AL}. We conducted 
+experiments for the same dataset and query budgets as above: 1\%, 5\%, 10\%, 
+15\% and 20\%.\\
+
+The first striking feature of LCB while comparing to TS is a higher number of 
+queries made. LCB decides to ask already known points more often than TS.\\
+For 20\% sample the LCB converges similarly to algorithm presented above. 
+Optimal hypothesis is chosen at the end and it lies very close to the second 
+optimal arm. Above the optimal actions, we have two ``75\% correct'' hypothesis, 
+and at the top(the worst) two arms which assigned to all exemplars singleton 
+class. The only advantage of LCB over TS is \textcolor{red}{red} hypothesis 
+being at the top rather than middle.\\
+Here, same as above 1\% sample behaves randomly and does not contain any 
+informative content.\\
+The 5\% experiment also groups the answers into three pairs: 
+\textcolor{blue}{blue}--\textcolor{Dandelion}{yellow}, \textcolor{cyan}{cyan}--
+\textcolor{magenta}{magenta}, \textcolor{green}{green}--\textcolor{red}{red} 
+like in 20\% case. Here, the two 0-error-rate answers are predicted as sub-
+optimal in contrast to correct prediction in TS.\\
+10\% case yields behavior that is similar to the corresponding experiment with TS approach. 
+It does a bit worse as \textcolor{green}{green} hypothesis over-performs 
+\textcolor{cyan}{cyan}---which is one of the optimal hypotheses. Despite this fact, 
+the best---\textcolor{magenta}{magenta}---hypothesis is chosen.\\
+Finally, 15\% experiment results in similar randomness of sub-optimal arms as 
+corresponding TS trial. Nevertheless, two optimal hypotheses are indicated as 
+the best with fine distance to all the other actions.\\
+
+To recapitulate, two approaches result in a similar behavior. The best hypothesis 
+converges the same in both cases; sub-optimal ones also follow comparable paths 
+with a bit of randomness. While comparing both methods with results shown above, 
+we cannot unambiguously say which algorithm performs better, nevertheless it is easy to notice that TS acts better for small number of queries. We plan to conduct 
+additional experiments in the near future to address this uncertainty.\\
+
+
+\begin{figure}[htbp]
+  \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence_LCB001.png}
+    \caption{1\%\label{fig:LCB_conv.ALL:01}}
+  \end{subfigure}
+  \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence_LCB005.png}
+    \caption{5\%\label{fig:LCB_conv.ALL:05}}
+  \end{subfigure}\\[1ex]
+
+    \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence_LCB010.png}
+    \caption{10\%\label{fig:LCB_conv.ALL:10}}
+  \end{subfigure}
+  \begin{subfigure}{.5\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{graphics/convergence_LCB015.png}
+    \caption{15\%\label{fig:LCB_conv.ALL:15}}
+  \end{subfigure}
+
+  \caption{Change of hypothesis risk estimation along time with LCB selection 
+mechanism. Each sub-figure presents different percentage of oracle queries with 
+regard to the number of points in the dataset. Colours correspond to hypothesis 
+shown in figure~\ref{fig:hyp}.\label{fig:LCB_conv.ALL}}
+\end{figure}
+
+
+
+
+\section{Tweaks, Alternatives and Improvements\label{sec:qimprove}}
+Presented in section~\ref{sec:thompsonimprovement} solution uses estimate of 
+risk of a given hypothesis and value representing uncertainty about this 
+estimate. Both of these quantities are updated after each oracle query is done. We 
+can change this process by assuming a uniform prior over all hypotheses and 
+updating the distributions by Bayes rule when new information is revealed (i.e. when a 
+point is queried).\\
+This method would demand a posterior to estimate the fitting of a given hypothesis for both 
+known and unknown data. Queried point would either support hypothesis by 
+agreeing with its predictions or discourage this choice by not agreeing.\\
+The point to query would be chosen based on being the most informative for 
+the current hypothesis, for instance: a point laying closest to boundary (i.e. having 
+largest contribution to variance estimate).\\
+
+
+Another possible improvement could be significantly reducing hypotheses
+space so it only contains the ones that are most probably a good match. It can be achieved by
+first doing unsupervised learning on a dataset (clustering, U-SVM) with a number of 
+threshold parameters to produce range of linear classifiers. The output of such a 
+process can be incorporated as a subset of our hypothesis space.\\
+
+
+\section{Lookahead}
+The work presented in this project covers only a brief introduction to the multi-armed bandits' world with the primary
+stress put on Thompson Sampling approach. It also explains thoroughly the possible 
+application of MAB in machine learning (active learning) by presenting a one of 
+a kind~\citep{DBLP:journals/corr/GantiG13} research work. We took a step ahead by 
+proposing Thompson inspired approach to the problem i.e. replacing the lower confidence bound 
+method with Thompson Sampling hypothesis selection 
+mechanism. Finally we planned, coded and carried out the experiment to examine 
+results of our methodological change in the algorithm. The outcomes seem promising 
+and vouch for our intuition behind the active learning problem.\\
+
+Due to time constraints, we were not able to improve our Thompson approach as 
+described above(\S\ref{sec:qimprove}). We also could not perform the full range of 
+tests and comparisons between already existing algorithms and the proposed one. We 
+hope to address these issues in the near future.\\
+
+Finally, we think that our algorithm, along with its simplicity, brings low 
+computational costs and performance comparable with other available solutions. 
+We expect the algorithm presented and discussed throughout the project to bring a good framework for active 
+learning problems in the future world of machine learning.\\
+
+\begin{center}
+\noindent \line(1,0){250}
+\end{center}
+
+
+
+\bibliography{ref}{}
+% \bibliographystyle{plain}
+\bibliographystyle{plainnat}
+
+
+
+% \newpage
+% \begin{center}~\\[10cm] \textbf{\huge FIN} \end{center}
+
+
+% \appendix
+% \chapter{Code snippets}
+
+% \label{snip:normaldist}PDF of normal distribution with mean $0$ and standard 
+deviation $5$.
+% \begin{lstlisting}
+% x   <- seq(-30,30,length=10000)
+% y   <- dnorm(x,mean=0, sd=5)
+% plot(x,y, type="l", lwd=1)
+% \end{lstlisting}
+
+% \label{snip:thompsonsampling}Creating multiple normal distributions to 
+visualize Thompson sampling.
+% \begin{lstlisting}
+%  x   <- seq(5,15,length=1000)
+%  y   <- dnorm(x,mean=10, sd=30)
+% plot(x,y, type="l", lwd=1)
+% sam <- sample(x, 10)
+% points(sam,dnorm(sam, 10, 1), col="green")
+
+% # for a few distributions
+% \end{lstlisting}
+
+\end{document}
+
