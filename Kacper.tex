@@ -609,19 +609,19 @@ only on its current state and no other processes' state. \\
 Upper Confidence Bound and Lower Confidence Bound policies are based on UCB and LCB for the mean reward of each arm, where 
 the selection process is based on correspondingly largest and lowest bound. In the simplest scenario, in order to determine UCB and LCB we first compute the sample mean and the sample variance. Then we choose our confidence interval (e.g.\ 90\%, 95\%) and calculate corresponding $z$ value. We determine our bounds as follows: $UCB = \mu + \sigma z_{(\cdot)} $ and $LCB = \mu - \sigma z_{(\cdot)} $.\\
 Sometimes instead of calculating sample values, Bayesian inference is used to get $\mu$ and $\sigma$ estimates.\\
-Under certain assumptions the policy only is proved to select suboptimal 
+Under certain assumptions the policy is proved to select suboptimal 
 arms for only a finite number of times, which means that the optimal arm will be played exponentially more 
 often than any other arm within the time limit. Certain algorithms of this family require 
 just the knowledge of the sample mean for each arm, hence being simple and 
 computationally inexpensive~\citep{Scott:2010:MBL:1944422.1944432}.\\
 
-\subsubsection{'Stay on a winner'}
-'Stay on a winner'---a well-known strategy very often used by gamblers---is a myopic policy 
+\subsubsection{``Stay on a winner''}
+``Stay on a winner''---a well-known strategy very often used by gamblers---is a myopic policy 
 where arm $a$ is selected in round $t+1$ if it was considered successful at 
 time $t$. On contrary, if the selected arm failed, we either select another one at random or 
 according to some deterministic policy.\\
 
-Even though, continuation on a successful arm is a good strategy, the undesirable "failure switch" might occur~\citep{berry+firstedt}. The policy performs near optimally when the best arm is characterized by high. The strategy tends toward equal allocation, which leads to over---exploration---success rate of optimal arm tends to 0~\citep{Scott:2010:MBL:1944422.1944432}.\\ 
+Even though, continuation on a successful arm is a good strategy, the undesirable ``failure switch'' might occur~\citep{berry+firstedt}. The policy performs near optimally when the best arm is characterized by high success rate. The strategy tends toward equal allocation, which leads to over-exploration---success rate of optimal arm tends to $0$~\citep{Scott:2010:MBL:1944422.1944432}.\\ 
 
 
 % \subsubsection{Minimax approach}
@@ -629,20 +629,20 @@ Even though, continuation on a successful arm is a good strategy, the undesirabl
 
 \subsubsection{Thompson Sampling approach}
 Thompson Sampling was first proposed in 1933 by William R.\ Thompson~\citep{thompson:biom33} and mainly concerned Bernoulli processes. Recently, the approach was revised and made its way with  simplicity and a low 
-computational cost. The basic idea of it is to sample from posterior distribution of 
+computational cost.\\
+
+The basic idea of it is to sample from posterior distribution of 
 each action and select the arm with the highest sample. The more uncertain we are about 
 particular action, the higher variance estimate we have yielding more sparse 
-samples--- (to nastêpne zdanie bym oderwa³a od poprzedniego i rozwinê³a krótko mysl) 
-this natural mechanism (usunê³am "s", bo nie wiem, czy to ma byæ plural, czy singular) guarantees infinite exploration of all 
-actions.\\
+samples. This natural mechanism guarantees infinite exploration of all actions as sampled values may lie away from estimated mean.\\
+
 The method is extensively described in section~\ref{sec:thompsonsampling}; we 
 motivate our choice by relatively few undergraduate level texts available. 
-Furthermore, Thompson Sampling is a cutting edge approach with a lot of ongoing 
-research.\\   (zmieni³abym tu porz¹dek:  Thompson Sampling is a cutting edge approach with a lot of ongoing 
-research and relatively few undergraduate level texts available. The method is extensively described in section~\ref{sec:thompsonsampling}.  
+Furthermore, revised version of Thompson Sampling is a cutting edge approach with a lot of ongoing 
+research.\\
 
 
-\subsection{Policy classes}
+\subsection{Policy types}
 
 
 \subsubsection{Finite memory strategy}
@@ -650,10 +650,10 @@ It is a class of strategies, where the decision process has finite memory thus, 
 as a consequence some policies can suffer large loss while others will work great.\\
 
 \subsubsection{Myopic strategies}
-The myopic strategies are widely considered to be suboptimal for they try to maximize the expected 
+The myopic strategies are widely considered to be suboptimal for they try to maximise the expected 
 reward during the next infinitesimal interval of time. They are called myopic 
-because they neglect eventualities future occurrences or sacrifice a long-range 
-vision to maximize the current payoff. Sometimes uncertainty (here understood as the exploratory value) is taken 
+because they neglect eventualities or sacrifice a long-range 
+vision to maximise the current payoff. Sometimes uncertainty(here understood as the exploratory value) is taken 
 into account although it displays limited lookahead, as it only focuses on a current choice.\\
 
 For some class of problems a short term optimum can
@@ -662,12 +662,12 @@ seems the best as it does not involve complex computation or expensive
 lookahead. This approach can be applied to many strategies but it is very frequently 
 used with index methods.\\
 % is thompson samplkng one of myoptic methods? intead of taking longe ranfe 
-view it ties to minimize current vaiance of hypothesis to decide on best one.\\
+% view it ties to minimize current vaiance of hypothesis to decide on best one.\\
 % local not global solution with respect to time intervals.
 
 \subsubsection{Undirected policy}    
 In this class of strategies we make our choice by considering only the exploitative 
-value we focus on local payoff e.g.\ $\epsilon$-greedy, $\epsilon$-decreasing, Boltzmann action 
+value(we focus on local payoff) e.g.\ $\epsilon$-greedy, $\epsilon$-decreasing, Boltzmann action 
 selection. We make a choice based on the currently highest reward estimate and
 do not include exploratory component.\\
 
@@ -680,8 +680,8 @@ Bayes' theorem allows a ``straight forward'' application to adaptive learning so
 like MAB.\\
 A good example of the Bayesian approach is the Thompson Sampling. \\
 % It can be fully Bayesian approach where---here the chosen action is supposed 
-to maximise the expected cumulative reward for the rest of the process. Drawback 
-of such approach is hard to guarantee infinite exploration.\\
+% to maximise the expected cumulative reward for the rest of the process. Drawback 
+% of such approach is hard to guarantee infinite exploration.\\
 
 
 
@@ -699,15 +699,14 @@ It is possible to use any probability distribution with Thompson Sampling but
 for the sake of simplicity, we will consider only a the \emph{normal} distribution in this 
 paper. The aforementioned restriction does not mean that it is impossible to apply this 
 technique with any other distribution but due to space constrains the theory 
-will be presented with \emph{normal likelihood}. Apart from that, discussing other 
+will be presented with \emph{normal posterior}. Apart from that, discussing other 
 scenarios of Thompson Sampling would require reader to be familiar with 
 analytic approach to Bayesian \emph{posteriors}, \emph{priors} and 
 \emph{likelihoods}.
 
 \subsection{Bayesian statistics\label{sec:bayesian}}
-In this section we briefly introduce normal distribution, far we can
-discuss its aspects with regard to Bayesian statistics.\\
-Once we presented concept we show is applications in Thompson Sampling.\\
+In this section we briefly introduce normal distribution, for we can
+discuss its aspects with regard to Bayesian statistics. Once we present the concept we show its application in a Thompson Sampling.\\
 
 \subsubsection{The normal distribution}
 The most common distribution in statistics with the well-known bell-shaped(see 
@@ -715,15 +714,14 @@ figure~\ref{fig:normaldist}) curve is the normal distribution also called
 \emph{Gaussian} distribution. If a random variable $\mathrm{X}$ follows such 
 distribution parametrized by a \emph{mean} $\mu$ and a \emph{standard deviation} 
 $\sigma$, we commonly write $\mathrm{X} \sim \mathcal{N}\left( \mu, \sigma^2 
-\right)$. Probability density function of $\mathrm{X})$ is then:
+\right)$. Probability density function of $\mathrm{X}$ is then:
 $$
 f \left(x | \mu, \sigma \right) = \frac{1}{\sigma \sqrt{2 \pi }} e^{- \frac{ 
 {\left (  x - \mu \right )}^2 }{2 \sigma^2} } \text{ ,}
 $$
 where the first part ${\left( \sigma \sqrt{2 \pi } \right)}^{-1}$ is a 
 normalizing factor and the latter part is a distribution ``kernel''.\\
-The area under the curve from $-\infty$ to $+\infty$ integrates to 
-$1$~\citep{rice1995mathematical}:
+The area under the curve integrates to $1$ on the $(-\infty, +\infty)$ range~\citep{rice1995mathematical}:
 $$
 \int_{-\infty}^{+\infty} \! f \left(x | \mu, \sigma \right) \, \mathrm{d}x = 1 
 \text{ .}
@@ -734,7 +732,7 @@ $$
 \centering
 \includegraphics[width=0.5\textwidth]{graphics/normalpdf.pdf}
 \begin{tiny}
-\caption{Probability density function of normal the distribution $\mathcal{N}\left( 
+\caption{Probability density function of the normal distribution $\mathcal{N}\left( 
 0, 5 \right)$ in characteristic bell shape.\label{fig:normaldist}}
 % created in \texttt{R} (Snippet in \emph{Appendix~\ref{snip:normaldist}})
 \end{tiny}
