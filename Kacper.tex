@@ -543,43 +543,43 @@ other rounds do not matter thus.\\
 In this chapter we present a number of approaches to find an optimal 
 solution to MAB problem. First of all, we briefly describe methodologies that have been well-known for several of decades; then we give extensive description of one of the most recent approach called \emph{Thompson Sampling}. Finally, we form conclusions and highlight the ongoing research.\\
 
-\section{Introduction}
-Once we can formally define the MAB problem we are in the position to start seeking an optimal strategy. There are numerous different approaches available all with different pros and cons.\\
+Once we can formally define the MAB problem we are in the position to start seeking an optimal strategy. There are numerous different approaches available, all of them with different pros and cons.\\
+
 \section{Seeking an optimal solution}
-Strategies presented below are used to balance exploration and exploitation to 
-find an optimal solution, i.e. to determine an equilibrium between acquiring information which can benefit in future choices
+Strategies presented below are used to balance exploration and exploitation in order to 
+find an optimal solution, i.e.\ to determine an equilibrium between acquiring information which can benefit in future choices
 and the immediate payoff.\\
 Let's now recall the hospital example: we have to decide whether it is worth to sacrifice 
 the wellbeing of the early coming patients to learn more about a particular condition by means of experimenting. 
 Such a choice would lead to treatment improvement over time and 
 yielding better results on future patients. This phenomenon could be referred to as sacrificing early payoff 
-to gain more information about the system and maximize the future return.\\
-We could also democratize such a dramatic scenario by using a geometric sequence---in this way, the health of current patients 
+to gain more information about the system and maximise the future return.\\
+We could also democratise such a dramatic scenario by using a geometric sequence---in this way, the health of current patients 
 would carry equal value to the future patients' health.\\
 
-According to MAB literature a strategy is considered as optimal if it chooses an optimal arm infinitely many times, i.e. if it converges to optimal selection within 
+According to MAB literature a strategy is considered as optimal if it chooses an optimal arm infinitely many times, i.e.\ if it converges to optimal selection within 
 the limit of time. We usually consider \emph{preemptive} case, where arbitrary switching between actions 
 is allowed and takes negligible time.\\
 
 \subsection{Examples}
 
-\subsubsection{Index approach (Gittins Index)\label{sec:gitind}}
+\subsubsection{Index approach(Gittins Index)\label{sec:gitind}}
 
-The pioneering index approach introduced by John C. Gittins is one the oldest optimal solutions. It did not only move the multi-armed bandits concept significantly 
+The pioneering index approach introduced by John C.\ Gittins is one the oldest optimal solutions. It did not only move the multi-armed bandits concept significantly 
 forward but it also accelerated the growth in 
 the whole wide class of sequential allocation problems.\\
 
-The motivation" behind this approach is to assign \emph{priority indices} 
+The motivation behind this approach is to assign \emph{priority indices} 
 to each action, where the index of a particular arm should only depend on the history 
 and outcomes for this action and no other. The decision process then is dependent on choosing an action with highest current index. \\
 
 The theory of indices allocation is based on calibrating actions at a given 
-state against some standardized actions with simple properties. The main 
+state against some standardised actions with simple properties. The main 
 advantage of such an approach is restricting \emph{state function} of an action, so it depends only 
 on its history; and consequently, reducing its complexity~\citep{gittins+glazebrook+weber}.\\
 
-Indices are described as real---valued functions (dynamic allocation index) on the 
-set of all available alternatives; the selection process is then maximizing this 
+Indices are described as real-valued functions(dynamic allocation index) on the 
+set of all available alternatives; the selection process is then maximising this 
 function.\\
 With such indeces we can specify optimal policy for particular problem(which 
 has any set of possible alternatives of a given type) with regard to so called 
@@ -591,24 +591,24 @@ index policy with respect to $\nu(B_1, \cdot), \nu(B_2, \cdot),..., \nu(B_n,
 
 The significant drawback of the index strategy is requirement of a vast amount of 
 resources such as computational power and memory storage. Moreover, the 
-following assumptions need to hold:\\
+following assumptions need to hold:
 \begin{itemize}
 \item rewards are accumulated up to an infinite time horizon,
 \item there is constant and strict exponential discounting,
 \item unless an arm is pulled, no rewards are collected and the state of the arm remains unchanged,
-\item there is only one processor (server).\\
+\item there is only one processor(server).\\
 \end{itemize}
 
-In the simplest case we consider a multi-armed bandit as a number of semi---Markov 
-decision processes. The \emph{index theorem} states advocates the existence of an optimal \emph{index policy}, 
-which on the other hand confirms the existence of a real---valued index, say $\nu ( B_i , \xi_i(t) )$, where $B_i$ is i-\ts{th} bandit 
-process and $\xi_i$ is a state of i-\ts{th} process (dependent on history), in another words, each index depends 
+In the simplest case we consider a multi-armed bandit as a number of semi-Markov 
+decision processes. The \emph{index theorem} advocates the existence of an optimal \emph{index policy}, 
+which on the other hand confirms the existence of a real-valued index, say $\nu ( B_i , \xi_i(t) )$, where $B_i$ is i\ts{th} bandit 
+process and $\xi_i$ is a state of i\ts{th} process(dependent on history), in another words, each index depends 
 only on its current state and no other processes' state. \\
 
 \subsubsection{Upper Confidence Bound(UCB) and Lower Confidence Bound(LCB)}
 Upper Confidence Bound and Lower Confidence Bound policies are based on UCB and LCB for the mean reward of each arm, where 
-the selection process is based on correspondingly largest and lowest bound.In the simplest scenario, in order to determine UCB and LCB we first compute the sample mean and the sample variance. Then we choose our confidence interval (e.g. 90\%, 95\%) and calculate corresponding $z$ volume. We calculate our bounds as $UCB = \mu + z{\cdot} \sigma$ and $LCB = \mu - z{\cdot} \sigma$.\\
-Sometimes instead of simple values Bayesian Infrence is used to get $\mu$ and $\sigma$ estimates.\\
+the selection process is based on correspondingly largest and lowest bound. In the simplest scenario, in order to determine UCB and LCB we first compute the sample mean and the sample variance. Then we choose our confidence interval (e.g.\ 90\%, 95\%) and calculate corresponding $z$ value. We determine our bounds as follows: $UCB = \mu + \sigma z_{(\cdot)} $ and $LCB = \mu - \sigma z_{(\cdot)} $.\\
+Sometimes instead of calculating sample values, Bayesian inference is used to get $\mu$ and $\sigma$ estimates.\\
 Under certain assumptions the policy only is proved to select suboptimal 
 arms for only a finite number of times, which means that the optimal arm will be played exponentially more 
 often than any other arm within the time limit. Certain algorithms of this family require 
