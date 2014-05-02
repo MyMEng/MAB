@@ -241,7 +241,7 @@ Dzi\k{e}kuj\k{e}, Tomek.
 
 
 \chapter{Introduction\label{chap:intro}}
-The \emph{multi-armed bandits} (MAB) theory is a set of problems that has been rapidly developing as a field of 
+The \emph{multi-armed bandits}(MAB) theory is a set of problems that has been rapidly developing as a field of 
 statistics and probability since early 20\ts{th} century. With a vastly 
 growing number of tasks that could be framed as a bandit scenario, the field has 
 become a topic of research for many scientists, economists, not to mention 
@@ -254,14 +254,14 @@ allocation dilemma. They were defined during Second World War and quickly
 reached the fame of being too difficult to solve and were abandoned for 
 decades thus. The first general solution was constructed by John Gittins(section~\ref{sec:gitind}) 
 in late 
-60's, nevertheless, his work was overlooked for almost 20 years until it was revived in the early 80's.~\citep{gittins+glazebrook+weber}
+60's, nevertheless, his work was overlooked for almost 20 years until it was revived in the early 80's~\citep{gittins+glazebrook+weber}.\\
 
 \noindent The main reference for this chapter is~\citep{berry+firstedt}.\\
 
 
 \section{Background}
 It is often believed that statistics and probability are static sciences---they define a set of tools to analyse various aspects of a process or data which have already been collected.  
-Less often we are interested in continuously developing events, that we went to discover or that require interaction. Simple statistics or probability might not be advanced enough to 
+Less often we are interested in continuously developing events, that we want to discover or that require interaction. Simple statistics or probability might not be advanced enough to 
 handle such cases as good as the bandits theory.\\
 
 To begin with, we shall discuss the \emph{fruit machine}, as it is the first thing that 
@@ -270,7 +270,7 @@ slot machines in front of you. Pulling an arm of each of these automata will res
 outcome determined by some unknown probability distribution. For the simplicity 
 we will consider the result as various reels' combinations and we will assume that each automaton results in binary 
 outcome: \emph{win} with probability $p$ and \emph{lose} with probability $p-1$. Without loss of generality, 
-row of such machines can be transformed into only one automation but with multiple arms or buttons each corresponding 
+row of such machines can be transformed into only one automaton but with multiple arms or buttons each corresponding 
 to a single machine in aforementioned row.\\
 
 A natural example that follows binary bandits is a row of coins, where some 
@@ -282,15 +282,15 @@ goal is to find the coin which is biased with maximum probability of \textbf{H}
 and play it forever.\\
 
 If gamblers do not want to lose all their money really quickly, it would probably
-be a good idea to employ some kind of a strategy that maximizes chances of 
+be a good idea to employ some kind of a strategy that maximises chances of 
 winning. It is assumed that gamblers are visiting a given casino for the first time, 
 so any prior information regarding the expected return from each arm is also assumed to 
 be unknown. Initially, a random arm is chosen for all of them might look alike. On 
 contrary, during the second turn selecting \emph{optimal} arm to be played 
-becomes a serious dilemma that one might not have yet realized. The gambler 
-faces a choice between the arm that has already been pulled with known sample expected return and any other arm which for now on remains a mystery, since there is no 
+becomes a serious dilemma that one might not have yet realized. The gamblers 
+face a choice between the arm that has already been pulled with known sample expected return and any other arm which for now on remains a mystery, since there is no 
 information about a potential reward.\\
-If the gambler decides to take advantage of the already known arm and pulls it again, we 
+If the gamblers decide to take advantage of the already known arm and pull it again, we 
 call this an \emph{exploitation}---that is taking advantage of already 
 checked possibilities. On the other hand, taking a risk and choosing one of the 
 unknown arms will result in gathering more information about the system, 
