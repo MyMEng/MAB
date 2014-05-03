@@ -1471,10 +1471,10 @@ We also need to decide on the strategy of finding the best hypothesis.
 There are two main approaches: exploiting(cluster) structure in data, and 
 efficient search through hypotheses space. The first one amounts to
 clustering exemplars based on some distance measure between them and sampling a 
-number of points from each cluster to arrive at the label (see 
-Figure~\ref{fig:cluster}). The latter one is organised in a systematic manner 
-search algorithm that outputs hypothesis (or: hypothesES?) fitted to given data (see 
-Figure~\ref{fig:hypsearch}).\\
+number of points from each cluster to arrive at the label(see 
+figure~\ref{fig:cluster}). The latter one is an organised in a systematic manner 
+search algorithm that outputs hypothesis fitted to given data(see 
+figure~\ref{fig:hypsearch}).\\
 
 From this point onward, we are narrowing our focus to active learning algorithms based on pool queries with hypothesis space search.\\
 
@@ -1501,8 +1501,8 @@ From this point onward, we are narrowing our focus to active learning algorithms
 \begin{tiny}
 \caption{The process of exploiting cluster structure in data within active 
 learning algorithm. In \ref{fig:cluster_a} we are supplied with some unlabeled 
-data with obvious structure --- 2 clusters. In \ref{fig:cluster_b} we query for 
-labels of some points from each cluster --- clusters are not pure, collected 
+data with obvious structure---2 clusters. In \ref{fig:cluster_b} we query for 
+labels of some points from each cluster---clusters are not pure, collected 
 sample is noisy. In \ref{fig:cluster_c} we assign majority class to each 
 cluster and arrive at presented model.\label{fig:cluster}}
 \end{tiny}
@@ -1542,14 +1542,13 @@ cluster and arrive at presented model.\label{fig:cluster}}
 % \includegraphics[width=0.3\textwidth]{graphics/cluster3.png}
 \begin{tiny}
 \caption{The process of search through hypothesis space within active learning 
-algorithm. In \ref{fig:hypsearch_a} we select some hypotheses (~$h_i$~) that 
-are potentially the best. To eliminate first we ask for a labels of points on 
-both sides of $h_1$ and disregard it as on both sides we spot the same class 
-(Figure \ref{fig:hypsearch_b}). In \ref{fig:hypsearch_c} and 
+algorithm. In \ref{fig:hypsearch_a} we select some hypotheses(~$h_i$~) that 
+are potentially the best. To eliminate the first one we ask for a labels of points on 
+both sides of $h_1$ and disregard it as on both sides we spot the same class(figure \ref{fig:hypsearch_b}). In \ref{fig:hypsearch_c} and 
 \ref{fig:hypsearch_d} we do the same for $h_2$ and $h_3$. We reject both of 
 them with similar to previous observation. Finally, we arrive at hypothesis 
 $h_5$ which agrees on all queried points and become output of our learning 
-algorithm --- we assign to the rest of points majority class on given side of 
+algorithm---we assign to the rest of points majority class on given side of 
 $h_5$.\label{fig:hypsearch}}
 \end{tiny}
 \vspace{1cm}
@@ -1562,15 +1561,15 @@ To build a connection between MAB and AL we first need to describe settings of
 such a scenario. For the sake of simplicity we focus on pool based, binary active 
 learning with an approach of search through \emph{hypothesis space} 
 $\mathscr{H}$, restricted by a query budget $B$. Moreover, we restrict our 
-hypothesis space to linear classifiers (see the following 
+hypothesis space to linear classifiers(see the following 
 section~\ref{sec:linearclassifiers}). The key point is to view learning problem 
 as exploration-exploitation trade-off. We first focus on finding 
 correspondence between characteristic features of MAB and AL.\\
 
-To begin with, we frame a learning problem as $B$ querying game, where in each round the agent is faced with pulling one 
-of the given arms (chooses hypothesis) and suffering some loss $L_t$ on the chosen action. For convenience, in 
+To begin with, we frame a learning problem as budget $B$ querying game, where in each round the agent is faced with pulling one 
+of the given arms(choosing hypothesis) and it is suffering some loss $L_t$ on the chosen action. For convenience, in 
 this scenario we change reward for a loss, which leads to an optimal strategy being 
-the one that minimizes loss instead of maximizing reward over $B$ querying.\\
+the one that minimizes loss instead of maximizing reward over $B$ queries.\\
 
 It is worth noting that if $B \rightarrow \infty$ then this becomes a supervised 
 algorithm which is fed by data stream.\\
@@ -1579,14 +1578,13 @@ To be more precise, we define equivalence between arms of a bandit and
 hypothesis $\mathit{h} \in \mathscr{H}$. We also need to find a proxy of MAB 
 loss signal in our active learning scenario, but first of all, we should clarify the goals of 
 our strategy.\\
-The main aim is to estimate the optimal hypothesis i.e.\ the one with the lowest risk 
-(overall loss) and with the use of as little labelled (oracle queries) points as possible. Knowing the best 
-$\mathit{h}$ (i.e. the one with minimal cumulative loss), the optimal strategy 
+The main aim is to estimate the optimal hypothesis i.e.\ the one with the lowest risk(overall loss) and with the use of as little labelled(oracle queries) points as possible. Knowing the best 
+$\mathit{h}$(i.e.\ the one with minimal cumulative loss), the optimal strategy 
 would be to pull this arm in each round of our experiment. This leads to the 
 goal of finding the optimal strategy as quickly as possible. Now we are left with: 
 defining a strategy that would be telling us which arm to pull in each round; and a dilemma how 
-to transform feedback --- in our case ground truth (genuine label) --- of a
-queried point $x$ into a loss signal.\\
+to transform feedback---in our case ground truth(genuine label)---from a
+queried point $x$ into a loss signal. To introduced these connections we first need to explain what is a linear classifier.\\
 
 \subsection{Linear classifier\label{sec:linearclassifiers}}
 To begin with, we define a linear classifier as:
@@ -1595,17 +1593,17 @@ c(x) = \mathbf{w} \cdot \mathbf{x} - t \text{~,~}
 $$
 where for binary classification we have:
 $$
-c(x) \geq 0 \rightarrow \text{ $x$ is assigned to $+$}
+c(x) \geq 0 \rightarrow \text{ $x$ is assigned to $+$ ,}
 $$
 $$
-c(x) < 0 \rightarrow \text{ $x$ is assigned to $-$.}
+c(x) < 0 \rightarrow \text{ $x$ is assigned to $-$ .}
 $$\\
 
 Where $\mathbf{w}$ is weight vector and $\mathbf{x}$ is data point with 
 $\mathbf{x} \in \mathbb{R}^n$.\\
-In general, the linear model (hypothesis class) is concerned with finding such a 
-weight vector $\mathbf{w}$ that our classifier is of the form given above. 
-We can transform the above equation to express decision boundary $t = \mathbf{w} 
+In general, the linear model(hypothesis class) is concerned with finding such a 
+weight vector $\mathbf{w}$ that our classifier is of the form given above---it agrees with possibly all exemplars in training set. 
+We can transform the above equation to express decision boundary as $t = \mathbf{w} 
 \cdot \mathbf{x}$. This result tells us that decision boundary is a plane in 
 the space spanned by $x_i \in \mathbf{x}$ variables. Where vector $\mathbf{w}$ 
 is perpendicular to boundary and points in the direction of $+$ class.\\
@@ -1639,6 +1637,8 @@ from vector $p^t$ described in section~\ref{sec:pointtoquery}.\\
 Furthermore, $Q^t_n$ is a function which takes values $\{0,1\}$; $1$ if 
 $\mathbf{x}_n$ was queried in round $t$ and $0$ otherwise.\\
 
+In general, this formula calculates cumulative loss over all queried points weighed by queering probability.\\
+
 We also need to decide on a loss function to employ in our model. All loss 
 functions which are convex w.r.t.\ margin and which are upper bounded by 
 $L_{\text{max}} < \infty$ will be suitable. For example we could use logistic 
@@ -1650,7 +1650,7 @@ output of hypothesis $h_j$ on point $\mathbf{x}_n$ as $h_j(\mathbf{x}_n) =
 \hat{c}(\mathbf{x}_n)$.\\
 
 
-\subsection{Choosing a point to query---Constructing loss 
+\subsection{Choosing a point to query---constructing loss 
 signal\label{sec:pointtoquery}}
 To iteratively improve our guess of the best hypothesis, we query one, possibly most 
 informative point in each round. Intuitively such information allows us to tell 
@@ -1673,7 +1673,7 @@ For each data point $\mathbf{x}_n \in \mathscr{P}$ in our pool we have:
 $$
 \hat{y}_n = \begin{cases}
                                     y_n = c(\mathbf{x}_n)  & \text{if } 
-\mathbf{x}_n \in \mathscr{Q}_{t-1} \\
+\mathbf{x}_n \in \mathscr{Q}_{t-1} \text{ ,} \\
                                     \textit{sign}(h_t(\mathbf{x}_n)) & 
 \text{otherwise.}
                                   \end{cases} 
@@ -1689,14 +1689,14 @@ p_n^t = p_{\text{min}} + (1-Np_{\text{min}})
 \frac{L(z(\mathbf{x}_n))}{\sum_{\mathbf{x}_n \in \mathscr{P}} L(z(\mathbf{x}_n))}
 $$
 
-Calculating $\hat{c}_t = h_t$ and $\\hat{y}$ for each $\mathbf{x}_n$ during the 
+Calculating $\hat{c}_t = h_t$ and $\hat{y}$ for each $\mathbf{x}_n$ during the 
 arbitrary round $t$, allows us to utilize this information to calculate 
 corresponding loss. The next stage is to create a vector $\mathbf{p}_t$ 
 containing at n\ts{th} position $L(z(\mathbf{x}_n))$. Finally, we use it to 
 construct sampling distribution with the aim of choosing a point to query. Such an approach has 
-the advantage of being more prone to query points with a small margin (large loss) 
+the advantage of being more prone to query points with a small margin(large loss) 
 w.r.t\ current hypothesis $h_t$ or points which have already been queried for a 
-label but on which $h_t$ suffers a large loss (to put it simply, does not agree).\\
+label but on which $h_t$ suffers a large loss(to put it simply, the points that does not agree with current hypothesis).\\
 
 After sampling $\mathbf{x}_n$ we check whether it was already queried in the 
 past. If so, we reuse the already gained label. On contrary, if $\mathbf{x}_n$ has 
@@ -1704,7 +1704,7 @@ not been queried yet, we do so and increase our budget counter.
 
 
 \subsection{Uncertainty of hypothesis\label{sec:uncertanity}}
-The variance---measure of uncertainty---for risk (loss) of our hypothesis 
+The variance---measure of uncertainty---for risk(loss) of our hypothesis 
 is calculated with help of given above vector for sampling distribution 
 over pool instances as:
 \begin{equation}\label{eq:variance}
@@ -1726,7 +1726,7 @@ where $\delta$ is a parameter which is bounded by $\delta < \frac{1}{e}$.\\
 
 This quantity together with the previously defined estimator of the hypothesis risk 
 was first defined in~\citep{DBLP:journals/corr/GantiG13}.\\
-This quantity intuitively determines the difference between weighed by squared sampling probability average of squared loss of queried points up to given time and squared sum of loss of all queried points.\\
+Intuitively it determines the difference between altered hypothesis risk and squared sum of loss calculated over all queried points.\\
 
 \subsection{Dealing with infinite hypothesis space}
 Modelling huge or even infinite hypothesis space would suffer from the existence of 
@@ -1750,17 +1750,18 @@ hypothesis space by choosing hypotheses which differ.\\
 
 In this section we will briefly discuss \texttt{MAB-AL} algorithm proposed 
 in~\citep{DBLP:journals/corr/GantiG13} to familiarize the reader with the general 
-concept which was built upon the milestones presented in previous sections of this project (see 
-algorithm~\ref{al:LCB-AL}). 
-\\Prior to classification, the decision needs to be 
+concept which was built upon the milestones presented in previous sections of this project(see 
+algorithm~\ref{al:LCB-AL}).\\
+
+Prior to classification, the decision needs to be 
 made on loss function; query budget and lower bound on probability of each 
 point being sent to oracle.\\
 
 First of all, we initialise time and oracle queries counter variables and set 
-our hypothesis to $0$ for each point --- classifier is maximally uncertain 
+our hypothesis to $0$ for each point---classifier is maximally uncertain 
 about label of each exemplar.\\
 
-At the beginning of each round we construct label ($\{+, -\}$) for each point 
+At the beginning of each round we construct label($+$ or $-$) for each point 
 in our pool. If the point has already been queried we use its true label; otherwise, 
  we assign label in agreement with the current hypothesis. Then based on 
 margin and loss we assign querying probability for each exemplar contributing 
@@ -1826,14 +1827,13 @@ in-depth analysis of presented reasoning, we decided to enhance
 algorithm~\ref{al:LCB-AL} by replacing LCB minimization with Thompson Sampling presented in section~\ref{sec:thompson}. 
 We motivate our decision with the simplicity of the latter solution and the ease of its adaptation.\\
 
-To begin with, no other steps  but line~\ref{al:LCB-AL:LCB} of the algorithm  ~\ref{al:LCB-AL} will change. As it was mentioned above, line~\ref{al:LCB-AL:LCB} is 
+To begin with, no other steps but line~\ref{al:LCB-AL:LCB} of the algorithm~\ref{al:LCB-AL} will change. As it was mentioned above, line~\ref{al:LCB-AL:LCB} is 
 responsible for choosing the most suitable hypothesis to try out during next 
 round. The main concept behind this improvement is to model each hypothesis as a 
 normal distribution $\mathcal{N}\left( \mu, \sigma^2 \right)$. To do so we need 
-some estimates of \emph{mean} and \emph{variance}. For each hypothesis we will 
-model $\mu$ as the risk of choosing particular $h$ described in 
+some estimates of \emph{mean} and \emph{variance}. For each hypothesis we model $\mu$ as the risk of choosing particular $h$ described in 
 section~\ref{sec:risk} and calculated in equation~\ref{eq:mean}. Moreover, the 
-variance will be modelled as uncertainty of this risk measure (described in 
+variance will be modelled as uncertainty of this risk measure(described in 
 section~\ref{sec:uncertanity} and given by equation~\ref{eq:variance}).\\
 
 Intuitive description of this process can be understood as trying to find a 
@@ -1841,13 +1841,12 @@ hypothesis with minimal risk. Furthermore, variance of each risk estimate will
 be decreased or increased by each label acquired from oracle. This process 
 guarantees infinite exploration assumed in the previous chapter of this paper.\\
 The striking flaw of such an approach is in the step of employing information 
-gained from oracle in each round. According to assumptions, the information 
-(feedback) gained by pulling particular arm (hypothesis) should only reveal 
+gained from oracle in each round. According to assumptions, the information(feedback) gained by pulling particular arm(hypothesis) should only reveal 
 information about the given arm. Fortunately, we can loosen this restriction and 
 still get a perfectly valid solution.\\
 
-The above described reasoning leads to Algorithm Snippet~\ref{al:TS-AL} replacing 
-line~\ref{al:LCB-AL:LCB} in Algorithm~\ref{al:LCB-AL}.
+Described above reasoning leads to algorithm snippet~\ref{al:TS-AL} replacing 
+line~\ref{al:LCB-AL:LCB} in algorithm~\ref{al:LCB-AL}.
 
 
 \RestyleAlgo{boxed}
@@ -1861,14 +1860,14 @@ line~\ref{al:LCB-AL:LCB} in Algorithm~\ref{al:LCB-AL}.
   }
   solve: $h_{t+1} \leftarrow h_r \leftarrow \text{argmin}_{r} \text{~} 
 \mathbf{x}^t$\;
- \caption{Thompson Sampling improvement.\label{al:TS-AL}}
+ \caption{Thompson Sampling inspired hypothesis choice.\label{al:TS-AL}}
 \end{algorithm}
 \vspace{2cm}
 
-To conclude, for each $h$ in our hypothesis space we calculate risk, i.e. mean; and 
-risk uncertainty, i.e. variance. We sample a value from normal distribution with 
+To conclude, for each $h$ in our hypothesis space we calculate risk, i.e.\ mean; and 
+risk uncertainty, i.e.\ variance. We sample a value from normal distribution with 
 parameters calculated as above to create a sampling vector. To decide on 
-hypothesis we check which hypothesis minimizes this vector and try it in the next round.\\
+hypothesis we check which one minimizes this vector and try it in the next round.\\
 
 
 
