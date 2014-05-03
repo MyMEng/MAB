@@ -9,11 +9,12 @@
 %  
 %  
 %  
-\documentclass[12pt, a4paper, pdflatex, leqno]{report}
+\documentclass[12pt, a4paper, pdflatex, leqno, twoside]{report}
 %  notitlepage - abstract on the same page
 \usepackage{indentfirst} % indent frst paragraph of section
 % \usepackage{fullpage}    % full A4 page
-\usepackage[left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm]{geometry}
+% \usepackage[left=2.5cm, right=2.5cm, bottom=2.5cm, top=2.5cm]{geometry}
+\usepackage[a4paper,inner=3cm,outer=2cm,top=2.5cm,bottom=2.5cm,pdftex]{geometry}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}    % fancy maths font
@@ -26,6 +27,10 @@
 \usepackage{lipsum}
 \newcommand{\ts}{\textsuperscript}
 \usepackage[usenames,dvipsnames]{color}
+
+% \geometry{bindingoffset=2cm}
+% \setlength{\oddsidemargin}{5mm}
+% \setlength{\evensidemargin}{5mm}
 
 % for multi figures
 \usepackage{graphicx}
@@ -164,10 +169,10 @@ Signed:\\[1cm]
 Dated:~~~~~~~~~~~~\today
 
 % \thispagestyle{empty}% no header and footer
-\thispagestyle{empty}
-\cleardoublepage
-\pagestyle{plain}
-\vfill
+% \thispagestyle{empty}
+% \cleardoublepage
+% \pagestyle{plain}
+% \vfill
 
 \newpage
 \thispagestyle{empty}
@@ -259,8 +264,8 @@ Dzi\k{e}kuj\k{e}, Tomek.
 \tableofcontents
 \thispagestyle{empty}
 
-\cleardoublepage
-\pagestyle{plain}
+% \cleardoublepage
+% \pagestyle{plain}
 % \newpage
 }
 \newpage
