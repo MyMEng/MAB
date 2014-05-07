@@ -1,1 +1,384 @@
-/Users/kacper/My Ex/WORK/gists/1b6498f6781b022f8b28/ref.bib
+%BibTeX database - Kacper Sokol
+
+@Book{berry+firstedt,
+ author    = "D. A. {Berry} and B. {Fristedt}",
+ title     = "Bandits Problems
+ 			  Sequential Allocation of Experiments. --- 
+ 			  (Monographs on statistics and applied probability)",
+ publisher = "Chapman and Hall",
+ year      =  {1985},
+ address   = "11 New Fetter Lane, London EC4P 4EE",
+ isbn	   = "0 412 24810 7"
+}
+
+@Book{gittins+glazebrook+weber,
+ author    = "John {Gittins}, Kevin {Glazebrook} and Richard {Weber}",
+ title     = "MULTI-ARMED BANDIT ALLOCATION INDICES",
+ publisher = "John Willey \& Sons",
+ year      =  {2011},
+ address   = "The Atrium, Southern Gate, Chichester, West Sussex, PO19 8SQ, United Kingdom",
+ isbn	   = "978-0-470-67002-6",
+ edition   = "2nd"
+}
+
+@Book{gelman+carlin+stern+rubin,
+ author    = "Andrew {Gelman}, John B. {Carlin}, Hal S. {Stern} and Donald B. {Rubin}",
+ title     = "Bayesian Data Analysis",
+ publisher = "Chapman and Hall/CRC",
+ year      =  {2003},
+ address   = "A CRC Press Company, 2000 N.W. Corporate Blvd., Boca Raton, Florida 33431",
+ isbn	   = "1-58488-388-X",
+ edition   = "2nd"
+}
+
+@book{gelman2003bayesian,
+  title={Bayesian Data Analysis, Second Edition},
+  author={Gelman, A. and Carlin, J.B. and Stern, H.S. and Rubin, D.B.},
+  isbn={9781420057294},
+  series={Chapman \& Hall/CRC Texts in Statistical Science},
+  url={http://books.google.pl/books?id=TNYhnkXQSjAC},
+  year={2003},
+  publisher={Taylor \& Francis}
+}
+
+@book{lynch2007introduction,
+  title={Introduction to Applied Bayesian Statistics and Estimation for Social Scientists},
+  author={Lynch, S.M.},
+  isbn={9780387712642},
+  lccn={2007929729},
+  series={Statistics for Social and Behavioral Sciences},
+  url={http://books.google.pl/books?id=D41tTXCiRtgC},
+  year={2007},
+  publisher={Springer}
+}
+
+
+@article{Scott:2010:MBL:1944422.1944432,
+ author = {Scott, Steven L.},
+ title = {A Modern Bayesian Look at the Multi-armed Bandit},
+ journal = {Appl. Stoch. Model. Bus. Ind.},
+ issue_date = {November 2010},
+ volume = {26},
+ number = {6},
+ month = nov,
+ year = {2010},
+ issn = {1524-1904},
+ pages = {639--658},
+ numpages = {20},
+ url = {http://dx.doi.org/10.1002/asmb.874},
+ doi = {10.1002/asmb.874},
+ acmid = {1944432},
+ publisher = {John Wiley and Sons Ltd.},
+ address = {Chichester, UK},
+ keywords = {Bayesian adaptive design, exploration vs exploitation, probability matching, sequential design}
+}
+
+@article{yadkori,
+    author = {Abbasi-Yadkori, Yasin and Pal, David and Szepesvari, Csaba},
+    title = {{Online-to-Confidence-Set Conversions and Application to Sparse Stochastic Bandits}},
+
+    booktitle = {AISTATS},
+    keywords = {bandit, contextual\_bandit, high\_dimension, linear\_regression, reinforcement\_learning, sparsity},
+    priority = {5},
+    year = {2012}
+}
+@inproceedings{AYPSze12,
+	Abstract = {We introduce a novel technique, which we call online-to-confidence-set conversion. The technique allows us to construct high-probability confidence sets for linear prediction with correlated inputs given the predictions of any algorithm (e.g., online LASSO, exponentiated gradient algorithm, online least-squares, p-norm algorithm) targeting online learning with linear predictors and the quadratic loss. By construction, the size of the confidence set is directly governed by the regret of the online learning algorithm. Constructing tight confidence sets is interesting on its own, but the new technique is given extra weight by the fact having access tight confidence sets underlies a number of important problems. The advantage of our construction here is that progress in constructing better algorithms for online prediction problems directly translates into tighter confidence sets. In this paper, this is demonstrated in the case of linear stochastic bandits. In particular, we introduce the sparse variant of linear stochastic bandits and show that a recent online algorithm together with our online-to-confidence-set conversion allows one to derive algorithms that can exploit if the reward is a function of a sparse linear combination of the components of the chosen action.},
+	Author = {Abbasi-Yadkori, Y. and P{\'a}l, D. and Szepesv{\'a}ri, {Cs}.},
+	Bibsource = {DBLP, http://dblp.uni-trier.de},
+	Booktitle = {AISTAT},
+	Date = {2012-04},
+	Date-Added = {2012-06-03 14:18:30 -0600},
+	Date-Modified = {2013-10-20 21:25:41 +0300},
+	Ee = {http://jmlr.csail.mit.edu/proceedings/papers/v22/abbasi-yadkori12/abbasi-yadkori12.pdf},
+	Keywords = {bandits, stochastic bandits, theory, online learning, linear bandits},
+	Pages = {1--9},
+	Pdf = {papers/online-to-confidenceset.pdf},
+	Title = {Online-to-confidence-set conversions and application to sparse stochastic bandits},
+	Year = {2012}
+}
+
+@article {ASMB:ASMB874,
+author = {Scott, Steven L.},
+title = {A modern Bayesian look at the multi-armed bandit},
+journal = {Applied Stochastic Models in Business and Industry},
+volume = {26},
+number = {6},
+publisher = {John Wiley & Sons, Ltd.},
+issn = {1526-4025},
+url = {http://dx.doi.org/10.1002/asmb.874},
+doi = {10.1002/asmb.874},
+pages = {639--658},
+keywords = {probability matching, exploration vs exploitation, sequential design, Bayesian adaptive design},
+year = {2010},
+abstract = {A multi-armed bandit is an experiment with the goal of accumulating rewards from a payoff distribution with unknown parameters that are to be learned sequentially. This article describes a heuristic for managing multi-armed bandits called randomized probability matching, which randomly allocates observations to arms according the Bayesian posterior probability that each arm is optimal. Advances in Bayesian computation have made randomized probability matching easy to apply to virtually any payoff distribution. This flexibility frees the experimenter to work with payoff distributions that correspond to certain classical experimental designs that have the potential to outperform methods that are ‘optimal’ in simpler contexts. I summarize the relationships between randomized probability matching and several related heuristics that have been used in the reinforcement learning literature. Copyright © 2010 John Wiley & Sons, Ltd.}
+}
+
+@inproceedings{Tang:2013:AAF:2505515.2514700,
+ author = {Tang, Liang and Rosales, Romer and Singh, Ajit and Agarwal, Deepak},
+ title = {Automatic Ad Format Selection via Contextual Bandits},
+ booktitle = {Proceedings of the 22Nd ACM International Conference on Conference on Information \&\#38; Knowledge Management},
+ series = {CIKM '13},
+ year = {2013},
+ isbn = {978-1-4503-2263-8},
+ location = {San Francisco, California, USA},
+ pages = {1587--1594},
+ numpages = {8},
+ url = {http://doi.acm.org/10.1145/2505515.2514700},
+ doi = {10.1145/2505515.2514700},
+ acmid = {2514700},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {bandit algorithms, exploration/exploitation, layout, machine learning, offline evaluation, online advertising, personalization, recommender systems},
+} 
+
+@inproceedings{Tang:2013:AAF:2541167.2514700,
+ author = {Tang, Liang and Rosales, Romer and Singh, Ajit and Agarwal, Deepak},
+ title = {Automatic ad format selection via contextual bandits},
+ booktitle = {Proceedings of the 22nd ACM international conference on Conference on information \&\#38; knowledge management},
+ series = {CIKM '13},
+ year = {2013},
+ isbn = {978-1-4503-2263-8},
+ location = {San Francisco, California, USA},
+ pages = {1587--1594},
+ numpages = {8},
+ url = {http://doi.acm.org/10.1145/2505515.2514700},
+ doi = {10.1145/2505515.2514700},
+ acmid = {2514700},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {bandit algorithms, exploration/exploitation, layout, machine learning, offline evaluation, online advertising, personalization, recommender systems},
+}
+
+@inproceedings{May:simulation,
+  title = {{S}imulation {S}tudies in {O}ptimistic {B}ayesian {S}ampling in {C}ontextual-bandit {P}roblems bibtex},
+  year = {2011},
+  author = {May, Benedict C. and Leslie, David S.},
+  booktitle = {Technical Report No.\ 11:02, Statistics Group, Department of Mathematics, University of Bristol}
+}
+
+
+@inproceedings{graepel2010web,
+  title={Web-scale bayesian click-through rate prediction for sponsored search advertising in microsoft's bing search engine},
+  author={Graepel, Thore and Candela, Joaquin Q and Borchert, Thomas and Herbrich, Ralf},
+  booktitle={Proceedings of the 27th International Conference on Machine Learning (ICML-10)},
+  pages={13--20},
+  year={2010}
+}
+
+@inproceedings{Li:2010:CAP:1772690.1772758,
+ author = {Li, Lihong and Chu, Wei and Langford, John and Schapire, Robert E.},
+ title = {A Contextual-bandit Approach to Personalized News Article Recommendation},
+ booktitle = {Proceedings of the 19th International Conference on World Wide Web},
+ series = {WWW '10},
+ year = {2010},
+ isbn = {978-1-60558-799-8},
+ location = {Raleigh, North Carolina, USA},
+ pages = {661--670},
+ numpages = {10},
+ url = {http://doi.acm.org/10.1145/1772690.1772758},
+ doi = {10.1145/1772690.1772758},
+ acmid = {1772758},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {contextual bandit, exploration/exploitation dilemma, personalization, recommender systems, web service},
+} 
+
+@book{rice1995mathematical,
+  title={Mathematical statistics and data analysis},
+  author={Rice, J.A.},
+  isbn={9780534209346},
+  lccn={93028340},
+  series={Statistics Series},
+  url={http://books.google.ca/books?id=bIkQAQAAIAAJ},
+  year={1995},
+  publisher={Duxbury Press}
+}
+
+@MISC{Syversveen98noninformativebayesian,
+    author = {Anne Randi Syversveen},
+    title = {Noninformative Bayesian Priors. Interpretation And Problems With Construction And Applications.},
+    year = {1998}
+}
+
+@MISC{Jacobs2008normalnormal,
+    author = {Robert Jacobs},
+    title = {Bayesian Statistics: Normal-Normal Model.},
+    year = {2008}
+}
+
+
+@article{May:2012:OBS:2503308.2343711,
+ author = {May, Benedict C. and Korda, Nathan and Lee, Anthony and Leslie, David S.},
+ title = {Optimistic Bayesian Sampling in Contextual-bandit Problems},
+ journal = {J. Mach. Learn. Res.},
+ issue_date = {January 2012},
+ volume = {13},
+ number = {1},
+ month = jun,
+ year = {2012},
+ issn = {1532-4435},
+ pages = {2069--2106},
+ numpages = {38},
+ url = {http://dl.acm.org/citation.cfm?id=2503308.2343711},
+ acmid = {2343711},
+ publisher = {JMLR.org},
+ keywords = {Thompson sampling, contextual bandits, exploration-exploitation, multi-armed bandits, sequential allocation},
+} 
+
+@article{DBLP:journals/corr/GantiG13,
+  author    = {Ravi Ganti and
+               Alexander G. Gray},
+  title     = {Building Bridges: Viewing Active Learning from the Multi-Armed
+               Bandit Lens},
+  journal   = {CoRR},
+  volume    = {abs/1309.6830},
+  year      = {2013},
+  ee        = {http://arxiv.org/abs/1309.6830},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@book{flach2012machine,
+  title={Machine Learning: The Art and Science of Algorithms that Make Sense of Data},
+  author={Flach, P.},
+  isbn={9781107422223},
+  lccn={2012289353},
+  url={http://books.google.co.uk/books?id=VJdQLwEACAAJ},
+  year={2012},
+  publisher={Cambridge University Press}
+}
+
+@INPROCEEDINGS{Abernethy08competingin,
+    author = {Jacob Abernethy and Elad Hazan and Alexander Rakhlin},
+    title = {Competing in the dark: An efficient algorithm for bandit linear optimization},
+    booktitle = {In Proceedings of the 21st Annual Conference on Learning Theory (COLT},
+    year = {2008}
+}
+
+@inproceedings{journals/jmlr/GantiG12,
+  added-at = {2013-11-25T00:00:00.000+0100},
+  author = {Ganti, Ravi and Gray, Alexander G.},
+  biburl = {http://www.bibsonomy.org/bibtex/28fb3298b6508e08354d8d2e9f31ba177/dblp},
+  booktitle = {AISTATS},
+  crossref = {conf/aistats/2012},
+  editor = {Lawrence, Neil D. and Girolami, Mark},
+  ee = {http://jmlr.csail.mit.edu/proceedings/papers/v22/ganti12.html},
+  interhash = {7f19276a3f531b566a6a83d52b80751f},
+  intrahash = {8fb3298b6508e08354d8d2e9f31ba177},
+  keywords = {dblp},
+  pages = {422-431},
+  publisher = {JMLR.org},
+  series = {JMLR Proceedings},
+  timestamp = {2013-11-25T00:00:00.000+0100},
+  year = {2013}
+  }
+
+@article{thompson:biom33,
+    author = {Thompson, W. R.},
+    citeulike-article-id = {6630199},
+    journal = {Biometrika},
+    keywords = {file-import-10-02-05},
+    pages = {285--294},
+    posted-at = {2010-02-05 12:18:21},
+    priority = {2},
+    title = {{On the Likelihood that one Unknown Probability Exceeds Another in View of the Evidence of Two Samples}},
+    volume = {25},
+    year = {1933}
+}
+
+@MISC{Antos09activelearning,
+    author = {Andras Antos and Varun Grover and Csaba Szepesvari},
+    title = {Active Learning in Multi-Armed Bandits },
+    year = {2009}
+}
+
+@article{meuleau:exploration,
+  year={1999},
+  issn={0885-6125},
+  journal={Machine Learning},
+  volume={35},
+  number={2},
+  doi={10.1023/A:1007541107674},
+  title={Exploration of Multi-State Environments: Local Measures and Back-Propagation of Uncertainty},
+  publisher={Kluwer Academic Publishers},
+  keywords={reinforcement learning; exploration vs. exploitation dilemma; Markov decision processes; bandit problems},
+  author={Meuleau, Nicolas and Bourgine, Paul},
+  pages={117-154},
+  language={English}
+}
+
+@inproceedings{Pandey:2007:MBP:1273496.1273587,
+ author = {Pandey, Sandeep and Chakrabarti, Deepayan and Agarwal, Deepak},
+ title = {Multi-armed Bandit Problems with Dependent Arms},
+ booktitle = {Proceedings of the 24th International Conference on Machine Learning},
+ series = {ICML '07},
+ year = {2007},
+ isbn = {978-1-59593-793-3},
+ location = {Corvalis, Oregon},
+ pages = {721--728},
+ numpages = {8},
+ url = {http://doi.acm.org/10.1145/1273496.1273587},
+ doi = {10.1145/1273496.1273587},
+ acmid = {1273587},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% article
+% 	An article from a journal or magazine.
+% 	Required fields: author, title, journal, year
+% 	Optional fields: volume, number, pages, month, note, key
+% book
+% 	A book with an explicit publisher.
+% 	Required fields: author/editor, title, publisher, year
+% 	Optional fields: volume/number, series, address, edition, month, note, key
+% booklet
+% 	A work that is printed and bound, but without a named publisher or sponsoring institution.
+% 	Required fields: title
+% 	Optional fields: author, howpublished, address, month, year, note, key
+% conference
+% 	The same as inproceedings, included for Scribe compatibility.
+% inbook
+% 	A part of a book, usually untitled. May be a chapter (or section or whatever) and/or a range of pages.
+% 	Required fields: author/editor, title, chapter/pages, publisher, year
+% 	Optional fields: volume/number, series, type, address, edition, month, note, key
+% incollection
+% 	A part of a book having its own title.
+% 	Required fields: author, title, booktitle, publisher, year
+% 	Optional fields: editor, volume/number, series, type, chapter, pages, address, edition, month, note, key
+% inproceedings
+% 	An article in a conference proceedings.
+% 	Required fields: author, title, booktitle, year
+% 	Optional fields: editor, volume/number, series, pages, address, month, organization, publisher, note, key
+% manual
+% 	Technical documentation.
+% 	Required fields: title
+% 	Optional fields: author, organization, address, edition, month, year, note, key
+% mastersthesis
+% 	A Master's thesis.
+% 	Required fields: author, title, school, year
+% 	Optional fields: type, address, month, note, key
+% misc
+% 	For use when nothing else fits.
+% 	Required fields: none
+% 	Optional fields: author, title, howpublished, month, year, note, key
+% phdthesis
+% 	A Ph.D. thesis.
+% 	Required fields: author, title, school, year
+% 	Optional fields: type, address, month, note, key
+% proceedings
+% 	The proceedings of a conference.
+% 	Required fields: title, year
+% 	Optional fields: editor, volume/number, series, address, month, publisher, organization, note, key
+% techreport
+% 	A report published by a school or other institution, usually numbered within a series.
+% 	Required fields: author, title, institution, year
+% 	Optional fields: type, number, address, month, note, key
+% unpublished
+% 	A document having an author and title, but not formally published.
+% 	Required fields: author, title, note
+% 	Optional fields: month, year, key
