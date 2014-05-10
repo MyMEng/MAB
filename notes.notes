@@ -1,4 +1,0 @@
-In non-technical terms, the likelihood function is a function that
-when evaluated at a particular point, say (0; 0), is the
-probability of observing the (observed) data given that the
-parameters (; ) take the values 0 and 0.
