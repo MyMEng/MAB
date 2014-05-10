@@ -2,6 +2,7 @@
 \setbeamertemplate{navigation symbols}{}
 \usepackage{beamerthemeshadow}
 
+\newcommand*{\LargerCdot}{\raisebox{-0.25ex}{\scalebox{3.0}{$\cdot$}}}
 
 \begin{document}
 
@@ -98,10 +99,59 @@
 
   \begin{frame}
     \frametitle{Linear classifier}
+    \begin{block}{Theory of linear classifier}
+      A linear classifier can be defined by a single vector $\mathbf{w} \in \mathbb{R}^N$, where dimension $N$ corresponds to number of parameters characterising our data---in this particular case $N=2$.
+      $$
+        \text{class}(\mathbf{x}) = \mathbf{w} \cdot \mathbf{x} \text{  ,  } \mathbf{x} \rightarrow \begin{cases} \textcolor{red}{\LargerCdot} & \text{class}(\mathbf{x}) > t \\ \textcolor{green}{\LargerCdot} & \text{class}(\mathbf{x}) < t  \end{cases}
+      $$
+      In the above equation $t$ is arbitrarily chosen threshold.
+    \end{block}
+    \begin{block}{Evaluating the classifier---loss function}
+      \textit{Loss}---is a value calculated for a given data points which describes how well given classifier fits the data; loss is positive if a point is classified correctly(the higher the value the better) and is negative if a point is classified incorrectly(the lower the value the worse).
+    \end{block}
   \end{frame}
 
   \begin{frame}
     \frametitle{Supervised learning}
+    In supervised learning we are given \emph{data points} together with their \emph{true class} and use this information to learn \emph{weight vector} $\mathbf{w}$.
+    \begin{columns}
+      \begin{column}{3cm}
+        \begin{block}{Dataset---Spam}
+          \begin{align*}
+            (1,5)  & \rightarrow \textcolor{green}{\LargerCdot}\\
+            (0,7)  & \rightarrow \textcolor{green}{\LargerCdot}\\
+            (2,9)  & \rightarrow \textcolor{green}{\LargerCdot}\\
+            (12,0) & \rightarrow \textcolor{red}{\LargerCdot}\\
+            (8,3)  & \rightarrow \textcolor{red}{\LargerCdot}\\
+            (13,1) & \rightarrow \textcolor{red}{\LargerCdot}
+          \end{align*}
+        \end{block}
+      \end{column}
+      \begin{column}{3cm}
+        \begin{block}{Learn parameters}
+          Use learning algorithm to learn weight vector $\mathbf{w}$ and class threshold $t$.\\
+          ~\vspace*{.45cm}
+          $$
+            \mathbf{w} = (5,1)
+          $$
+          $$
+            t = 33
+          $$
+        \end{block}
+      \end{column}
+      \begin{column}{3cm}
+        \begin{block}{Classification}
+          \begin{align*}
+            10 <33  & \rightarrow \textcolor{green}{\LargerCdot}\\
+            7  <33 & \rightarrow \textcolor{green}{\LargerCdot}\\
+            19  <33 & \rightarrow \textcolor{green}{\LargerCdot}\\
+            60 >33 & \rightarrow \textcolor{red}{\LargerCdot}\\
+            43  >33 & \rightarrow \textcolor{red}{\LargerCdot}\\
+            66 >33 & \rightarrow \textcolor{red}{\LargerCdot}
+          \end{align*}
+        \end{block}
+      \end{column}
+    \end{columns}
   \end{frame}
 
 \subsection{Active learning}
@@ -134,9 +184,15 @@
 \subsection{The experiment}
   \begin{frame}
   \frametitle{The dataset}
+    \begin{figure}
+      \includegraphics[scale=.7]{graphics/gypothesis} 
+    \end{figure}
   \end{frame}
   \begin{frame}
   \frametitle{Arriving at optimal classifier}
+    \begin{figure}
+      \includegraphics[scale=.7]{graphics/convergence15} 
+    \end{figure}
   \end{frame}
 
 \end{document}
