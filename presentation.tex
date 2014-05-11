@@ -322,9 +322,9 @@
   \begin{block}{Thompson Sampling policy}
     \begin{itemize}
       \item It is a Bayesian's approach.
-      \item We model each action as a random variable with some distribution which parameters are unknown.
+      \item We model each action as a random variable with some distribution, which parameters are unknown.
       \item Our goal is to recover these parameters.
-      
+      \item 
     \end{itemize}
   \end{block}
   \end{frame}
@@ -342,7 +342,36 @@
 
   \begin{frame}
   \frametitle{Applying MAB to active learning}
+  \begin{block}{How to choose a point}
+    \begin{itemize}
+      \item im dalej od lini i dobrze sklasyfikowane tym mniejsza kontrybucja do wartosci
+      \item im dalej i zle sklasyfikowane tym wieksza kontrybucja do wartosci
+      \item blisko sa najbardziej uncertain wiec maja mniejsza kontrybucje jako ze data moze byc noisy wiec zeby nie przewazalo
+    \end{itemize}
+  \end{block}
   \end{frame}
+  \begin{frame}
+  \frametitle{Applying MAB to active learning, cont.}
+  \begin{block}{Why risk measure makes snens}
+    \begin{itemize}
+      \item im dalej od lini i dobrze sklasyfikowane tym mniejsza kontrybucja do wartosci
+      \item im dalej i zle sklasyfikowane tym wieksza kontrybucja do wartosci
+      \item blisko sa najbardziej uncertain wiec maja mniejsza kontrybucje jako ze data moze byc noisy wiec zeby nie przewazalo
+    \end{itemize}
+  \end{block}
+  \end{frame}
+  \begin{frame}
+  \frametitle{Applying MAB to active learning, cont.}
+  \begin{block}{How uncertain we are about the risk estimate}
+    \begin{itemize}
+      \item im dalej od lini i dobrze sklasyfikowane tym mniejsza kontrybucja do wartosci
+      \item im dalej i zle sklasyfikowane tym wieksza kontrybucja do wartosci
+      \item blisko sa najbardziej uncertain wiec maja mniejsza kontrybucje jako ze data moze byc noisy wiec zeby nie przewazalo
+    \end{itemize}
+  \end{block}
+  \end{frame}
+
+
 \subsection{The experiment}
   \begin{frame}
   \frametitle{The dataset}
