@@ -1,6 +1,11 @@
 \documentclass{beamer}
-\setbeamertemplate{navigation symbols}{}
+\usepackage{color}
+\definecolor{greenish}{RGB}{152,204,112}
+\definecolor{redish}{RGB}{244,158,196}
+
+
 \usepackage{beamerthemeshadow}
+\setbeamertemplate{navigation symbols}{}
 
 \newcommand*{\LargerCdot}{\raisebox{-0.25ex}{\scalebox{3.0}{$\cdot$}}}
 
@@ -102,17 +107,31 @@
     \begin{block}{Theory of linear classifier}
       A linear classifier can be defined by a single vector $\mathbf{w} \in \mathbb{R}^N$, where dimension $N$ corresponds to number of parameters characterising our data---in this particular case $N=2$.
       $$
-        \text{class}(\mathbf{x}) = \mathbf{w} \cdot \mathbf{x} \text{  ,  } \mathbf{x} \rightarrow \begin{cases} \textcolor{red}{\LargerCdot} & \text{class}(\mathbf{x}) > t \\ \textcolor{green}{\LargerCdot} & \text{class}(\mathbf{x}) < t  \end{cases}
+        \text{class}(\mathbf{x}) = \mathbf{w} \cdot \mathbf{x} - t \text{  ,  } \mathbf{x} \rightarrow \begin{cases} \textcolor{redish}{\LargerCdot} \text{ or } \textcolor{redish}{+} & \text{class}(\mathbf{x}) > 0 \\ \textcolor{greenish}{\LargerCdot} \text{ or } \textcolor{greenish}{-} & \text{class}(\mathbf{x}) < 0  \end{cases}
       $$
       In the above equation $t$ is arbitrarily chosen threshold.
     \end{block}
     \begin{block}{Evaluating the classifier---loss function}
-      \textit{Loss}---is a value calculated for a given data points which describes how well given classifier fits the data; loss is positive if a point is classified correctly(the higher the value the better) and is negative if a point is classified incorrectly(the lower the value the worse).
+      % ---is a value calculated for a given data points which
+      \textit{Loss} describes how well given classifier fits the data; loss is positive if a point is classified correctly(the higher, the better), and it is negative if a point is classified incorrectly(the lower, the worse).
     \end{block}
   \end{frame}
 
   \begin{frame}
-    \frametitle{Supervised learning}
+    \frametitle{Linear classifier, cont.}
+    \begin{block}{Evaluating the classifier---loss function}
+      % ---is a value calculated for a given data points which
+      \textit{Loss} describes how well given classifier fits the data; loss is positive if a point is classified correctly(the higher, the better), and it is negative if a point is classified incorrectly(the lower, the worse).\\
+      Exponential loss:
+      $$
+        L_{\text{exp}}(z) = \exp(-z) \text{  ,  } z(\mathbf{x}) = \text{label}(\mathbf{x}) * \text{class}(\mathbf{x}) \text{ ,}
+      $$
+      where $\text{label}(\mathbf{x})$ is the true class of datum point $\mathbf{x}$ i.e.\ $\textcolor{red}{+}$ or $\textcolor{green}{-}$.
+    \end{block}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Supervised learning, cont.}
     In supervised learning we are given \emph{data points} together with their \emph{true class} and use this information to learn \emph{weight vector} $\mathbf{w}$.
     \begin{columns}
       \begin{column}{3cm}
@@ -142,12 +161,40 @@
       \begin{column}{3cm}
         \begin{block}{Classification}
           \begin{align*}
-            10 <33  & \rightarrow \textcolor{green}{\LargerCdot}\\
-            7  <33 & \rightarrow \textcolor{green}{\LargerCdot}\\
-            19  <33 & \rightarrow \textcolor{green}{\LargerCdot}\\
-            60 >33 & \rightarrow \textcolor{red}{\LargerCdot}\\
-            43  >33 & \rightarrow \textcolor{red}{\LargerCdot}\\
-            66 >33 & \rightarrow \textcolor{red}{\LargerCdot}
+            -23 <0  & \rightarrow \textcolor{greenish}{\LargerCdot}\\
+            -26  <0 & \rightarrow \textcolor{greenish}{\LargerCdot}\\
+            -14  <0 & \rightarrow \textcolor{greenish}{\LargerCdot}\\
+            27 >0 & \rightarrow \textcolor{redish}{\LargerCdot}\\
+            10  >0 & \rightarrow \textcolor{redish}{\LargerCdot}\\
+            33 >0 & \rightarrow \textcolor{redish}{\LargerCdot}
+          \end{align*}
+        \end{block}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Supervised learning}
+    Overall loss:
+    \begin{multline*}
+      \exp(-(\textcolor{green}{-} * -23)) + \exp(-(\textcolor{green}{-} * -26)) + \exp(-(\textcolor{green}{-} * -14)) +\\ \exp(-(\textcolor{red}{+} * 27)) + \exp(-(\textcolor{red}{+} * 10)) + \exp(-(\textcolor{red}{+} * 33)) =\\ 4.62315680937e-05 \text{ .}
+    \end{multline*}
+    \begin{columns}
+      \begin{column}{5cm}
+        \begin{block}{Dataset---Spam}
+          \begin{align*}
+            (1,5)  & \rightarrow \textcolor{green}{\LargerCdot} \text{~~~~} (12,0) & \rightarrow \textcolor{red}{\LargerCdot}\\
+            (0,7)  & \rightarrow \textcolor{green}{\LargerCdot} \text{~~~~} (8,3)  & \rightarrow \textcolor{red}{\LargerCdot}\\
+            (2,9)  & \rightarrow \textcolor{green}{\LargerCdot} \text{~~~~} (13,1) & \rightarrow \textcolor{red}{\LargerCdot}
+          \end{align*}
+        \end{block}
+      \end{column}
+      \begin{column}{5cm}
+        \begin{block}{Classification}
+          \begin{align*}
+            -23 <0  & \rightarrow \textcolor{greenish}{\LargerCdot} \text{~~~} 27 >0 & \rightarrow \textcolor{redish}{\LargerCdot}\\
+            -26  <0 & \rightarrow \textcolor{greenish}{\LargerCdot} \text{~~~} 10  >0 & \rightarrow \textcolor{redish}{\LargerCdot}\\
+            -14  <0 & \rightarrow \textcolor{greenish}{\LargerCdot} \text{~~~} 33 >0 & \rightarrow \textcolor{redish}{\LargerCdot}
           \end{align*}
         \end{block}
       \end{column}
