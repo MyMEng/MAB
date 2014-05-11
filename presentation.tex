@@ -4,12 +4,22 @@
 \definecolor{greenish}{RGB}{152,204,112}
 \definecolor{redish}{RGB}{244,158,196}
 
-\usepackage{beamerthemeshadow}
+
 \setbeamertemplate{navigation symbols}{}
+\usepackage{beamerthemeshadow}
 
 \newcommand*{\LargerCdot}{\raisebox{-0.25ex}{\scalebox{3.0}{$\cdot$}}}
 
 \usepackage{mathrsfs}
+
+% \expandafter\def\expandafter\insertshorttitle\expandafter{%
+%   \insertshorttitle\hfill%
+%   \insertframenumber\,/\,\inserttotalframenumber}
+
+\expandafter\def\expandafter\insertshorttitle\expandafter{%
+  \insertshorttitle\hfill%
+  \insertframenumber}
+
 
 \begin{document}
 
@@ -289,15 +299,19 @@
   \begin{frame}
     \frametitle{``Perfect'' active learning}
     \begin{columns}
-      \begin{column}{5cm}
+      \begin{column}{5.5cm}
         \begin{figure}
           \includegraphics[scale=.25]{graphics/presentation/clusters2} 
         \end{figure}
-        Ask the most informative points\\
+        \begin{itemize}
+          \item Identify a set of hypothesis---linear classifiers.
+          \item According to some decision rule choose the best one and ask the oracle about the most informative point.
+          \item Repeat above two steps until converged.
+        \end{itemize}
       \end{column}
-      \begin{column}{5cm}
+      \begin{column}{4.5cm}
         \begin{figure}
-          \includegraphics[scale=.5]{graphics/presentation/al1} 
+          \includegraphics[scale=.5]{graphics/presentation/al1e} 
         \end{figure}
       \end{column}
     \end{columns}
@@ -322,10 +336,19 @@
   \begin{block}{Thompson Sampling policy}
     \begin{itemize}
       \item It is a Bayesian's approach.
-      \item We model each action as a random variable with some distribution, which parameters are unknown.
-      \item Our goal is to recover these parameters.
-      \item 
+      \item We model each action as a random variable with some underlying distribution, which parameters are unknown---our goal is to recover these parameters.
+      \item By simulation we draw samples from our estimates of these distributions and take the action with the highest sample.
+      \item By taking an action we receive a true sample which we can use(Bayes' theorem) to improve our estimates of parameters for this particular action.
     \end{itemize}
+  \end{block}
+  \end{frame}
+  \begin{frame}
+  \frametitle{MAB, cont.}
+  Above set of rules provides us with right balance between exploration and exploitation.
+  \begin{block}{Idea}
+    \begin{center}
+      Sample from the posterior.
+    \end{center}
   \end{block}
   \end{frame}
 
@@ -333,16 +356,38 @@
   \frametitle{Ingredients of AL}
   \begin{block}{Active learning}
     \begin{itemize}
-      \item We have hypotheses(i.e.\ classifiers) which we want to test and choose the best one.
-      \item We can query points, where each point sent to oracle reveals some information about the state of our system---the true label of queried point.
-      \item Once the action is taken, the agent receives a feedback .
+      \item We have hypotheses(i.e.\ classifiers) which we want to test and choose the best one; we need a measure of how given hypothesis fits the data.
+      \item We can query points, where each point sent to the oracle reveals some information about the state of our system---the true label of queried point; which we can model to be ours feedback signal.
     \end{itemize}
   \end{block}
   \end{frame}
 
   \begin{frame}
   \frametitle{Applying MAB to active learning}
-  \begin{block}{How to choose a point}
+  \begin{alertblock}{Risk of a hypothesis}
+  $$
+  \hat{L}_t(h) = \frac{1}{Nt} \sum_{n=1}^{N} \sum_{\tau = 1}^{t} 
+\frac{Q^{\tau}_n}{p^{\tau}_n} L(y_n h(\mathbf{x}_n)) \text{~,}
+  $$
+  $$U(\hat{L}_t(h)) = \frac{ \sqrt{ \log(t) } }
+                       { 10 }
+                  \sqrt{ V^\prime_t }$$
+  $$V^\prime_t = \left[
+  \sum_{i = 1:n \text{~} \tau = 1:t} \frac{Q^\tau_i}{(p^\tau_i)^2} L^2(z(x_i))
+  -
+  \left( \sum_{\mathscr{Q}_t} L(z(x_i)) \right)^2
+\right]_+$$
+  \end{alertblock}
+  \end{frame}
+  \begin{frame}
+  \frametitle{Applying MAB to active learning}
+  \begin{alertblock}{Risk of a hypothesis}
+  $$
+  \hat{L}_t(h) = \frac{1}{Nt} \sum_{n=1}^{N} \sum_{\tau = 1}^{t} 
+\frac{Q^{\tau}_n}{p^{\tau}_n} L(y_n h(\mathbf{x}_n)) \text{~,}
+  $$
+  \end{alertblock}
+  \begin{block}{Why risk measure makes sense}
     \begin{itemize}
       \item im dalej od lini i dobrze sklasyfikowane tym mniejsza kontrybucja do wartosci
       \item im dalej i zle sklasyfikowane tym wieksza kontrybucja do wartosci
@@ -351,18 +396,28 @@
   \end{block}
   \end{frame}
   \begin{frame}
-  \frametitle{Applying MAB to active learning, cont.}
-  \begin{block}{Why risk measure makes snens}
-    \begin{itemize}
-      \item im dalej od lini i dobrze sklasyfikowane tym mniejsza kontrybucja do wartosci
-      \item im dalej i zle sklasyfikowane tym wieksza kontrybucja do wartosci
-      \item blisko sa najbardziej uncertain wiec maja mniejsza kontrybucje jako ze data moze byc noisy wiec zeby nie przewazalo
-    \end{itemize}
-  \end{block}
-  \end{frame}
-  \begin{frame}
-  \frametitle{Applying MAB to active learning, cont.}
+  \frametitle{Applying MAB to active learning}
+  \begin{alertblock}{Risk of a hypothesis}
+  $$U(\hat{L}_t(h)) = \frac{ \sqrt{ \log(t) } }
+                       { 10 }
+                  \sqrt{ V^\prime_t }$$
+  $$V^\prime_t = \left[
+  \sum_{i = 1:n \text{~} \tau = 1:t} \frac{Q^\tau_i}{(p^\tau_i)^2} L^2(z(x_i))
+  -
+  \left( \sum_{\mathscr{Q}_t} L(z(x_i)) \right)^2
+\right]_+$$
+  \end{alertblock}
   \begin{block}{How uncertain we are about the risk estimate}
+    \begin{itemize}
+      \item im dalej od lini i dobrze sklasyfikowane tym mniejsza kontrybucja do wartosci
+      \item im dalej i zle sklasyfikowane tym wieksza kontrybucja do wartosci
+      \item blisko sa najbardziej uncertain wiec maja mniejsza kontrybucje jako ze data moze byc noisy wiec zeby nie przewazalo
+    \end{itemize}
+  \end{block}
+  \end{frame}
+  \begin{frame}
+  \frametitle{Applying MAB to active learning, cont.}
+  \begin{block}{How to choose a point}
     \begin{itemize}
       \item im dalej od lini i dobrze sklasyfikowane tym mniejsza kontrybucja do wartosci
       \item im dalej i zle sklasyfikowane tym wieksza kontrybucja do wartosci
