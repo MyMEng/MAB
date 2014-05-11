@@ -1,13 +1,15 @@
 \documentclass{beamer}
+
 \usepackage{color}
 \definecolor{greenish}{RGB}{152,204,112}
 \definecolor{redish}{RGB}{244,158,196}
-
 
 \usepackage{beamerthemeshadow}
 \setbeamertemplate{navigation symbols}{}
 
 \newcommand*{\LargerCdot}{\raisebox{-0.25ex}{\scalebox{3.0}{$\cdot$}}}
+
+\usepackage{mathrsfs}
 
 \begin{document}
 
@@ -111,10 +113,6 @@
       $$
       In the above equation $t$ is arbitrarily chosen threshold.
     \end{block}
-    \begin{block}{Evaluating the classifier---loss function}
-      % ---is a value calculated for a given data points which
-      \textit{Loss} describes how well given classifier fits the data; loss is positive if a point is classified correctly(the higher, the better), and it is negative if a point is classified incorrectly(the lower, the worse).
-    \end{block}
   \end{frame}
 
   \begin{frame}
@@ -126,7 +124,7 @@
       $$
         L_{\text{exp}}(z) = \exp(-z) \text{  ,  } z(\mathbf{x}) = \text{label}(\mathbf{x}) * \text{class}(\mathbf{x}) \text{ ,}
       $$
-      where $\text{label}(\mathbf{x})$ is the true class of datum point $\mathbf{x}$ i.e.\ $\textcolor{red}{+}$ or $\textcolor{green}{-}$.
+      where $\text{label}(\mathbf{x})$ is the \textbf{true class} of datum point $\mathbf{x}$ i.e.\ $\textcolor{red}{+}$ or $\textcolor{green}{-}$.
     \end{block}
   \end{frame}
 
@@ -177,8 +175,9 @@
     \frametitle{Supervised learning}
     Overall loss:
     \begin{multline*}
-      \exp(-(\textcolor{green}{-} * -23)) + \exp(-(\textcolor{green}{-} * -26)) + \exp(-(\textcolor{green}{-} * -14)) +\\ \exp(-(\textcolor{red}{+} * 27)) + \exp(-(\textcolor{red}{+} * 10)) + \exp(-(\textcolor{red}{+} * 33)) =\\ 4.62315680937e-05 \text{ .}
+      \exp(-(\textcolor{green}{-} * -23)) + \exp(-(\textcolor{green}{-} * -26)) + \exp(-(\textcolor{green}{-} * -14)) +\\ \exp(-(\textcolor{red}{+} * 27)) + \exp(-(\textcolor{red}{+} * 10)) + \exp(-(\textcolor{red}{+} * 33)) =\\ 0.0000462315680937 \text{ .}
     \end{multline*}
+    For comparison, with one mistake on datum point $(13,1)$ we would get the loss of $214,643,579,786,000$.
     \begin{columns}
       \begin{column}{5cm}
         \begin{block}{Dataset---Spam}
@@ -203,15 +202,104 @@
 
 \subsection{Active learning}
   \begin{frame}
+    \frametitle{Active learning}
+    \begin{block}{Dataset}
+      \begin{align*}
+        (1,5)  & \rightarrow \textcolor{black}{\LargerCdot} \text{~~~~} (0,7)  \rightarrow \textcolor{black}{\LargerCdot} \text{~~~~} (2,9)  \text{~} \rightarrow \textcolor{black}{\LargerCdot}\\
+        (12,0) & \rightarrow \textcolor{black}{\LargerCdot} \text{~~~~} (8,3)  \rightarrow \textcolor{black}{\LargerCdot} \text{~~~~} (13,1)  \rightarrow \textcolor{black}{\LargerCdot}
+      \end{align*}
+    \end{block}
+    \begin{itemize}
+      \item We are provided data without \textbf{ground truth}...
+      \item ...but, we have access to \textbf{oracle} $\mathscr{O}$, therefore...
+      \item ...we can query any point we like, in the provided data set, for its ground truth.
+    \end{itemize}
+    \begin{block}{Goal}
+      The goal is to achieve the best possible classifier(in our case 100\% correct as the data is linearly separable) with the least number of oracle queries.
+    \end{block}
+  \end{frame}
+  \begin{frame}
     \frametitle{Naive active learning}
+    \begin{columns}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.25]{graphics/presentation/clusters2} 
+        \end{figure}
+        Query random points and fix the classifier to fit revealed data, but...\\
+      \end{column}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.5]{graphics/presentation/al1} 
+        \end{figure}
+      \end{column}
+    \end{columns}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Naive active learning, cont.}
+    \begin{columns}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.25]{graphics/presentation/al1a} 
+        \end{figure}
+        ...it is not good in general.\\
+      \end{column}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.5]{graphics/presentation/al1b} 
+        \end{figure}
+      \end{column}
+    \end{columns}
   \end{frame}
 
   \begin{frame}
-    \frametitle{Slightly better active learning}
+    \frametitle{Slightly better active learning---SVM inspired}
+    \begin{columns}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.25]{graphics/presentation/clusters2} 
+        \end{figure}
+        Once you have queried initial set of points, send to the oracle all exemplars that are placed in \emph{uncertainty zone}, but...\\
+      \end{column}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.5]{graphics/presentation/al1c} 
+        \end{figure}
+      \end{column}
+    \end{columns}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Slightly better active learning---SVM inspired, cont.}
+    \begin{columns}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.25]{graphics/presentation/al1a} 
+        \end{figure}
+        ...it is inefficient---to many queries: $16$ which is about $45\%$.\\
+
+      \end{column}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.5]{graphics/presentation/al1d} 
+        \end{figure}
+      \end{column}
+    \end{columns}
   \end{frame}
 
   \begin{frame}
-    \frametitle{Perfect active learning}
+    \frametitle{``Perfect'' active learning}
+    \begin{columns}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.25]{graphics/presentation/clusters2} 
+        \end{figure}
+        Ask the most informative points\\
+      \end{column}
+      \begin{column}{5cm}
+        \begin{figure}
+          \includegraphics[scale=.5]{graphics/presentation/al1} 
+        \end{figure}
+      \end{column}
+    \end{columns}
   \end{frame}
 
 
