@@ -364,7 +364,7 @@
 
   \begin{frame}
   \frametitle{Applying MAB to active learning}
-  \begin{alertblock}{Sampling vector over pool}
+  \begin{alertblock}{Sampling vector over the pool}
     $$
     p_n^t = p_{\text{min}} + (1-Np_{\text{min}}) 
     \frac{L(\hat{y}_n h(\mathbf{x}_n))}{\sum_{\mathbf{x}_n \in \mathscr{P}} L(\hat{y}_n h(\mathbf{x}_n))}
@@ -373,7 +373,7 @@
   \begin{block}{How to choose a point}
     \begin{itemize}
       \item According to current hypothesis we calculate a probability of each point being queried.
-      \item The higher the loss on given point is suffered the more probable it is that the point will be queried.
+      \item The higher the loss suffered on given point the more probable it is that the point will be queried.
       \item We create a probability vector which underlies sampling distribution that we use to choose a point to query.
     \end{itemize}
   \end{block}
@@ -382,7 +382,10 @@
   \frametitle{Applying MAB to active learning, cont.}
   \begin{block}{The feedback}
     \begin{itemize}
-      \item Once the point is chosen to be queried, it is sent to oracle and its true label is revealed.
+      \item For simplicity the points are allowed to be re-queried.
+      \item The sampling vector approach guarantees non-sticking to single point.
+      \item Once the point is chosen to be queried, it is sent to the oracle and its true label is revealed.
+      \item Gained label improves both querying probability and hypothesis risk estimate.
     \end{itemize}
   \end{block}
   \end{frame}
@@ -404,7 +407,7 @@
   \end{alertblock}
   \end{frame}
   \begin{frame}
-  \frametitle{Applying MAB to active learning}
+  \frametitle{Applying MAB to active learning, cont.}
   \begin{alertblock}{Risk of a hypothesis}
   $$
   \hat{L}_t(h) = \frac{1}{Nt} \sum_{n=1}^{N} \sum_{\tau = 1}^{t} 
@@ -413,42 +416,54 @@
   \end{alertblock}
   \begin{exampleblock}{How it works}
     \begin{itemize}
-      \item The risk is \emph{inversely proportional} to number of queried points and current time.
-      \item If probability of querying given point was small the loss on this particular point will count less towards hypothesis risk.
+      \item The risk is \emph{inversely proportional} to the number of points and current time.
       \item We are effectively summing over all queried points up to time $t$.
       \item We sum loss of exemplar weighed by \emph{probability that given point should be queried at given time}.
+      \item If probability of querying given point was small the loss on this particular point will count less towards hypothesis risk.
     \end{itemize}
   \end{exampleblock}
   \end{frame}
   \begin{frame}
-  \frametitle{Applying MAB to active learning}
-  \begin{block}{Why risk measure makes sense}
+  \frametitle{Applying MAB to active learning, cont.}
+  \begin{block}{Why loss?}
     \begin{itemize}
-      \item im dalej od lini i dobrze sklasyfikowane tym mniejsza kontrybucja do wartosci
-      \item im dalej i zle sklasyfikowane tym wieksza kontrybucja do wartosci
-      \item blisko sa najbardziej uncertain wiec maja mniejsza kontrybucje jako ze data moze byc noisy wiec zeby nie przewazalo
+      \item The further the point is from the classifier while being correctly classified the lower the loss is.
+      \item On contrary, if it is far away and is miss-classified it will receive high loss.
+      \item If the points are close to the classifier we are the most uncertain about them. Therefore, they have average contribution as the data may be noisy.
     \end{itemize}
   \end{block}
   \end{frame}
   \begin{frame}
-  \frametitle{Applying MAB to active learning}
+  \frametitle{Applying MAB to active learning, cont.}
   \begin{alertblock}{Risk of a hypothesis}
   $$U(\hat{L}_t(h)) = \frac{ \sqrt{ \log(t) } }
                        { 10 }
                   \sqrt{ V^\prime_t }$$
   $$V^\prime_t = \left[
-  \sum_{n = 1:N \text{~} \tau = 1:t} \frac{Q^\tau_n}{(p^\tau_n)^2} L^2(y_n h(\mathbf{x}_n))
+  \sum_{n = 1:N \text{~} \tau = 1:t} \left( \frac{Q^\tau_n}{p^\tau_n} L(y_n h(\mathbf{x}_n)) \right)^2
   -
   \left( \sum_{\mathscr{Q}_t} L(y_n h(\mathbf{x}_n)) \right)^2
 \right]_+$$
   \end{alertblock}
   \begin{block}{How uncertain we are about the risk estimate}
     \begin{itemize}
-      \item im dalej od lini i dobrze sklasyfikowane tym mniejsza kontrybucja do wartosci
-      \item im dalej i zle sklasyfikowane tym wieksza kontrybucja do wartosci
-      \item blisko sa najbardziej uncertain wiec maja mniejsza kontrybucje jako ze data moze byc noisy wiec zeby nie przewazalo
+      \item As $\log$ function is slowly increasing the uncertainty with time.
+      \item It is similar to sample or population variance estimate.
+      \item We make sure it is non-negative.
     \end{itemize}
   \end{block}
+  \end{frame}
+  \begin{frame}
+  \frametitle{Proposed solution}
+    \begin{exampleblock}{MAB-AL}
+      \begin{enumerate}
+        \item Chose hypothesis to test.
+        \item Calculate sampling vector over the pool and choose a point to query; send the point to the oracle.
+        \item Utilising queried points calculate risk and uncertainty of the risk for each hypothesis.
+        \item Simulate normal distribution with the above parameters for each hypothesis and take a sample from each.
+        \item Repeat above steps, with newly chosen hypothesis; loop until \emph{query budget} is exhausted.
+      \end{enumerate}
+    \end{exampleblock}
   \end{frame}
 
 
@@ -464,6 +479,18 @@
     \begin{figure}
       \includegraphics[scale=.7]{graphics/convergence15} 
     \end{figure}
+  \end{frame}
+
+  \begin{frame}
+  \frametitle{Q\&A}
+    \begin{columns}
+      \begin{column}{5cm}
+        \includegraphics[scale=.4]{graphics/gypothesis} 
+      \end{column}
+      \begin{column}{5cm}
+        \includegraphics[scale=.4]{graphics/convergence15} 
+      \end{column}
+    \end{columns}
   \end{frame}
 
 \end{document}
