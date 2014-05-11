@@ -276,6 +276,7 @@
         \end{figure}
         ...it is inefficient---to many queries: $16$ which is about $45\%$.\\
 
+        It performs really bad with fixed \emph{query budget}.
       \end{column}
       \begin{column}{5cm}
         \begin{figure}
@@ -307,10 +308,36 @@
 \subsection{Multi-armed bandits as a workhorse}
   \begin{frame}
   \frametitle{MAB}
+  \begin{block}{Multi-armed bandits}
+    \begin{itemize}
+      \item MAB are sequential allocation problems.
+      \item Agent at each stage has to take one out of $A$ available actions.
+      \item Once the action is taken, the agent receives a feedback.
+      \item To make the best possible choice at each stage the agent should utilise all the information and feedback gathered so far.
+    \end{itemize}
+  \end{block}
+  \end{frame}
+  \begin{frame}
+  \frametitle{MAB, cont.}
+  \begin{block}{Thompson Sampling policy}
+    \begin{itemize}
+      \item It is a Bayesian's approach.
+      \item We model each action as a random variable with some distribution which parameters are unknown.
+      \item Our goal is to recover these parameters.
+      
+    \end{itemize}
+  \end{block}
   \end{frame}
 
   \begin{frame}
-  \frametitle{Ingredients of active learning}
+  \frametitle{Ingredients of AL}
+  \begin{block}{Active learning}
+    \begin{itemize}
+      \item We have hypotheses(i.e.\ classifiers) which we want to test and choose the best one.
+      \item We can query points, where each point sent to oracle reveals some information about the state of our system---the true label of queried point.
+      \item Once the action is taken, the agent receives a feedback .
+    \end{itemize}
+  \end{block}
   \end{frame}
 
   \begin{frame}
