@@ -126,20 +126,7 @@
   \end{frame}
 
   \begin{frame}
-    \frametitle{Linear classifier, cont.}
-    \begin{block}{Evaluating the classifier---loss function}
-      % ---is a value calculated for a given data points which
-      \textit{Loss} describes how well given classifier fits the data; loss is positive if a point is classified correctly(the higher, the better), and it is negative if a point is classified incorrectly(the lower, the worse).\\
-      Exponential loss:
-      $$
-        L_{\text{exp}}(z) = \exp(-z) \text{  ,  } z(\mathbf{x}) = \text{label}(\mathbf{x}) * \text{class}(\mathbf{x}) \text{ ,}
-      $$
-      where $\text{label}(\mathbf{x})$ is the \textbf{true class} of datum point $\mathbf{x}$ i.e.\ $\textcolor{red}{+}$ or $\textcolor{green}{-}$.
-    \end{block}
-  \end{frame}
-
-  \begin{frame}
-    \frametitle{Supervised learning, cont.}
+    \frametitle{Supervised learning}
     In supervised learning we are given \emph{data points} together with their \emph{true class} and use this information to learn \emph{weight vector} $\mathbf{w}$.
     \begin{columns}
       \begin{column}{3cm}
@@ -182,7 +169,22 @@
   \end{frame}
 
   \begin{frame}
-    \frametitle{Supervised learning}
+    \frametitle{Linear classifier, cont.}
+    \begin{block}{Evaluating the classifier---loss function}
+      % ---is a value calculated for a given data points which
+      \textit{Loss} describes how well given classifier fits the data; loss is small positive if a point is classified correctly, and it is large positive if a point is miss-classified(the higher the value, the worse).\\
+      Exponential loss:
+      $$
+        L_{\text{exp}}(z) = \exp(-z) \text{  ,  } z(\mathbf{x}) = \text{label}(\mathbf{x}) * \text{class}(\mathbf{x}) \text{ ,}
+      $$
+      where $\text{label}(\mathbf{x})$ is the \textbf{true class} of datum point $\mathbf{x}$ i.e.\ $\textcolor{red}{+}$ or $\textcolor{green}{-}$.
+    \end{block}
+  \end{frame}
+
+
+
+  \begin{frame}
+    \frametitle{Supervised learning, cont.}
     Overall loss:
     \begin{multline*}
       \exp(-(\textcolor{green}{-} * -23)) + \exp(-(\textcolor{green}{-} * -26)) + \exp(-(\textcolor{green}{-} * -14)) +\\ \exp(-(\textcolor{red}{+} * 27)) + \exp(-(\textcolor{red}{+} * 10)) + \exp(-(\textcolor{red}{+} * 33)) =\\ 0.0000462315680937 \text{ .}
@@ -306,7 +308,7 @@
         \begin{itemize}
           \item Identify a set of hypothesis---linear classifiers.
           \item According to some decision rule choose the best one and ask the oracle about the most informative point.
-          \item Repeat above two steps until converged.
+          \item Repeat second steps until converged.
         \end{itemize}
       \end{column}
       \begin{column}{4.5cm}
@@ -460,7 +462,7 @@
         \item Chose hypothesis to test.
         \item Calculate sampling vector over the pool and choose a point to query; send the point to the oracle.
         \item Utilising queried points calculate risk and uncertainty of the risk for each hypothesis.
-        \item Simulate normal distribution with the above parameters for each hypothesis and take a sample from each.
+        \item Simulate normal distribution with the above parameters for each hypothesis and take a sample from each; choose the hypothesis with lowest sample.
         \item Repeat above steps, with newly chosen hypothesis; loop until \emph{query budget} is exhausted.
       \end{enumerate}
     \end{exampleblock}
